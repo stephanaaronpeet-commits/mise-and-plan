@@ -1,0 +1,3507 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Cookbook — Design Spec · Mise & Plan</title>
+<meta name="viewport" content="width=1500" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800;900&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --iron-000: #0B0B0C;
+    --iron-100: #131315;
+    --iron-200: #1B1B1E;
+    --iron-300: #26262A;
+    --iron-400: #3A3A3F;
+    --iron-500: #6B6B70;
+    --paper-000: #F2EFE6;
+    --paper-100: #E6E2D6;
+    --paper-200: #C9C3B0;
+    --iron-red: #C2331E;
+    --iron-red-deep: #8E2415;
+    --safety: #E8B53C;
+    --plate-green: #4A6B3A;
+    --display: "Barlow Condensed", sans-serif;
+    --body: "Archivo", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--iron-000); color: var(--paper-000); font-family: var(--body); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+  ::selection { background: var(--iron-red); color: var(--paper-000); }
+
+  /* ─── PAGE FRAME ───────────────────────────────────────── */
+  .page { max-width: 1510px; margin: 0 auto; }
+
+  .masthead {
+    border-bottom: 2px solid var(--paper-000);
+    padding: 28px 32px 22px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    gap: 24px;
+    background: var(--iron-000);
+  }
+  .masthead .left, .masthead .right {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+  }
+  .masthead .right { text-align: right; }
+  .masthead .right strong { color: var(--paper-000); font-weight: 700; }
+  .wordmark {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 0.85;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--paper-000);
+  }
+  .wordmark .amp { color: var(--iron-red); padding: 0 0.05em; }
+  .submark {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 8px;
+    color: var(--paper-200);
+  }
+
+  /* ─── SECTION FRAME ────────────────────────────────────── */
+  section.spec { padding: 80px 32px; border-bottom: 1px solid var(--iron-300); position: relative; }
+  .sec-num, .sec-tag {
+    position: absolute;
+    top: 28px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--iron-500);
+    text-transform: uppercase;
+  }
+  .sec-num { left: 32px; }
+  .sec-tag { right: 32px; }
+  h2.sec-title {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 88px;
+    line-height: 0.85;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+    color: var(--paper-000);
+  }
+  .sec-lede {
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.45;
+    max-width: 70ch;
+    color: var(--paper-100);
+    margin: 0 0 40px;
+  }
+  .sec-lede strong { color: var(--paper-000); }
+
+  /* ─── VIEWPORT FRAMES ──────────────────────────────────── */
+  .vp-row {
+    display: grid;
+    grid-template-columns: 390px 1024px;
+    gap: 32px;
+    align-items: start;
+  }
+  .vp-row.cookmode { grid-template-columns: 390px 390px 390px; gap: 24px; }
+
+  .vp {
+    background: var(--iron-100);
+    border: 1px solid var(--iron-300);
+    position: relative;
+  }
+  .vp-head {
+    height: 32px;
+    background: var(--iron-000);
+    border-bottom: 1px solid var(--iron-300);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+  }
+  .vp-head .vp-tag {
+    color: var(--paper-000);
+    font-weight: 700;
+  }
+  .vp-head .vp-tag .dot { display: inline-block; width: 8px; height: 8px; background: var(--iron-red); margin-right: 6px; vertical-align: middle; }
+  .vp-body {
+    overflow: hidden;
+    background: var(--iron-000);
+    position: relative;
+  }
+  .vp.mobile .vp-body { width: 390px; }
+  .vp.desktop .vp-body { width: 1024px; }
+
+  /* Phone status bar */
+  .phone-status {
+    height: 24px;
+    background: var(--iron-000);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--paper-000);
+    font-weight: 700;
+  }
+  .phone-status .signal {
+    display: inline-flex;
+    gap: 2px;
+    align-items: flex-end;
+  }
+  .phone-status .signal span { width: 3px; background: var(--paper-000); display: inline-block; }
+  .phone-status .signal span:nth-child(1) { height: 4px; }
+  .phone-status .signal span:nth-child(2) { height: 6px; }
+  .phone-status .signal span:nth-child(3) { height: 8px; }
+  .phone-status .signal span:nth-child(4) { height: 10px; }
+  .phone-status .batt {
+    width: 22px; height: 10px;
+    border: 1px solid var(--paper-000);
+    position: relative;
+    display: inline-block;
+  }
+  .phone-status .batt::after {
+    content: ""; position: absolute; right: -3px; top: 2px;
+    width: 2px; height: 4px; background: var(--paper-000);
+  }
+  .phone-status .batt::before {
+    content: ""; position: absolute; left: 1px; top: 1px; bottom: 1px;
+    width: 70%; background: var(--paper-000);
+  }
+
+  /* Desktop chrome — minimal browser bar */
+  .desktop-chrome {
+    height: 28px;
+    background: var(--iron-000);
+    border-bottom: 1px solid var(--iron-300);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--iron-500);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .desktop-chrome .dots {
+    display: inline-flex;
+    gap: 6px;
+    margin-right: 8px;
+  }
+  .desktop-chrome .dots i {
+    width: 8px; height: 8px; background: var(--iron-300); display: inline-block;
+  }
+  .desktop-chrome .url {
+    background: var(--iron-100);
+    border: 1px solid var(--iron-300);
+    padding: 3px 10px;
+    flex: 1;
+    color: var(--paper-200);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── APP NAV (inside frames) ──────────────────────────── */
+  .app-nav {
+    background: var(--iron-000);
+    border-bottom: 1px solid var(--iron-300);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .app-nav.desk { padding: 14px 24px; }
+  .nav-brand {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: var(--paper-000);
+    line-height: 1;
+  }
+  .nav-brand .amp { color: var(--iron-red); }
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+  }
+  .nav-tab {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    color: var(--iron-500);
+    border: 1px solid transparent;
+    cursor: pointer;
+    position: relative;
+    background: transparent;
+  }
+  .nav-tab.active {
+    color: var(--paper-000);
+    border-color: var(--paper-000);
+  }
+  .nav-tab.soon { color: var(--iron-500); }
+  .nav-tab.soon::after {
+    content: "SOON";
+    font-size: 8px;
+    margin-left: 6px;
+    color: var(--iron-400);
+    letter-spacing: 0.18em;
+    border: 1px solid var(--iron-400);
+    padding: 1px 3px;
+  }
+
+  /* Section head inside app */
+  .sec-head {
+    padding: 20px 18px 16px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--iron-300);
+  }
+  .sec-head.desk { padding: 24px 24px 18px; }
+  .sec-head .ttl {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 36px;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--paper-000);
+  }
+  .sec-head.desk .ttl { font-size: 56px; }
+  .sec-head .meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    text-align: right;
+  }
+  .sec-head .meta .strong { color: var(--paper-000); }
+  .sec-head .meta .red { color: var(--iron-red); }
+
+  /* ─── BUTTONS ──────────────────────────────────────────── */
+  .btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 9px 12px;
+    border: 1px solid var(--paper-000);
+    background: var(--paper-000);
+    color: var(--iron-000);
+    cursor: pointer;
+    font-weight: 700;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn.outline { background: transparent; color: var(--paper-000); }
+  .btn.ghost { background: transparent; color: var(--iron-500); border-color: var(--iron-400); }
+  .btn.red { background: var(--iron-red); border-color: var(--iron-red); color: var(--paper-000); }
+  .btn.sm { font-size: 10px; padding: 7px 10px; letter-spacing: 0.15em; }
+  .btn.lg { font-size: 12px; padding: 12px 18px; letter-spacing: 0.2em; }
+  .btn .plus { font-family: var(--display); font-weight: 900; font-size: 15px; line-height: 1; }
+
+  /* ─── BROWSE TILES ─────────────────────────────────────── */
+  .browse-rail {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--iron-300);
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    background: var(--iron-100);
+    background-image:
+      linear-gradient(to right, rgba(242,239,230,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(242,239,230,0.03) 1px, transparent 1px);
+    background-size: 12px 12px;
+  }
+  .browse-rail.desk { padding: 18px 24px; gap: 12px; flex-wrap: wrap; overflow: visible; }
+  .browse-tile {
+    flex: 0 0 auto;
+    width: 88px;
+    border: 1px solid var(--iron-300);
+    padding: 12px 10px 10px;
+    text-align: left;
+    background: var(--iron-000);
+    cursor: pointer;
+    color: var(--paper-000);
+  }
+  .browse-rail.desk .browse-tile { width: 112px; padding: 14px 12px 12px; }
+  .browse-tile .name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+  .browse-rail.desk .browse-tile .name { font-size: 20px; }
+  .browse-tile .count {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: var(--iron-500);
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .browse-tile.active {
+    background: var(--paper-000);
+    color: var(--iron-000);
+    border-color: var(--paper-000);
+  }
+  .browse-tile.active .count { color: var(--iron-400); }
+  .browse-tile:hover:not(.active) { border-color: var(--paper-200); }
+
+  /* ─── FILTER BAR ───────────────────────────────────────── */
+  .filter-bar {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--iron-300);
+    background: var(--iron-000);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .filter-bar.desk {
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 24px;
+    gap: 14px;
+  }
+  .search {
+    border: 1px solid var(--iron-300);
+    background: var(--iron-100);
+    padding: 10px 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--paper-000);
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .search .icon {
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--iron-500);
+    border-radius: 50%;
+    position: relative;
+    flex: 0 0 14px;
+  }
+  .search .icon::after {
+    content: ""; position: absolute;
+    width: 6px; height: 1.5px;
+    background: var(--iron-500);
+    transform: rotate(45deg);
+    right: -4px; bottom: -1px;
+  }
+  .search .placeholder { color: var(--iron-500); text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; }
+  .filter-bar.desk .search { flex: 1; max-width: 360px; }
+  .chip-row {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    align-items: center;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 6px 9px;
+    border: 1px solid var(--iron-300);
+    color: var(--paper-100);
+    background: transparent;
+    cursor: pointer;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .chip:hover { border-color: var(--paper-200); }
+  .chip.active { background: var(--paper-000); color: var(--iron-000); border-color: var(--paper-000); }
+  .chip .count {
+    color: var(--iron-500);
+    font-size: 9px;
+    margin-left: 2px;
+  }
+  .chip.active .count { color: var(--iron-400); }
+  .chip .x { font-size: 11px; margin-left: 2px; }
+  .sort {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border: 1px solid var(--iron-300);
+    color: var(--paper-100);
+    cursor: pointer;
+    background: var(--iron-100);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sort::after { content: "▾"; font-family: var(--display); color: var(--iron-500); }
+  .filter-bar.desk .sort { margin-left: auto; }
+
+  /* ─── RECIPE CARD ──────────────────────────────────────── */
+  .rc-grid { padding: 18px; display: grid; gap: 12px; }
+  .rc-grid.mob { grid-template-columns: 1fr; }
+  .rc-grid.desk { padding: 24px; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .rc {
+    background: var(--iron-100);
+    border: 1px solid var(--iron-300);
+    color: var(--paper-000);
+    cursor: pointer;
+    transition: border-color 100ms linear;
+  }
+  .rc:hover { border-color: var(--paper-200); }
+  .rc-photo {
+    height: 140px;
+    background-color: var(--iron-200);
+    background-image:
+      repeating-linear-gradient(135deg, rgba(242,239,230,0.05) 0 10px, transparent 10px 20px);
+    position: relative;
+    border-bottom: 1px solid var(--iron-300);
+  }
+  .rc-photo .ph-label {
+    position: absolute;
+    bottom: 12px; left: 12px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    border: 1px dashed var(--iron-400);
+    padding: 3px 6px;
+  }
+  .rc-photo.cuisine-thai {
+    background-color: #1a1410;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(194,51,30,0.08) 0 6px, transparent 6px 16px),
+      repeating-linear-gradient(135deg, rgba(242,239,230,0.04) 0 10px, transparent 10px 20px);
+  }
+  .rc-photo.cuisine-korean {
+    background-color: #161116;
+    background-image:
+      repeating-linear-gradient(135deg, rgba(242,239,230,0.04) 0 10px, transparent 10px 20px);
+  }
+  .rc-photo.cuisine-bowl {
+    background-color: #14171a;
+    background-image:
+      radial-gradient(circle at 50% 60%, rgba(242,239,230,0.08) 0 18%, transparent 19%),
+      repeating-linear-gradient(135deg, rgba(242,239,230,0.04) 0 10px, transparent 10px 20px);
+  }
+  .stamp {
+    position: absolute;
+    top: 10px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 7px;
+    line-height: 1;
+    font-weight: 700;
+    background: var(--iron-red);
+    color: var(--paper-000);
+  }
+  .stamp.fav { right: 10px; background: var(--paper-000); color: var(--iron-000); }
+  .stamp.cooked { right: 10px; background: var(--iron-000); color: var(--paper-000); border: 1px solid var(--paper-000); }
+  .stamp.new { right: 10px; background: var(--iron-red); }
+  .stamp.draft { right: 10px; background: var(--iron-300); color: var(--paper-200); border: 1px dashed var(--iron-500); }
+  .rc-body { padding: 14px 14px 0; }
+  .rc-cat {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--iron-red);
+    margin-bottom: 4px;
+  }
+  .rc h4 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 22px;
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+    letter-spacing: -0.005em;
+    color: var(--paper-000);
+  }
+  .rc .sub {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    margin-bottom: 12px;
+  }
+  .macro-strip {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    border-top: 1px solid var(--iron-300);
+  }
+  .macro-strip > div {
+    padding: 10px 8px 11px;
+    border-right: 1px solid var(--iron-300);
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    line-height: 1;
+  }
+  .macro-strip > div:last-child { border-right: none; }
+  .macro-strip .v {
+    display: block;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--paper-000);
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .macro-strip .v .u { font-family: var(--mono); font-size: 9px; color: var(--iron-500); font-weight: 400; margin-left: 2px; letter-spacing: 0.05em; }
+  .macro-strip .protein { background: var(--iron-000); }
+  .macro-strip .protein .v { color: var(--iron-red); font-size: 26px; font-weight: 900; }
+  .macro-strip .protein .v .u { color: var(--iron-red-deep); }
+  .macro-strip .protein .l { color: var(--iron-red); font-weight: 700; }
+
+  /* ─── EMPTY STATE ──────────────────────────────────────── */
+  .empty {
+    padding: 64px 24px;
+    text-align: center;
+    background-image: repeating-linear-gradient(45deg, transparent 0 8px, rgba(242,239,230,0.03) 8px 9px);
+  }
+  .empty .glyph {
+    width: 64px; height: 64px;
+    border: 2px solid var(--iron-400);
+    margin: 0 auto 16px;
+    position: relative;
+  }
+  .empty .glyph::before, .empty .glyph::after {
+    content: ""; position: absolute;
+    background: var(--iron-400);
+    left: 50%; top: 50%;
+  }
+  .empty .glyph::before { width: 36px; height: 2px; transform: translate(-50%,-50%) rotate(45deg); }
+  .empty .glyph::after  { width: 36px; height: 2px; transform: translate(-50%,-50%) rotate(-45deg); }
+  .empty .ttl {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 26px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .empty .lede {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    margin-bottom: 16px;
+  }
+
+  /* ─── COMMENTARY BLOCK ─────────────────────────────────── */
+  .commentary {
+    margin-top: 32px;
+    padding: 20px 24px;
+    border: 1px solid var(--iron-300);
+    background: var(--iron-100);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 1.7;
+    color: var(--paper-100);
+    column-count: 2;
+    column-gap: 32px;
+    column-rule: 1px solid var(--iron-300);
+  }
+  .commentary h4 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 8px;
+    color: var(--paper-000);
+    break-after: avoid;
+  }
+  .commentary ul { padding: 0; margin: 0 0 14px; list-style: none; }
+  .commentary li { padding-left: 16px; position: relative; margin-bottom: 4px; }
+  .commentary li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--iron-red);
+  }
+  .commentary code {
+    background: var(--iron-000);
+    border: 1px solid var(--iron-300);
+    padding: 1px 5px;
+    font-size: 10.5px;
+    color: var(--paper-000);
+  }
+  .commentary .key { color: var(--iron-red); font-weight: 700; }
+
+  /* ─── DETAIL SCREEN ────────────────────────────────────── */
+  .back-link {
+    padding: 14px 18px 0;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    cursor: pointer;
+  }
+  .desk .back-link { padding: 18px 24px 0; }
+  .back-link:hover { color: var(--paper-000); }
+
+  .hero-photo {
+    height: 220px;
+    background-color: #1a1410;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(194,51,30,0.1) 0 8px, transparent 8px 18px),
+      repeating-linear-gradient(135deg, rgba(242,239,230,0.05) 0 12px, transparent 12px 24px);
+    border: 1px solid var(--iron-300);
+    border-left: none;
+    border-right: none;
+    margin: 14px 0 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-photo .ph-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    padding: 6px 10px;
+    border: 1px dashed var(--iron-400);
+  }
+  .hero-photo .utility {
+    position: absolute;
+    top: 12px; right: 12px;
+    display: flex;
+    gap: 6px;
+  }
+  .util-btn {
+    width: 32px; height: 32px;
+    border: 1px solid var(--paper-000);
+    background: rgba(11,11,12,0.7);
+    color: var(--paper-000);
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .util-btn.star.on { background: var(--paper-000); color: var(--iron-000); }
+
+  .tag-row {
+    padding: 0 18px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .desk .tag-row { padding: 0 24px; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid var(--paper-100);
+    color: var(--paper-100);
+  }
+  .tag.filled { background: var(--iron-red); border-color: var(--iron-red); color: var(--paper-000); }
+
+  .detail-title {
+    padding: 0 18px;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 44px;
+    line-height: 0.9;
+    text-transform: uppercase;
+    color: var(--paper-000);
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+  }
+  .desk .detail-title { padding: 0 24px; font-size: 64px; }
+  .detail-sub {
+    padding: 0 18px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    margin-bottom: 18px;
+  }
+  .desk .detail-sub { padding: 0 24px; font-size: 11px; }
+
+  /* Big macro row — detail */
+  .macro-big {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+    border-top: 1px solid var(--iron-300);
+    border-bottom: 1px solid var(--iron-300);
+    margin: 0;
+  }
+  .macro-big > div {
+    padding: 18px 14px 16px;
+    border-right: 1px solid var(--iron-300);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    line-height: 1;
+  }
+  .macro-big > div:last-child { border-right: none; }
+  .macro-big .v {
+    display: block;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 34px;
+    color: var(--paper-000);
+    margin-top: 6px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .macro-big .v .u { font-family: var(--mono); font-size: 10px; color: var(--iron-500); font-weight: 400; margin-left: 2px; letter-spacing: 0.05em; }
+  .macro-big .protein { background: var(--iron-000); }
+  .macro-big .protein .l { color: var(--iron-red); font-weight: 700; }
+  .macro-big .protein .v { color: var(--iron-red); font-size: 48px; font-weight: 900; }
+  .macro-big .protein .v .u { color: var(--iron-red-deep); }
+  .vp.desktop .macro-big .protein .v { font-size: 56px; }
+  .vp.desktop .macro-big .v { font-size: 40px; }
+
+  /* Servings scaler */
+  .servings-bar {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--iron-300);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .desk .servings-bar { padding: 16px 24px; }
+  .servings-bar .l {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+  }
+  .scaler {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .scaler .pm {
+    width: 32px; height: 32px;
+    border: 1px solid var(--paper-000);
+    color: var(--paper-000);
+    background: transparent;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .scaler .n {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 26px;
+    color: var(--paper-000);
+    min-width: 32px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .scaler .lbl {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--iron-500);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-left: 4px;
+  }
+
+  /* Ingredients */
+  .block-head {
+    padding: 22px 18px 10px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .desk .block-head { padding: 28px 24px 12px; }
+  .block-head .name {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 26px;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+  }
+  .desk .block-head .name { font-size: 32px; }
+  .block-head .info {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--iron-500);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .ing-group {
+    border-top: 1px solid var(--iron-300);
+  }
+  .ing-group-head {
+    padding: 8px 18px;
+    background: var(--iron-100);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper-200);
+    border-bottom: 1px dashed var(--iron-300);
+    display: flex;
+    justify-content: space-between;
+  }
+  .ing-group-head.protein { color: var(--iron-red); }
+  .desk .ing-group-head { padding: 8px 24px; }
+  .ing-row {
+    padding: 12px 18px;
+    border-bottom: 1px dashed var(--iron-300);
+    display: grid;
+    grid-template-columns: 22px 70px 1fr;
+    gap: 10px;
+    align-items: start;
+  }
+  .desk .ing-row { padding: 12px 24px; grid-template-columns: 22px 90px 1fr; }
+  .ing-row .box {
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--paper-000);
+    margin-top: 2px;
+    position: relative;
+  }
+  .ing-row.checked .box { background: var(--paper-000); }
+  .ing-row.checked .box::after {
+    content: ""; position: absolute; inset: 3px;
+    background:
+      linear-gradient(45deg, transparent 0 45%, var(--iron-000) 45% 55%, transparent 55%),
+      linear-gradient(-45deg, transparent 0 45%, var(--iron-000) 45% 55%, transparent 55%);
+  }
+  .ing-row .qty {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--paper-000);
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+  }
+  .ing-row .qty .u {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--iron-500);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    margin-left: 2px;
+  }
+  .ing-row.protein .qty { color: var(--iron-red); }
+  .ing-row.protein .qty .u { color: var(--iron-red-deep); }
+  .ing-row .item {
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--paper-000);
+    line-height: 1.2;
+  }
+  .ing-row .prep {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--iron-500);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .ing-row .tip {
+    font-family: var(--body);
+    font-size: 12px;
+    color: var(--safety);
+    margin-top: 4px;
+    line-height: 1.4;
+    border-left: 2px solid var(--safety);
+    padding-left: 8px;
+    font-style: italic;
+  }
+  .ing-row.checked .item { color: var(--iron-500); text-decoration: line-through; }
+
+  /* Substitutions */
+  .sub-card {
+    margin: 12px 18px;
+    border: 1px solid var(--iron-300);
+    padding: 14px 16px;
+    background: var(--iron-100);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+  }
+  .desk .sub-card { margin: 12px 24px; }
+  .sub-card.on { border-color: var(--paper-000); }
+  .sub-card .swap {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    margin-bottom: 6px;
+  }
+  .sub-card .swap .out { text-decoration: line-through; color: var(--iron-500); }
+  .sub-card .swap .in { color: var(--paper-000); font-weight: 700; }
+  .sub-card .swap .arrow { color: var(--iron-red); margin: 0 4px; }
+  .sub-card .deltas {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .delta {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .delta.up { color: var(--iron-red); }
+  .delta.down { color: var(--plate-green); }
+  .delta.neutral { color: var(--paper-200); }
+  .sub-card .note {
+    font-family: var(--body);
+    font-size: 12px;
+    color: var(--iron-500);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+  .toggle {
+    width: 40px; height: 20px;
+    border: 1px solid var(--paper-000);
+    position: relative;
+    cursor: pointer;
+    flex: 0 0 40px;
+  }
+  .toggle .knob {
+    position: absolute;
+    top: 1px; left: 1px;
+    width: 16px; height: 16px;
+    background: var(--paper-000);
+  }
+  .toggle.on .knob { left: auto; right: 1px; background: var(--iron-red); }
+  .toggle.on { border-color: var(--iron-red); }
+
+  /* Steps */
+  .step-row {
+    padding: 16px 18px;
+    border-bottom: 1px dashed var(--iron-300);
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .desk .step-row { padding: 18px 24px; grid-template-columns: 70px 1fr; gap: 18px; }
+  .step-row .num {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 0.85;
+    color: var(--iron-red);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .desk .step-row .num { font-size: 64px; }
+  .step-row .text {
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--paper-000);
+  }
+  .desk .step-row .text { font-size: 17px; }
+  .timer-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 4px 8px;
+    border: 1px solid var(--iron-red);
+    background: rgba(194,51,30,0.1);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--iron-red);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .timer-tag::before {
+    content: ""; width: 8px; height: 8px;
+    border: 1.5px solid var(--iron-red);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* Notes */
+  .notes-block {
+    padding: 14px 18px 16px;
+    border-bottom: 1px solid var(--iron-300);
+  }
+  .desk .notes-block { padding: 14px 24px 18px; }
+  .notes-block .body {
+    font-family: var(--body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--paper-100);
+    border-left: 2px solid var(--iron-red);
+    padding-left: 12px;
+    font-style: italic;
+  }
+
+  /* Serves with — mini cards */
+  .serves-with {
+    padding: 0 18px 18px;
+  }
+  .desk .serves-with { padding: 0 24px 24px; }
+  .serves-with .mini-row {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .desk .serves-with .mini-row { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .mini-card {
+    background: var(--iron-100);
+    border: 1px solid var(--iron-300);
+    padding: 10px 12px;
+    cursor: pointer;
+  }
+  .mini-card:hover { border-color: var(--paper-200); }
+  .mini-card .name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--paper-000);
+    line-height: 1.1;
+  }
+  .mini-card .meta {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--iron-red);
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* Sticky action bar */
+  .sticky-bar {
+    border-top: 2px solid var(--iron-red);
+    background: var(--iron-000);
+    padding: 12px 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .desk .sticky-bar { padding: 14px 24px; grid-template-columns: auto 1fr 1fr; }
+  .sticky-bar .meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--iron-500);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    display: none;
+    align-self: center;
+  }
+  .desk .sticky-bar .meta { display: block; }
+  .sticky-bar .btn { width: 100%; justify-content: center; padding: 14px; font-size: 12px; }
+
+  /* ─── COOK MODE ────────────────────────────────────────── */
+  .cook-stage {
+    background: var(--paper-000);
+    color: var(--iron-000);
+    min-height: 720px;
+    display: flex;
+    flex-direction: column;
+    background-image:
+      linear-gradient(to right, rgba(11,11,12,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(11,11,12,0.05) 1px, transparent 1px),
+      linear-gradient(to right, rgba(11,11,12,0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(11,11,12,0.1) 1px, transparent 1px);
+    background-size: 14px 14px, 14px 14px, 70px 70px, 70px 70px;
+  }
+  .cook-head {
+    padding: 14px 18px 12px;
+    border-bottom: 2px solid var(--iron-000);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cook-head .ttl {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: var(--iron-000);
+    line-height: 1;
+    letter-spacing: -0.005em;
+  }
+  .cook-head .ttl .of {
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: 10px;
+    color: #6B6B70;
+    letter-spacing: 0.18em;
+    display: block;
+    margin-top: 4px;
+  }
+  .cook-head .x {
+    width: 32px; height: 32px;
+    border: 1px solid var(--iron-000);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--iron-000);
+  }
+  .cook-progress {
+    display: flex;
+    gap: 4px;
+    padding: 0 18px;
+    margin-top: 12px;
+  }
+  .cook-progress .seg {
+    flex: 1;
+    height: 6px;
+    background: var(--paper-200);
+    border: 1px solid var(--iron-000);
+  }
+  .cook-progress .seg.active { background: var(--iron-red); }
+  .cook-progress .seg.done { background: var(--iron-000); }
+  .cook-body {
+    flex: 1;
+    padding: 36px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 24px;
+  }
+  .cook-step-num {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 120px;
+    line-height: 0.8;
+    color: var(--iron-red);
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  .cook-step-text {
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.3;
+    color: var(--iron-000);
+  }
+  .timer-block {
+    border: 2px solid var(--iron-000);
+    padding: 18px;
+    text-align: center;
+    background: var(--paper-100);
+  }
+  .timer-block .digit {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 86px;
+    line-height: 1;
+    color: var(--iron-000);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .timer-block.running .digit { color: var(--iron-red); }
+  .timer-block .lbl {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--iron-000);
+    margin-top: 10px;
+    padding: 8px 14px;
+    border: 1px solid var(--iron-000);
+    display: inline-block;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .timer-block.running .lbl {
+    background: var(--iron-red);
+    color: var(--paper-000);
+    border-color: var(--iron-red);
+  }
+  .cook-foot {
+    border-top: 2px solid var(--iron-000);
+    padding: 14px 18px;
+    background: var(--iron-000);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .cook-foot .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  /* ─── FORM ─────────────────────────────────────────────── */
+  .form-stage { padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+  .desk .form-stage { padding: 24px; gap: 22px; }
+  .form-section {
+    border: 1px solid var(--iron-300);
+    background: var(--iron-100);
+  }
+  .form-section .sec-h {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--iron-300);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--iron-000);
+  }
+  .form-section .sec-h .name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--paper-000);
+  }
+  .form-section .sec-h .hint {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+  }
+  .form-grid {
+    padding: 14px 16px;
+    display: grid;
+    gap: 14px;
+  }
+  .form-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .form-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .field .lbl {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+  }
+  .field .input {
+    border: 1px solid var(--iron-300);
+    background: var(--iron-000);
+    padding: 9px 11px;
+    font-family: var(--body);
+    font-weight: 500;
+    color: var(--paper-000);
+    font-size: 14px;
+  }
+  .field .input.mono { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .field .input.placeholder { color: var(--iron-500); }
+  .field .input.dropdown { display: flex; justify-content: space-between; align-items: center; }
+  .field .input.dropdown::after { content: "▾"; color: var(--iron-500); }
+  .field .input.with-unit {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  }
+  .field .input .unit {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--iron-500);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .field.protein .input { border-color: var(--iron-red); color: var(--iron-red); font-weight: 700; }
+  .field.protein .lbl { color: var(--iron-red); }
+
+  .multi-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border: 1px solid var(--iron-300);
+    background: var(--iron-000);
+    padding: 8px;
+    min-height: 38px;
+  }
+  .row-builder {
+    display: grid;
+    border: 1px solid var(--iron-300);
+    background: var(--iron-000);
+  }
+  .rb-head {
+    display: grid;
+    grid-template-columns: 36px 64px 56px 1fr 90px 110px 28px;
+    background: var(--iron-100);
+    border-bottom: 1px solid var(--iron-300);
+  }
+  .rb-head > div {
+    padding: 8px 6px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    border-right: 1px solid var(--iron-300);
+  }
+  .rb-head > div:last-child { border-right: none; text-align: center; }
+  .rb-row {
+    display: grid;
+    grid-template-columns: 36px 64px 56px 1fr 90px 110px 28px;
+    border-bottom: 1px dashed var(--iron-300);
+    align-items: stretch;
+  }
+  .rb-row:last-child { border-bottom: none; }
+  .rb-row > div {
+    padding: 8px 6px;
+    border-right: 1px solid var(--iron-300);
+    font-family: var(--body);
+    font-size: 13px;
+    color: var(--paper-000);
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+  }
+  .rb-row > div.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .rb-row > div.handle { color: var(--iron-500); justify-content: center; cursor: grab; }
+  .rb-row > div.del { color: var(--iron-500); justify-content: center; cursor: pointer; }
+  .rb-row > div.cat { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--iron-500); }
+  .rb-row > div:last-child { border-right: none; }
+  .rb-row.protein > div.qty { color: var(--iron-red); font-weight: 700; }
+  .rb-row.add {
+    grid-template-columns: 1fr;
+    cursor: pointer;
+    background: var(--iron-100);
+  }
+  .rb-row.add > div {
+    justify-content: center;
+    color: var(--iron-500);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 12px;
+    border-right: none;
+  }
+  .rb-row.add:hover > div { color: var(--paper-000); }
+
+  /* Steps row builder different cols */
+  .rb-head.steps, .rb-row.steps {
+    grid-template-columns: 36px 38px 1fr 88px 28px;
+  }
+  /* Subs row builder */
+  .rb-head.subs, .rb-row.subs {
+    grid-template-columns: 36px 1fr 1fr 1fr 28px;
+  }
+
+  .paste-band {
+    border: 2px dashed var(--iron-red);
+    background: rgba(194,51,30,0.06);
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .paste-band .l {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 22px;
+    text-transform: uppercase;
+    color: var(--paper-000);
+    line-height: 1;
+  }
+  .paste-band .sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+    margin-top: 4px;
+  }
+
+  .form-bar {
+    border-top: 2px solid var(--iron-red);
+    padding: 14px 18px;
+    background: var(--iron-000);
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .desk .form-bar { padding: 16px 24px; }
+  .form-bar .left { display: flex; gap: 8px; }
+  .form-bar .right { display: flex; gap: 8px; }
+
+  /* ─── COMPONENT KIT ────────────────────────────────────── */
+  .ck-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .ck-cell {
+    border: 1px solid var(--iron-300);
+    background: var(--iron-100);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 240px;
+  }
+  .ck-cell.span-2 { grid-column: span 2; }
+  .ck-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px dashed var(--iron-300);
+    padding-bottom: 8px;
+  }
+  .ck-head .name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: var(--paper-000);
+  }
+  .ck-head .id {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: var(--iron-500);
+    text-transform: uppercase;
+  }
+  .ck-stage {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    background: var(--iron-000);
+    border: 1px solid var(--iron-300);
+    padding: 16px;
+  }
+  .ck-stage.col { flex-direction: column; align-items: stretch; }
+  .ck-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--iron-500);
+    line-height: 1.5;
+  }
+  .ck-note .key { color: var(--iron-red); font-weight: 700; }
+
+  /* Loading skeleton */
+  .skel {
+    background: var(--iron-200);
+    position: relative;
+    overflow: hidden;
+  }
+  .skel::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 0, rgba(242,239,230,0.06) 50%, transparent 100%);
+    animation: shimmer 1.8s linear infinite;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .skel-card {
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+  }
+  .skel-card .skel-img { height: 110px; }
+  .skel-card .skel-bits { padding: 10px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .skel-card .skel-bar { background: var(--iron-300); height: 12px; position: relative; overflow: hidden; }
+  .skel-card .skel-bar.short { width: 40%; }
+  .skel-card .skel-bar.med { width: 70%; }
+
+  /* Stagger reveal anim for index cards */
+  .stagger > * { opacity: 0; animation: fadeUp 280ms ease-out forwards; }
+  .stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger > *:nth-child(2) { animation-delay: 30ms; }
+  .stagger > *:nth-child(3) { animation-delay: 60ms; }
+  .stagger > *:nth-child(4) { animation-delay: 90ms; }
+  .stagger > *:nth-child(5) { animation-delay: 120ms; }
+  .stagger > *:nth-child(6) { animation-delay: 150ms; }
+  .stagger > *:nth-child(7) { animation-delay: 180ms; }
+  .stagger > *:nth-child(8) { animation-delay: 210ms; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Footer */
+  .colophon {
+    padding: 36px 32px 56px;
+    border-top: 2px solid var(--paper-000);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--iron-000);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--iron-500);
+  }
+  .colophon .end {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 26px;
+    color: var(--paper-000);
+    letter-spacing: 0;
+  }
+
+  /* Eyebrow / utility */
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    background: var(--iron-red);
+    color: var(--paper-000);
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .eyebrow.outline { background: transparent; border: 1px solid var(--paper-000); color: var(--paper-000); }
+
+  /* Scrollbar styling inside frames */
+  .vp-body ::-webkit-scrollbar { height: 4px; width: 4px; }
+  .vp-body ::-webkit-scrollbar-thumb { background: var(--iron-400); }
+
+  /* No-emoji safe: text-style hearts and arrows are okay if rendered as monochrome geometric glyphs only — we use pure ASCII/typographic marks (×, →, ←, ▾, +, −) which render as text. */
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════════════ MASTHEAD ═══════════════════ -->
+  <header class="masthead">
+    <div class="left">Module 01 of 04 · v1.0<br />Visual System: Iron &amp; Paper</div>
+    <div>
+      <div class="wordmark">Cookbook<span class="amp">·</span>Spec</div>
+      <div class="submark">Mise &amp; Plan · Personal Kitchen OS</div>
+    </div>
+    <div class="right"><strong>For: Stephan</strong><br />Issued 05.13.26 · BKK</div>
+  </header>
+
+  <!-- ═══════════════════ § 00 PREFACE ═══════════════════ -->
+  <section class="spec">
+    <div class="sec-num">§ 00 · Preface</div>
+    <div class="sec-tag">How to read this</div>
+    <span class="eyebrow">VISUAL SPEC · NOT A LIVE APP</span>
+    <h2 class="sec-title">Five screens.<br />Two viewports.<br />One iron rule.</h2>
+    <p class="sec-lede">Every screen below is rendered at both <strong>mobile 390 px</strong> and <strong>desktop 1024 px</strong> at literal pixel size, no scaling. Iron-red appears only on protein-related elements — never on buttons, links, or other accents. Stamps, hairline rules, graph-paper grids and tabular numerals are the recurring grammar. Commentary blocks under each section state interaction rules in mono — these are the hand-off notes for the developer.</p>
+    <div style="display:flex; gap:32px; flex-wrap:wrap; font-family:var(--mono); font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--iron-500); margin-top:16px;">
+      <div><span style="color:var(--iron-red); font-weight:700;">━━</span>&nbsp;&nbsp;Iron-red &nbsp;·&nbsp; protein only</div>
+      <div><span style="color:var(--safety); font-weight:700;">━━</span>&nbsp;&nbsp;Safety &nbsp;·&nbsp; kcal cap / tip</div>
+      <div><span style="color:var(--plate-green); font-weight:700;">━━</span>&nbsp;&nbsp;Plate-green &nbsp;·&nbsp; logged / done</div>
+      <div><span style="color:var(--paper-000); font-weight:700;">━━</span>&nbsp;&nbsp;Paper &nbsp;·&nbsp; primary text + CTAs</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ § 01 INDEX ═══════════════════ -->
+  <section class="spec">
+    <div class="sec-num">§ 01 · Index</div>
+    <div class="sec-tag">Recipe list · home</div>
+    <h2 class="sec-title">The library.</h2>
+    <p class="sec-lede">Stephan's full collection. Browse tiles up top for one-tap filtering by cuisine or mode (Thai · Korean · Quick · High-Protein · Batch-Prep · Favorites). Filter chips and a sort dropdown sit under them. Cards stack on mobile, grid 3-up on desktop. Every card surfaces protein as the loudest macro.</p>
+
+    <div class="vp-row">
+
+      <!-- ───── MOBILE 390 ───── -->
+      <div class="vp mobile">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot"></span>Mobile · 390</span>
+          <span>iOS / Android · PWA</span>
+        </div>
+        <div class="vp-body">
+          <div class="phone-status">
+            <span>09:24</span>
+            <span class="signal"><span></span><span></span><span></span><span></span></span>
+            <span class="batt"></span>
+          </div>
+
+          <nav class="app-nav">
+            <div class="nav-brand">M<span class="amp">&amp;</span>P</div>
+            <div class="nav-tabs" style="font-size:9px;">
+              <span class="nav-tab active">Cook</span>
+              <span class="nav-tab soon">Plan</span>
+              <span class="nav-tab soon">Shop</span>
+            </div>
+          </nav>
+
+          <div class="sec-head">
+            <div class="ttl">Cookbook</div>
+            <div class="meta">23&nbsp;<span class="strong">REC</span><br />14&nbsp;<span class="red">FAV</span> · 3 NEW</div>
+          </div>
+
+          <div class="browse-rail">
+            <div class="browse-tile active">
+              <div class="name">All</div>
+              <div class="count">23</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Thai</div>
+              <div class="count">11</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Korean</div>
+              <div class="count">4</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Quick<br />&lt;20</div>
+              <div class="count">8</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">High<br />Protein</div>
+              <div class="count">23</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">B'fast</div>
+              <div class="count">5</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Batch</div>
+              <div class="count">6</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Fav</div>
+              <div class="count">14</div>
+            </div>
+          </div>
+
+          <div class="filter-bar">
+            <div class="search">
+              <span class="icon"></span>
+              <span class="placeholder">Search recipes, ingredients…</span>
+            </div>
+            <div class="chip-row">
+              <span class="chip active">Thai<span class="x">×</span></span>
+              <span class="chip">High-prot<span class="count">23</span></span>
+              <span class="chip">Quick<span class="count">8</span></span>
+              <span class="chip">Gluten-free<span class="count">17</span></span>
+              <span class="chip">Diet+</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; justify-content:space-between;">
+              <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.18em; color:var(--iron-500); text-transform:uppercase;">11 results</div>
+              <div class="sort">Most cooked</div>
+            </div>
+          </div>
+
+          <div class="rc-grid mob stagger">
+            <!-- card 1 — FAV -->
+            <div class="rc">
+              <div class="rc-photo cuisine-thai">
+                <span class="stamp fav">FAV</span>
+                <span class="ph-label">PHOTO</span>
+              </div>
+              <div class="rc-body">
+                <div class="rc-cat">Thai · Mains</div>
+                <h4>Chicken Larb<br />(Isaan-style)</h4>
+                <div class="sub">15 MIN · ×5 COOKED · LAST 3D AGO</div>
+              </div>
+              <div class="macro-strip">
+                <div class="protein"><span class="l">Protein</span><span class="v">56<span class="u">g</span></span></div>
+                <div><span class="l">kCal</span><span class="v">385</span></div>
+                <div><span class="l">Carb</span><span class="v">9<span class="u">g</span></span></div>
+                <div><span class="l">Fat</span><span class="v">12<span class="u">g</span></span></div>
+              </div>
+            </div>
+            <!-- card 2 — cooked -->
+            <div class="rc">
+              <div class="rc-photo cuisine-thai">
+                <span class="stamp cooked">×5 COOKED</span>
+                <span class="ph-label">PHOTO</span>
+              </div>
+              <div class="rc-body">
+                <div class="rc-cat">Thai · Mains</div>
+                <h4>Beef Pad Krapow</h4>
+                <div class="sub">18 MIN · LAST 6D AGO</div>
+              </div>
+              <div class="macro-strip">
+                <div class="protein"><span class="l">Protein</span><span class="v">54<span class="u">g</span></span></div>
+                <div><span class="l">kCal</span><span class="v">510</span></div>
+                <div><span class="l">Carb</span><span class="v">42<span class="u">g</span></span></div>
+                <div><span class="l">Fat</span><span class="v">18<span class="u">g</span></span></div>
+              </div>
+            </div>
+            <!-- card 3 — NEW -->
+            <div class="rc">
+              <div class="rc-photo cuisine-korean">
+                <span class="stamp new">NEW</span>
+                <span class="ph-label">PHOTO</span>
+              </div>
+              <div class="rc-body">
+                <div class="rc-cat">Korean · Bowls</div>
+                <h4>Gochujang<br />Salmon Bowl</h4>
+                <div class="sub">22 MIN · NOT YET COOKED</div>
+              </div>
+              <div class="macro-strip">
+                <div class="protein"><span class="l">Protein</span><span class="v">52<span class="u">g</span></span></div>
+                <div><span class="l">kCal</span><span class="v">560</span></div>
+                <div><span class="l">Carb</span><span class="v">48<span class="u">g</span></span></div>
+                <div><span class="l">Fat</span><span class="v">22<span class="u">g</span></span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ───── DESKTOP 1024 ───── -->
+      <div class="vp desktop">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot"></span>Desktop · 1024</span>
+          <span>PWA · installed · macOS / Windows</span>
+        </div>
+        <div class="vp-body">
+          <div class="desktop-chrome">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="url">miseandplan.app/cookbook</span>
+            <span>PWA</span>
+          </div>
+
+          <nav class="app-nav desk">
+            <div class="nav-brand">Mise<span class="amp">&amp;</span>Plan</div>
+            <div class="nav-tabs">
+              <span class="nav-tab active">Cookbook</span>
+              <span class="nav-tab soon">Plan</span>
+              <span class="nav-tab soon">Shop</span>
+              <span class="nav-tab soon">Stats</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <span class="btn outline sm">Stephan ▾</span>
+            </div>
+          </nav>
+
+          <div class="sec-head desk">
+            <div>
+              <div class="ttl">Cookbook</div>
+              <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--iron-500); text-transform:uppercase; margin-top:8px;">Personal recipe collection · last sync 09:24</div>
+            </div>
+            <div class="meta" style="display:flex; gap:24px; align-items:center;">
+              <div><span class="strong" style="font-family:var(--display); font-size:28px; font-weight:800; display:block; color:var(--paper-000);">23</span>RECIPES</div>
+              <div><span class="red" style="font-family:var(--display); font-size:28px; font-weight:800; display:block;">14</span>FAVORITES</div>
+              <div><span class="strong" style="font-family:var(--display); font-size:28px; font-weight:800; display:block; color:var(--paper-000);">3</span>NEW</div>
+              <span class="btn"><span class="plus">+</span>Add Recipe</span>
+            </div>
+          </div>
+
+          <div class="browse-rail desk">
+            <div class="browse-tile active">
+              <div class="name">All</div>
+              <div class="count">23 recipes</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Thai</div>
+              <div class="count">11 recipes</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Korean</div>
+              <div class="count">4 recipes</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Quick&nbsp;&lt;20</div>
+              <div class="count">8 recipes</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">High-prot</div>
+              <div class="count">23 recipes</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Breakfast</div>
+              <div class="count">5 recipes</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Batch-prep</div>
+              <div class="count">6 recipes</div>
+            </div>
+            <div class="browse-tile">
+              <div class="name">Favorites</div>
+              <div class="count">14 recipes</div>
+            </div>
+          </div>
+
+          <div class="filter-bar desk">
+            <div class="search">
+              <span class="icon"></span>
+              <span class="placeholder">Search recipes, ingredients…</span>
+            </div>
+            <div class="chip-row">
+              <span class="chip active">Thai<span class="x">×</span></span>
+              <span class="chip">High-protein<span class="count">23</span></span>
+              <span class="chip">Quick<span class="count">8</span></span>
+              <span class="chip">Gluten-free<span class="count">17</span></span>
+              <span class="chip">Cuisine ▾</span>
+              <span class="chip">Meal ▾</span>
+              <span class="chip">Diet ▾</span>
+              <span class="chip">Status ▾</span>
+            </div>
+            <div class="sort">Sort · Most cooked</div>
+          </div>
+
+          <div class="rc-grid desk stagger">
+            <!-- 6 cards -->
+            <div class="rc">
+              <div class="rc-photo cuisine-thai">
+                <span class="stamp fav">FAV</span>
+                <span class="ph-label">PHOTO · 1:1</span>
+              </div>
+              <div class="rc-body">
+                <div class="rc-cat">Thai · Mains</div>
+                <h4>Chicken Larb<br />(Isaan-style)</h4>
+                <div class="sub">15 MIN · ×5 COOKED · LAST 3D AGO</div>
+              </div>
+              <div class="macro-strip">
+                <div class="protein"><span class="l">Protein</span><span class="v">56<span class="u">g</span></span></div>
+                <div><span class="l">kCal</span><span class="v">385</span></div>
+                <div><span class="l">Carb</span><span class="v">9<span class="u">g</span></span></div>
+                <div><span class="l">Fat</span><span class="v">12<span class="u">g</span></span></div>
+              </div>
+            </div>
+
+            <div class="rc">
+              <div class="rc-photo cuisine-thai">
+                <span class="stamp cooked">×5 COOKED</span>
+                <span class="ph-label">PHOTO · 1:1</span>
+              </div>
+              <div class="rc-body">
+                <div class="rc-cat">Thai · Mains</div>
+                <h4>Beef Pad Krapow</h4>
+                <div class="sub">18 MIN · LAST 6D AGO</div>
+              </div>
+              <div class="macro-strip">
+                <div class="protein"><span class="l">Protein</span><span class="v">54<span class="u">g</span></span></div>
+                <div><span class="l">kCal</span><span class="v">510</span></div>
+                <div><span class="l">Carb</span><span class="v">42<span class="u">g</span></span></div>
+                <div><span class="l">Fat</span><span class="v">18<span class="u">g</span></span></div>
+              </div>
+            </div>
+
+            <div class="rc">
+              <div class="rc-photo cuisine-korean">
+                <span class="stamp new">NEW</span>
+                <span class="ph-label">PHOTO · 1:1</span>
+              </div>
+              <div class="rc-body">
+                <div class="rc-cat">Korean · Bowls</div>
+                <h4>Gochujang<br />Salmon Bowl</h4>
+                <div class="sub">22 MIN · NOT YET COOKED</div>
+              </div>
+              <div class="macro-strip">
+                <div class="protein"><span class="l">Protein</span><span class="v">52<span class="u">g</span></span></div>
+                <div><span class="l">kCal</span><span class="v">560</span></div>
+                <div><span class="l">Carb</span><span class="v">48<span class="u">g</span></span></div>
+                <div><span class="l">Fat</span><span class="v">22<span class="u">g</span></span></div>
+              </div>
+            </div>
+
+            <div class="rc">
+              <div class="rc-photo cuisine-bowl">
+                <span class="stamp fav">FAV</span>
+                <span class="ph-label">PHOTO · 1:1</span>
+              </div>
+              <div class="rc-body">
+                <div class="rc-cat">B'fast · Bowls</div>
+                <h4>Cottage Cheese<br />Egg Bowl</h4>
+                <div class="sub">8 MIN · ×9 COOKED · LAST 1D AGO</div>
+              </div>
+              <div class="macro-strip">
+                <div class="protein"><span class="l">Protein</span><span class="v">53<span class="u">g</span></span></div>
+                <div><span class="l">kCal</span><span class="v">420</span></div>
+                <div><span class="l">Carb</span><span class="v">18<span class="u">g</span></span></div>
+                <div><span class="l">Fat</span><span class="v">17<span class="u">g</span></span></div>
+              </div>
+            </div>
+
+            <div class="rc">
+              <div class="rc-photo cuisine-thai">
+                <span class="ph-label">PHOTO · 1:1</span>
+              </div>
+              <div class="rc-body">
+                <div class="rc-cat">Thai · Soups</div>
+                <h4>Shrimp<br />Tom Yum Soup</h4>
+                <div class="sub">20 MIN · ×2 COOKED · LAST 12D AGO</div>
+              </div>
+              <div class="macro-strip">
+                <div class="protein"><span class="l">Protein</span><span class="v">51<span class="u">g</span></span></div>
+                <div><span class="l">kCal</span><span class="v">320</span></div>
+                <div><span class="l">Carb</span><span class="v">14<span class="u">g</span></span></div>
+                <div><span class="l">Fat</span><span class="v">9<span class="u">g</span></span></div>
+              </div>
+            </div>
+
+            <div class="rc">
+              <div class="rc-photo cuisine-bowl">
+                <span class="stamp cooked">×4 COOKED</span>
+                <span class="ph-label">PHOTO · 1:1</span>
+              </div>
+              <div class="rc-body">
+                <div class="rc-cat">Thai · Veg</div>
+                <h4>Tempeh<br />Pad See Ew</h4>
+                <div class="sub">25 MIN · LAST 8D AGO</div>
+              </div>
+              <div class="macro-strip">
+                <div class="protein"><span class="l">Protein</span><span class="v">50<span class="u">g</span></span></div>
+                <div><span class="l">kCal</span><span class="v">480</span></div>
+                <div><span class="l">Carb</span><span class="v">56<span class="u">g</span></span></div>
+                <div><span class="l">Fat</span><span class="v">14<span class="u">g</span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bonus: empty state demo, smaller frame -->
+    <div style="margin-top:32px; display:grid; grid-template-columns: 390px 1fr; gap: 32px; align-items: start;">
+      <div class="vp mobile">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot" style="background:var(--paper-200);"></span>Mobile · Empty state</span>
+          <span>Filtered no-match</span>
+        </div>
+        <div class="vp-body">
+          <div class="empty">
+            <div class="glyph"></div>
+            <div class="ttl">Geen recepten</div>
+            <div class="lede">No match for these filters</div>
+            <span class="btn outline sm">Wis filters</span>
+          </div>
+        </div>
+      </div>
+      <div class="commentary" style="margin-top:0;">
+        <h4>§01 Interaction notes</h4>
+        <ul>
+          <li><span class="key">BROWSE RAIL</span> is sticky on scroll, mobile scrolls horizontally with snap. Active tile inverts to paper-fill.</li>
+          <li><span class="key">SEARCH</span> matches title + ingredient names + tags. Live-filters cards within 60ms of input.</li>
+          <li><span class="key">FILTER CHIPS</span> are additive (AND), each shows live count. <code>×</code> dismisses single chip.</li>
+          <li><span class="key">SORT</span> default: <em>Most cooked</em>. Other: Recently added / Highest protein / Quickest / A-Z.</li>
+          <li><span class="key">CARDS</span> stagger-reveal on load (30ms steps). Border hovers to paper-200 in 100ms. No shadows, no scale.</li>
+          <li><span class="key">STAMPS</span> ranked: NEW &gt; FAV &gt; ×N COOKED. Only one stamp per card, top-right.</li>
+          <li><span class="key">EMPTY</span> only after filter, never on initial load. "Wis filters" clears all chips + search.</li>
+          <li><span class="key">+ ADD RECIPE</span> opens form (§04). Mobile: full-page route. Desktop: modal.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ § 02 DETAIL ═══════════════════ -->
+  <section class="spec">
+    <div class="sec-num">§ 02 · Detail</div>
+    <div class="sec-tag">Single recipe · all the data</div>
+    <h2 class="sec-title">The card,<br />opened up.</h2>
+    <p class="sec-lede">One recipe at a time, scrolled top-to-bottom. Above the fold: hero + tags + title + macro row + servings scaler. Below: ingredients (grouped, protein-flagged), substitutions, numbered steps with timer tags, free-form notes, related recipes, sticky action bar.</p>
+
+    <div class="vp-row">
+
+      <!-- ───── MOBILE ───── -->
+      <div class="vp mobile">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot"></span>Mobile · 390</span>
+          <span>Detail · Chicken Larb</span>
+        </div>
+        <div class="vp-body">
+          <div class="phone-status">
+            <span>09:24</span>
+            <span class="signal"><span></span><span></span><span></span><span></span></span>
+            <span class="batt"></span>
+          </div>
+
+          <nav class="app-nav">
+            <div class="nav-brand">M<span class="amp">&amp;</span>P</div>
+            <div class="nav-tabs" style="font-size:9px;">
+              <span class="nav-tab active">Cook</span>
+              <span class="nav-tab soon">Plan</span>
+              <span class="nav-tab soon">Shop</span>
+            </div>
+          </nav>
+
+          <div class="back-link">← Cookbook</div>
+
+          <div class="hero-photo">
+            <span class="ph-label">HERO PHOTO · 16:9</span>
+            <div class="utility">
+              <span class="util-btn star on">★</span>
+              <span class="util-btn">⋯</span>
+            </div>
+          </div>
+
+          <div class="tag-row">
+            <span class="tag filled">Thai</span>
+            <span class="tag">High-protein</span>
+            <span class="tag">Quick</span>
+            <span class="tag">Gluten-free</span>
+          </div>
+
+          <h3 class="detail-title">Chicken Larb<br />(Isaan-style)</h3>
+          <div class="detail-sub">5 MIN PREP · 10 MIN COOK · 2 SERV · LAST COOKED 3D AGO</div>
+
+          <div class="macro-big">
+            <div class="protein"><span class="l">Protein</span><span class="v">56<span class="u">g</span></span></div>
+            <div><span class="l">kCal</span><span class="v">385</span></div>
+            <div><span class="l">Carb</span><span class="v">9<span class="u">g</span></span></div>
+            <div><span class="l">Fat</span><span class="v">12<span class="u">g</span></span></div>
+            <div><span class="l">Fiber</span><span class="v">3<span class="u">g</span></span></div>
+          </div>
+
+          <div class="servings-bar">
+            <div class="l">Servings &nbsp;·&nbsp; scale</div>
+            <div class="scaler">
+              <span class="pm">−</span>
+              <span class="n">2</span>
+              <span class="pm">+</span>
+              <span class="lbl">×1.00</span>
+            </div>
+          </div>
+
+          <div class="block-head">
+            <div class="name">Ingredients</div>
+            <div class="info">9 items · 4 cat.</div>
+          </div>
+
+          <div class="ing-group">
+            <div class="ing-group-head protein"><span>Protein</span><span>1 item</span></div>
+            <div class="ing-row protein">
+              <div class="box"></div>
+              <div class="qty">500<span class="u">g</span></div>
+              <div>
+                <div class="item">Chicken breast</div>
+                <div class="prep">Minced</div>
+                <div class="tip">Ask butcher to mince — saves 10 min.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ing-group">
+            <div class="ing-group-head"><span>Pantry</span><span>3 items</span></div>
+            <div class="ing-row">
+              <div class="box"></div>
+              <div class="qty">1<span class="u">tsp</span></div>
+              <div>
+                <div class="item">Neutral oil</div>
+                <div class="tip" style="color:var(--safety); border-color:var(--safety);">Oil cap — do not exceed.</div>
+              </div>
+            </div>
+            <div class="ing-row">
+              <div class="box"></div>
+              <div class="qty">2<span class="u">tbsp</span></div>
+              <div>
+                <div class="item">Fish sauce</div>
+                <div class="prep">Squid brand or Tiparos</div>
+              </div>
+            </div>
+            <div class="ing-row checked">
+              <div class="box"></div>
+              <div class="qty">1<span class="u">tbsp</span></div>
+              <div>
+                <div class="item">Toasted rice powder (khao khua)</div>
+                <div class="prep">Pre-made pack · Thai aisle</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ing-group">
+            <div class="ing-group-head"><span>Produce</span><span>4 items</span></div>
+            <div class="ing-row">
+              <div class="box"></div>
+              <div class="qty">2<span class="u">tbsp</span></div>
+              <div>
+                <div class="item">Lime juice</div>
+                <div class="prep">Fresh</div>
+              </div>
+            </div>
+            <div class="ing-row">
+              <div class="box"></div>
+              <div class="qty">4<span class="u">pc</span></div>
+              <div>
+                <div class="item">Shallot</div>
+                <div class="prep">Sliced thin</div>
+              </div>
+            </div>
+            <div class="ing-row">
+              <div class="box"></div>
+              <div class="qty">3<span class="u">pc</span></div>
+              <div>
+                <div class="item">Spring onion</div>
+                <div class="prep">Chopped</div>
+              </div>
+            </div>
+            <div class="ing-row">
+              <div class="box"></div>
+              <div class="qty">—</div>
+              <div>
+                <div class="item">Fresh mint leaves</div>
+                <div class="prep">Generous handful</div>
+                <div class="tip">Mint is the soul of larb.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ing-group">
+            <div class="ing-group-head"><span>Spice</span><span>1 item · opt.</span></div>
+            <div class="ing-row">
+              <div class="box"></div>
+              <div class="qty">1<span class="u">tsp</span></div>
+              <div>
+                <div class="item">Thai chili flakes (prik bon)</div>
+                <div class="prep">Optional</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="block-head">
+            <div class="name">Substitutions</div>
+            <div class="info">2 options</div>
+          </div>
+
+          <div class="sub-card">
+            <div>
+              <div class="swap"><span class="out">Chicken breast</span> <span class="arrow">→</span> <span class="in">Lean ground pork</span> · 1:1</div>
+              <div class="deltas">
+                <span class="delta up">+40 KCAL</span>
+                <span class="delta up">−3G PROTEIN</span>
+                <span class="delta up">+5G FAT</span>
+              </div>
+              <div class="note">More traditional. Slightly higher fat.</div>
+            </div>
+            <div class="toggle"><div class="knob"></div></div>
+          </div>
+          <div class="sub-card on">
+            <div>
+              <div class="swap"><span class="out">Chicken breast</span> <span class="arrow">→</span> <span class="in">Firm tofu + 2 eggs</span></div>
+              <div class="deltas">
+                <span class="delta down">−90 KCAL</span>
+                <span class="delta up">−10G PROTEIN</span>
+                <span class="delta neutral">+4G CARB</span>
+              </div>
+              <div class="note">Still hits ~46g protein.</div>
+            </div>
+            <div class="toggle on"><div class="knob"></div></div>
+          </div>
+
+          <div class="block-head">
+            <div class="name">Method</div>
+            <div class="info">5 steps · 15 min</div>
+          </div>
+
+          <div class="step-row">
+            <div class="num">01</div>
+            <div class="text">Heat 1 tsp oil in non-stick pan, medium-high.</div>
+          </div>
+          <div class="step-row">
+            <div class="num">02</div>
+            <div class="text">
+              Add minced chicken. Break up with spatula. Cook until no pink, ~6 min.
+              <div class="timer-tag">Timer · 06:00</div>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="num">03</div>
+            <div class="text">Kill heat. Add fish sauce, lime juice, rice powder, chili flakes. Stir to coat.</div>
+          </div>
+          <div class="step-row">
+            <div class="num">04</div>
+            <div class="text">Add shallot, spring onion, mint, cilantro. Toss once — herbs stay bright.</div>
+          </div>
+          <div class="step-row">
+            <div class="num">05</div>
+            <div class="text">Taste. Adjust: more lime for sour, more fish sauce for salt. Serve immediately.</div>
+          </div>
+
+          <div class="block-head">
+            <div class="name">Notes</div>
+            <div class="info">Author</div>
+          </div>
+          <div class="notes-block">
+            <div class="body">Authentic Isaan uses pork. Chicken breast is the protein-cut compromise. Don't skip the toasted rice powder.</div>
+          </div>
+
+          <div class="block-head">
+            <div class="name">Serves with</div>
+            <div class="info">3 suggested</div>
+          </div>
+          <div class="serves-with">
+            <div class="mini-row">
+              <div class="mini-card"><div class="name">Sticky rice (ready-pack)</div><div class="meta">12g P · +280 KCAL</div></div>
+              <div class="mini-card"><div class="name">Som tam (papaya salad)</div><div class="meta">4g P · +90 KCAL</div></div>
+            </div>
+          </div>
+
+          <div class="sticky-bar">
+            <span class="btn outline">Add to Plan</span>
+            <span class="btn">Cook Now →</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── DESKTOP ───── -->
+      <div class="vp desktop">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot"></span>Desktop · 1024</span>
+          <span>Detail · Chicken Larb</span>
+        </div>
+        <div class="vp-body">
+          <div class="desktop-chrome">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="url">miseandplan.app/cookbook/chicken-larb</span>
+            <span>PWA</span>
+          </div>
+
+          <nav class="app-nav desk">
+            <div class="nav-brand">Mise<span class="amp">&amp;</span>Plan</div>
+            <div class="nav-tabs">
+              <span class="nav-tab active">Cookbook</span>
+              <span class="nav-tab soon">Plan</span>
+              <span class="nav-tab soon">Shop</span>
+              <span class="nav-tab soon">Stats</span>
+            </div>
+            <div><span class="btn outline sm">Stephan ▾</span></div>
+          </nav>
+
+          <div class="desk">
+            <div class="back-link">← Cookbook</div>
+
+            <div class="hero-photo" style="height:280px;">
+              <span class="ph-label">HERO PHOTO · 16:9</span>
+              <div class="utility">
+                <span class="util-btn star on">★</span>
+                <span class="util-btn">⋯</span>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap: 32px; padding: 0 24px;">
+              <div>
+                <div class="tag-row" style="padding:0;">
+                  <span class="tag filled">Thai</span>
+                  <span class="tag">High-protein</span>
+                  <span class="tag">Quick</span>
+                  <span class="tag">Gluten-free</span>
+                </div>
+                <h3 class="detail-title" style="padding:0;">Chicken Larb<br />(Isaan-style)</h3>
+                <div class="detail-sub" style="padding:0;">5 MIN PREP · 10 MIN COOK · 2 SERV · LAST COOKED 3D AGO</div>
+              </div>
+              <div>
+                <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.22em; color:var(--iron-500); text-transform:uppercase; margin-bottom:8px;">Servings · scale</div>
+                <div class="scaler">
+                  <span class="pm">−</span>
+                  <span class="n">2</span>
+                  <span class="pm">+</span>
+                  <span class="lbl">×1.00</span>
+                </div>
+                <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.18em; color:var(--iron-500); margin-top:14px; text-transform:uppercase;">Cook count <span style="color:var(--paper-000);font-family:var(--display); font-weight:800;">×5</span> · last 3D ago</div>
+              </div>
+            </div>
+
+            <div class="macro-big" style="margin-top:24px;">
+              <div class="protein"><span class="l">Protein</span><span class="v">56<span class="u">g</span></span></div>
+              <div><span class="l">kCal</span><span class="v">385</span></div>
+              <div><span class="l">Carb</span><span class="v">9<span class="u">g</span></span></div>
+              <div><span class="l">Fat</span><span class="v">12<span class="u">g</span></span></div>
+              <div><span class="l">Fiber</span><span class="v">3<span class="u">g</span></span></div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid var(--iron-300);">
+              <!-- LEFT col: ingredients -->
+              <div style="border-right: 1px solid var(--iron-300);">
+                <div class="block-head desk">
+                  <div class="name">Ingredients</div>
+                  <div class="info">9 items · 4 cat.</div>
+                </div>
+                <div class="ing-group">
+                  <div class="ing-group-head protein" style="padding-left:24px; padding-right:24px;"><span>Protein</span><span>1 item</span></div>
+                  <div class="ing-row protein desk">
+                    <div class="box"></div>
+                    <div class="qty">500<span class="u">g</span></div>
+                    <div>
+                      <div class="item">Chicken breast</div>
+                      <div class="prep">Minced</div>
+                      <div class="tip">Ask butcher to mince — saves 10 min.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ing-group">
+                  <div class="ing-group-head" style="padding-left:24px; padding-right:24px;"><span>Pantry</span><span>3 items</span></div>
+                  <div class="ing-row desk">
+                    <div class="box"></div>
+                    <div class="qty">1<span class="u">tsp</span></div>
+                    <div>
+                      <div class="item">Neutral oil</div>
+                      <div class="tip" style="color:var(--safety); border-color:var(--safety);">Oil cap — do not exceed.</div>
+                    </div>
+                  </div>
+                  <div class="ing-row desk">
+                    <div class="box"></div>
+                    <div class="qty">2<span class="u">tbsp</span></div>
+                    <div>
+                      <div class="item">Fish sauce</div>
+                      <div class="prep">Squid brand or Tiparos</div>
+                    </div>
+                  </div>
+                  <div class="ing-row checked desk">
+                    <div class="box"></div>
+                    <div class="qty">1<span class="u">tbsp</span></div>
+                    <div>
+                      <div class="item">Toasted rice powder (khao khua)</div>
+                      <div class="prep">Pre-made pack · Thai aisle</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ing-group">
+                  <div class="ing-group-head" style="padding-left:24px; padding-right:24px;"><span>Produce</span><span>4 items</span></div>
+                  <div class="ing-row desk">
+                    <div class="box"></div>
+                    <div class="qty">2<span class="u">tbsp</span></div>
+                    <div>
+                      <div class="item">Lime juice</div>
+                      <div class="prep">Fresh</div>
+                    </div>
+                  </div>
+                  <div class="ing-row desk">
+                    <div class="box"></div>
+                    <div class="qty">4<span class="u">pc</span></div>
+                    <div>
+                      <div class="item">Shallot</div>
+                      <div class="prep">Sliced thin</div>
+                    </div>
+                  </div>
+                  <div class="ing-row desk">
+                    <div class="box"></div>
+                    <div class="qty">3<span class="u">pc</span></div>
+                    <div>
+                      <div class="item">Spring onion</div>
+                      <div class="prep">Chopped</div>
+                    </div>
+                  </div>
+                  <div class="ing-row desk">
+                    <div class="box"></div>
+                    <div class="qty">—</div>
+                    <div>
+                      <div class="item">Fresh mint leaves</div>
+                      <div class="prep">Generous handful</div>
+                      <div class="tip">Mint is the soul of larb.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ing-group">
+                  <div class="ing-group-head" style="padding-left:24px; padding-right:24px;"><span>Spice</span><span>1 · opt.</span></div>
+                  <div class="ing-row desk">
+                    <div class="box"></div>
+                    <div class="qty">1<span class="u">tsp</span></div>
+                    <div>
+                      <div class="item">Thai chili flakes (prik bon)</div>
+                      <div class="prep">Optional</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="block-head desk">
+                  <div class="name">Substitutions</div>
+                  <div class="info">2 options</div>
+                </div>
+                <div class="sub-card desk" style="margin-left:24px; margin-right:24px;">
+                  <div>
+                    <div class="swap"><span class="out">Chicken breast</span> <span class="arrow">→</span> <span class="in">Lean ground pork</span> · 1:1</div>
+                    <div class="deltas">
+                      <span class="delta up">+40 KCAL</span>
+                      <span class="delta up">−3G PROTEIN</span>
+                      <span class="delta up">+5G FAT</span>
+                    </div>
+                    <div class="note">More traditional. Slightly higher fat.</div>
+                  </div>
+                  <div class="toggle"><div class="knob"></div></div>
+                </div>
+                <div class="sub-card on desk" style="margin-left:24px; margin-right:24px; margin-bottom:24px;">
+                  <div>
+                    <div class="swap"><span class="out">Chicken breast</span> <span class="arrow">→</span> <span class="in">Firm tofu + 2 eggs</span></div>
+                    <div class="deltas">
+                      <span class="delta down">−90 KCAL</span>
+                      <span class="delta up">−10G PROTEIN</span>
+                      <span class="delta neutral">+4G CARB</span>
+                    </div>
+                    <div class="note">Still hits ~46g protein.</div>
+                  </div>
+                  <div class="toggle on"><div class="knob"></div></div>
+                </div>
+              </div>
+
+              <!-- RIGHT col: steps + notes -->
+              <div>
+                <div class="block-head desk">
+                  <div class="name">Method</div>
+                  <div class="info">5 steps · 15 min</div>
+                </div>
+                <div class="step-row desk">
+                  <div class="num">01</div>
+                  <div class="text">Heat 1 tsp oil in non-stick pan, medium-high.</div>
+                </div>
+                <div class="step-row desk">
+                  <div class="num">02</div>
+                  <div class="text">
+                    Add minced chicken. Break up with spatula. Cook until no pink, ~6 min.
+                    <div class="timer-tag">Timer · 06:00</div>
+                  </div>
+                </div>
+                <div class="step-row desk">
+                  <div class="num">03</div>
+                  <div class="text">Kill heat. Add fish sauce, lime juice, rice powder, chili flakes. Stir to coat.</div>
+                </div>
+                <div class="step-row desk">
+                  <div class="num">04</div>
+                  <div class="text">Add shallot, spring onion, mint, cilantro. Toss once — herbs stay bright.</div>
+                </div>
+                <div class="step-row desk">
+                  <div class="num">05</div>
+                  <div class="text">Taste. Adjust: more lime for sour, more fish sauce for salt. Serve immediately.</div>
+                </div>
+
+                <div class="block-head desk">
+                  <div class="name">Notes</div>
+                  <div class="info">Author</div>
+                </div>
+                <div class="notes-block desk">
+                  <div class="body">Authentic Isaan uses pork. Chicken breast is the protein-cut compromise. Don't skip the toasted rice powder.</div>
+                </div>
+
+                <div class="block-head desk">
+                  <div class="name">Serves with</div>
+                  <div class="info">3 suggested</div>
+                </div>
+                <div class="serves-with desk">
+                  <div class="mini-row">
+                    <div class="mini-card"><div class="name">Sticky rice (ready-pack)</div><div class="meta">12g P · +280 KCAL</div></div>
+                    <div class="mini-card"><div class="name">Som tam (papaya salad)</div><div class="meta">4g P · +90 KCAL</div></div>
+                    <div class="mini-card"><div class="name">Cucumber relish</div><div class="meta">1g P · +25 KCAL</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sticky-bar desk">
+              <span class="meta">Cook count <strong style="color:var(--paper-000); font-family:var(--display); font-weight:800; font-size:18px;">×5</strong></span>
+              <span class="btn outline">Add to Plan</span>
+              <span class="btn">Cook Now →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="commentary">
+      <h4>§02 Interaction notes</h4>
+      <ul>
+        <li><span class="key">SERVINGS SCALER</span> live-updates ingredient qty (tabular-num, no fade) and macros. <code>×1.00</code> shows current scale factor.</li>
+        <li><span class="key">CHECKBOXES</span> on ingredient rows are local-only state, reset on close. They are for cooking-now usage. Not persisted.</li>
+        <li><span class="key">SUBSTITUTION TOGGLES</span> mutate the displayed ingredient list AND macros in-place. Delta colors: red = increase, green = decrease (regardless of "good/bad"), paper = neutral.</li>
+        <li><span class="key">TIMER TAG</span> on a step is informational here. In cook mode (§03) it becomes interactive.</li>
+        <li><span class="key">STICKY BAR</span> stays fixed at the bottom of viewport on mobile. Desktop it ends the scroll naturally.</li>
+        <li><span class="key">STAR</span> toggles favorite. <code>⋯</code> opens menu: Edit · Duplicate · Delete · Export JSON · Share.</li>
+        <li><span class="key">DESKTOP LAYOUT</span> goes 2-col below the macro row: ingredients + subs left, method + notes + serves-with right.</li>
+        <li><span class="key">HERO PHOTO</span> no zoom, no parallax. Static. 16:9 mobile / desktop, 1:1 in cards.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ § 03 COOK MODE ═══════════════════ -->
+  <section class="spec">
+    <div class="sec-num">§ 03 · Cook Mode</div>
+    <div class="sec-tag">Inverted · counter-readable at 60 cm</div>
+    <h2 class="sec-title">Hands free.<br />60 cm away.</h2>
+    <p class="sec-lede">Cook mode flips to the paper-on-iron-reversed scheme: cream background, iron type, ruled with graph-paper at high contrast. One step at a time, huge numerals, optional timer block. Three states shown: <strong>(A)</strong> no-timer step, <strong>(B)</strong> timer ready, <strong>(C)</strong> timer counting. Swipe left/right to navigate; tap timer to start. Wake-lock keeps the screen on.</p>
+
+    <div class="vp-row cookmode">
+
+      <!-- STATE A — no timer -->
+      <div class="vp mobile">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot" style="background:var(--paper-200);"></span>Cook · Step w/o timer</span>
+          <span>State A</span>
+        </div>
+        <div class="vp-body">
+          <div class="cook-stage">
+            <div class="cook-head">
+              <div class="ttl">Chicken Larb<span class="of">Step 03 of 05</span></div>
+              <span class="x">×</span>
+            </div>
+            <div class="cook-progress">
+              <div class="seg done"></div>
+              <div class="seg done"></div>
+              <div class="seg active"></div>
+              <div class="seg"></div>
+              <div class="seg"></div>
+            </div>
+            <div class="cook-body">
+              <div class="cook-step-num">03</div>
+              <div class="cook-step-text">Kill heat. Add fish sauce, lime juice, rice powder, chili flakes. Stir to coat.</div>
+            </div>
+            <div class="cook-foot">
+              <span class="btn outline" style="background:transparent; border-color:var(--paper-000); color:var(--paper-000);">← Prev</span>
+              <span class="btn">Next Step →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATE B — timer ready -->
+      <div class="vp mobile">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot" style="background:var(--paper-200);"></span>Cook · Timer ready</span>
+          <span>State B</span>
+        </div>
+        <div class="vp-body">
+          <div class="cook-stage">
+            <div class="cook-head">
+              <div class="ttl">Chicken Larb<span class="of">Step 02 of 05</span></div>
+              <span class="x">×</span>
+            </div>
+            <div class="cook-progress">
+              <div class="seg done"></div>
+              <div class="seg active"></div>
+              <div class="seg"></div>
+              <div class="seg"></div>
+              <div class="seg"></div>
+            </div>
+            <div class="cook-body">
+              <div class="cook-step-num">02</div>
+              <div class="cook-step-text">Add minced chicken. Break up with spatula. Cook until no pink.</div>
+              <div class="timer-block">
+                <div class="digit">06:00</div>
+                <div class="lbl">Tap to start</div>
+              </div>
+            </div>
+            <div class="cook-foot">
+              <span class="btn outline" style="background:transparent; border-color:var(--paper-000); color:var(--paper-000);">← Prev</span>
+              <span class="btn">Next Step →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATE C — timer running -->
+      <div class="vp mobile">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot"></span>Cook · Timer running</span>
+          <span>State C</span>
+        </div>
+        <div class="vp-body">
+          <div class="cook-stage">
+            <div class="cook-head">
+              <div class="ttl">Chicken Larb<span class="of">Step 02 of 05 · 04:12 left</span></div>
+              <span class="x">×</span>
+            </div>
+            <div class="cook-progress">
+              <div class="seg done"></div>
+              <div class="seg active"></div>
+              <div class="seg"></div>
+              <div class="seg"></div>
+              <div class="seg"></div>
+            </div>
+            <div class="cook-body">
+              <div class="cook-step-num">02</div>
+              <div class="cook-step-text">Add minced chicken. Break up with spatula. Cook until no pink.</div>
+              <div class="timer-block running">
+                <div class="digit">04:12</div>
+                <div class="lbl">Running · tap to pause</div>
+              </div>
+            </div>
+            <div class="cook-foot">
+              <span class="btn outline" style="background:transparent; border-color:var(--paper-000); color:var(--paper-000);">← Prev</span>
+              <span class="btn">Next Step →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="commentary">
+      <h4>§03 Interaction notes</h4>
+      <ul>
+        <li><span class="key">COLOR INVERSION</span> is intentional and only here. Lighter background = readable from 60 cm in a counter-lit kitchen.</li>
+        <li><span class="key">SWIPE</span> hard left/right with snap. No fade. <code>arrow keys</code> on desktop, <code>space</code> = next.</li>
+        <li><span class="key">TIMER</span> tap to start → counts down → vibrates on zero (mobile) + plays single beep. Digit turns iron-red while running.</li>
+        <li><span class="key">PROGRESS BAR</span> 5 segments, current = iron-red, prior = iron-black, future = paper-200 outlined.</li>
+        <li><span class="key">WAKE LOCK</span> via Screen Wake Lock API on enter. Released on exit (×). Fallback: warn on first open if API missing.</li>
+        <li><span class="key">EXIT</span> via × prompts only if a timer is running. Otherwise dismiss instantly.</li>
+        <li><span class="key">DESKTOP</span> shows the same UI scaled up to 880px wide, centered. Same logic.</li>
+        <li><span class="key">NO BOUNCE</span> no spring, no elastic, no confetti at end. End-state = step 5 done → "Mark as cooked" outline button. That's it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ § 04 ADD / EDIT ═══════════════════ -->
+  <section class="spec">
+    <div class="sec-num">§ 04 · Add / Edit</div>
+    <div class="sec-tag">Form · paste-from-Claude</div>
+    <h2 class="sec-title">From paste<br />to recipe.</h2>
+    <p class="sec-lede">A single form — used for both new and edit. Top: a hard-to-miss <strong>"Paste from Claude"</strong> band that ingests AI-generated text or JSON and populates the rest of the form. Below that: every field, in iron-and-rule grid form. Row-builders for ingredients, steps, and substitutions. Save also exports JSON.</p>
+
+    <div class="vp-row">
+
+      <!-- ───── MOBILE ───── -->
+      <div class="vp mobile">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot"></span>Mobile · Form</span>
+          <span>New Recipe</span>
+        </div>
+        <div class="vp-body">
+          <div class="phone-status">
+            <span>09:24</span>
+            <span class="signal"><span></span><span></span><span></span><span></span></span>
+            <span class="batt"></span>
+          </div>
+
+          <nav class="app-nav">
+            <div class="nav-brand">M<span class="amp">&amp;</span>P</div>
+            <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.18em; color:var(--iron-500); text-transform:uppercase;">New · Recipe</div>
+          </nav>
+
+          <div class="form-stage">
+            <div class="paste-band">
+              <div>
+                <div class="l">Paste from Claude</div>
+                <div class="sub">JSON or recipe text · auto-fills</div>
+              </div>
+              <span class="btn red sm">Paste</span>
+            </div>
+
+            <!-- Basics -->
+            <div class="form-section">
+              <div class="sec-h"><span class="name">Basics</span><span class="hint">5 fields</span></div>
+              <div class="form-grid">
+                <div class="field">
+                  <span class="lbl">Title</span>
+                  <span class="input">Chicken Larb (Isaan-style)</span>
+                </div>
+                <div class="field">
+                  <span class="lbl">Subtitle</span>
+                  <span class="input placeholder">e.g. Northeastern Thai. 5 min prep…</span>
+                </div>
+                <div class="form-grid cols-2" style="padding:0; gap:10px;">
+                  <div class="field">
+                    <span class="lbl">Cuisine</span>
+                    <span class="input dropdown">Thai</span>
+                  </div>
+                  <div class="field">
+                    <span class="lbl">Servings</span>
+                    <span class="input mono">2</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <span class="lbl">Meal type</span>
+                  <span class="multi-chips">
+                    <span class="chip active">Mains</span>
+                    <span class="chip">+ add</span>
+                  </span>
+                </div>
+                <div class="field">
+                  <span class="lbl">Tags</span>
+                  <span class="multi-chips">
+                    <span class="chip active">thai<span class="x">×</span></span>
+                    <span class="chip active">high-protein<span class="x">×</span></span>
+                    <span class="chip active">quick<span class="x">×</span></span>
+                    <span class="chip">+ add</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Time -->
+            <div class="form-section">
+              <div class="sec-h"><span class="name">Time</span><span class="hint">Auto-sum total</span></div>
+              <div class="form-grid cols-3">
+                <div class="field">
+                  <span class="lbl">Prep</span>
+                  <span class="input with-unit"><span>5</span><span class="unit">min</span></span>
+                </div>
+                <div class="field">
+                  <span class="lbl">Cook</span>
+                  <span class="input with-unit"><span>10</span><span class="unit">min</span></span>
+                </div>
+                <div class="field">
+                  <span class="lbl">Total</span>
+                  <span class="input with-unit"><span style="color:var(--iron-500);">15</span><span class="unit">auto</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Macros -->
+            <div class="form-section">
+              <div class="sec-h"><span class="name">Macros / serving</span><span class="hint">Required</span></div>
+              <div class="form-grid cols-3">
+                <div class="field protein">
+                  <span class="lbl">Protein</span>
+                  <span class="input with-unit"><span>56</span><span class="unit">g</span></span>
+                </div>
+                <div class="field">
+                  <span class="lbl">kCal</span>
+                  <span class="input mono">385</span>
+                </div>
+                <div class="field">
+                  <span class="lbl">Carbs</span>
+                  <span class="input with-unit"><span>9</span><span class="unit">g</span></span>
+                </div>
+                <div class="field">
+                  <span class="lbl">Fat</span>
+                  <span class="input with-unit"><span>12</span><span class="unit">g</span></span>
+                </div>
+                <div class="field">
+                  <span class="lbl">Fiber</span>
+                  <span class="input with-unit"><span>3</span><span class="unit">g</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ingredients -->
+            <div class="form-section">
+              <div class="sec-h"><span class="name">Ingredients</span><span class="hint">9 rows</span></div>
+              <div style="padding: 12px;">
+                <div class="row-builder">
+                  <div class="rb-head">
+                    <div></div><div>Qty</div><div>Unit</div><div>Item</div><div>Cat</div><div>Prep/note</div><div></div>
+                  </div>
+                  <div class="rb-row protein">
+                    <div class="handle">≡</div>
+                    <div class="qty mono">500</div>
+                    <div class="mono">g</div>
+                    <div>chicken breast</div>
+                    <div class="cat">protein</div>
+                    <div>minced</div>
+                    <div class="del">×</div>
+                  </div>
+                  <div class="rb-row">
+                    <div class="handle">≡</div>
+                    <div class="mono">1</div>
+                    <div class="mono">tsp</div>
+                    <div>neutral oil</div>
+                    <div class="cat">pantry</div>
+                    <div style="color:var(--safety);">oil cap</div>
+                    <div class="del">×</div>
+                  </div>
+                  <div class="rb-row">
+                    <div class="handle">≡</div>
+                    <div class="mono">2</div>
+                    <div class="mono">tbsp</div>
+                    <div>fish sauce</div>
+                    <div class="cat">pantry</div>
+                    <div>squid brand</div>
+                    <div class="del">×</div>
+                  </div>
+                  <div class="rb-row add"><div>+ Add ingredient row</div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Steps -->
+            <div class="form-section">
+              <div class="sec-h"><span class="name">Method</span><span class="hint">5 steps</span></div>
+              <div style="padding: 12px;">
+                <div class="row-builder">
+                  <div class="rb-head steps">
+                    <div></div><div>#</div><div>Step text</div><div>Timer</div><div></div>
+                  </div>
+                  <div class="rb-row steps">
+                    <div class="handle">≡</div>
+                    <div class="mono">01</div>
+                    <div>Heat 1 tsp oil in non-stick pan, medium-high.</div>
+                    <div style="color:var(--iron-500);">—</div>
+                    <div class="del">×</div>
+                  </div>
+                  <div class="rb-row steps">
+                    <div class="handle">≡</div>
+                    <div class="mono">02</div>
+                    <div>Add minced chicken. Break up with spatula…</div>
+                    <div style="color:var(--iron-red); font-weight:700;" class="mono">6 min</div>
+                    <div class="del">×</div>
+                  </div>
+                  <div class="rb-row add"><div>+ Add step</div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="form-section">
+              <div class="sec-h"><span class="name">Notes</span><span class="hint">Optional</span></div>
+              <div class="form-grid">
+                <div class="field">
+                  <span class="input placeholder" style="min-height:80px; align-items:flex-start; padding-top:10px;">Free-form notes for yourself…</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-bar">
+            <div class="left">
+              <span class="btn ghost sm">Cancel</span>
+            </div>
+            <div class="right">
+              <span class="btn outline sm">Save + JSON</span>
+              <span class="btn sm">Save</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── DESKTOP ───── -->
+      <div class="vp desktop">
+        <div class="vp-head">
+          <span class="vp-tag"><span class="dot"></span>Desktop · Form</span>
+          <span>Modal · new recipe</span>
+        </div>
+        <div class="vp-body">
+          <div class="desktop-chrome">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="url">miseandplan.app/cookbook/new</span>
+            <span>PWA</span>
+          </div>
+
+          <nav class="app-nav desk">
+            <div class="nav-brand">Mise<span class="amp">&amp;</span>Plan</div>
+            <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--iron-500); text-transform:uppercase;">New · Recipe · Draft</div>
+            <div><span class="btn outline sm">× Close</span></div>
+          </nav>
+
+          <div class="form-stage desk">
+            <div class="paste-band">
+              <div>
+                <div class="l">Paste from Claude</div>
+                <div class="sub">Drop AI-generated JSON or recipe text — app fills the form below</div>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <span class="btn outline sm">Drop JSON file</span>
+                <span class="btn red">Paste from clipboard</span>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap: 22px;">
+              <!-- LEFT col -->
+              <div style="display:flex; flex-direction: column; gap: 22px;">
+                <div class="form-section">
+                  <div class="sec-h"><span class="name">Basics</span><span class="hint">Required</span></div>
+                  <div class="form-grid">
+                    <div class="form-grid cols-2" style="padding:0; gap:14px;">
+                      <div class="field">
+                        <span class="lbl">Title</span>
+                        <span class="input">Chicken Larb (Isaan-style)</span>
+                      </div>
+                      <div class="field">
+                        <span class="lbl">Cuisine</span>
+                        <span class="input dropdown">Thai</span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <span class="lbl">Subtitle</span>
+                      <span class="input placeholder">e.g. Northeastern Thai. 5 min prep…</span>
+                    </div>
+                    <div class="form-grid cols-2" style="padding:0; gap:14px;">
+                      <div class="field">
+                        <span class="lbl">Meal type</span>
+                        <span class="multi-chips">
+                          <span class="chip active">Mains</span>
+                          <span class="chip">B'fast</span>
+                          <span class="chip">Bowl</span>
+                          <span class="chip">+ add</span>
+                        </span>
+                      </div>
+                      <div class="field">
+                        <span class="lbl">Tags</span>
+                        <span class="multi-chips">
+                          <span class="chip active">thai<span class="x">×</span></span>
+                          <span class="chip active">high-protein<span class="x">×</span></span>
+                          <span class="chip active">quick<span class="x">×</span></span>
+                          <span class="chip">+ add</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="sec-h"><span class="name">Ingredients</span><span class="hint">Drag handle to reorder</span></div>
+                  <div style="padding: 14px;">
+                    <div class="row-builder">
+                      <div class="rb-head">
+                        <div></div><div>Qty</div><div>Unit</div><div>Item</div><div>Cat</div><div>Prep / tip</div><div></div>
+                      </div>
+                      <div class="rb-row protein">
+                        <div class="handle">≡</div>
+                        <div class="qty mono">500</div>
+                        <div class="mono">g</div>
+                        <div>chicken breast</div>
+                        <div class="cat">protein</div>
+                        <div>minced · butcher pre-mince</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row">
+                        <div class="handle">≡</div>
+                        <div class="mono">1</div>
+                        <div class="mono">tsp</div>
+                        <div>neutral oil</div>
+                        <div class="cat">pantry</div>
+                        <div style="color:var(--safety);">oil cap — do not exceed</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row">
+                        <div class="handle">≡</div>
+                        <div class="mono">2</div>
+                        <div class="mono">tbsp</div>
+                        <div>fish sauce</div>
+                        <div class="cat">pantry</div>
+                        <div>squid brand or tiparos</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row">
+                        <div class="handle">≡</div>
+                        <div class="mono">1</div>
+                        <div class="mono">tbsp</div>
+                        <div>toasted rice powder</div>
+                        <div class="cat">pantry</div>
+                        <div>pre-made pack</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row">
+                        <div class="handle">≡</div>
+                        <div class="mono">4</div>
+                        <div class="mono">pc</div>
+                        <div>shallot</div>
+                        <div class="cat">produce</div>
+                        <div>sliced thin</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row add"><div>+ Add ingredient row</div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="sec-h"><span class="name">Substitutions</span><span class="hint">Collapsible · 2 added</span></div>
+                  <div style="padding: 14px;">
+                    <div class="row-builder">
+                      <div class="rb-head subs">
+                        <div></div><div>Swap out</div><div>Swap in</div><div>Macro delta</div><div></div>
+                      </div>
+                      <div class="rb-row subs">
+                        <div class="handle">≡</div>
+                        <div>chicken breast</div>
+                        <div>lean ground pork · 1:1</div>
+                        <div class="mono" style="font-size:11px;">+40 kcal · −3g P · +5g F</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row subs">
+                        <div class="handle">≡</div>
+                        <div>chicken breast</div>
+                        <div>firm tofu + 2 eggs</div>
+                        <div class="mono" style="font-size:11px;">−90 kcal · −10g P · +4g C</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row add"><div>+ Add substitution</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RIGHT col -->
+              <div style="display:flex; flex-direction: column; gap: 22px;">
+                <div class="form-section">
+                  <div class="sec-h"><span class="name">Time</span><span class="hint">min</span></div>
+                  <div class="form-grid cols-3">
+                    <div class="field">
+                      <span class="lbl">Prep</span>
+                      <span class="input with-unit"><span>5</span><span class="unit">min</span></span>
+                    </div>
+                    <div class="field">
+                      <span class="lbl">Cook</span>
+                      <span class="input with-unit"><span>10</span><span class="unit">min</span></span>
+                    </div>
+                    <div class="field">
+                      <span class="lbl">Total</span>
+                      <span class="input with-unit"><span style="color:var(--iron-500);">15</span><span class="unit">auto</span></span>
+                    </div>
+                  </div>
+                  <div class="form-grid">
+                    <div class="field">
+                      <span class="lbl">Servings</span>
+                      <span class="input mono">2</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="sec-h"><span class="name">Macros / serving</span><span class="hint">Per portion</span></div>
+                  <div class="form-grid cols-2">
+                    <div class="field protein">
+                      <span class="lbl">Protein</span>
+                      <span class="input with-unit"><span>56</span><span class="unit">g</span></span>
+                    </div>
+                    <div class="field">
+                      <span class="lbl">kCal</span>
+                      <span class="input mono">385</span>
+                    </div>
+                    <div class="field">
+                      <span class="lbl">Carbs</span>
+                      <span class="input with-unit"><span>9</span><span class="unit">g</span></span>
+                    </div>
+                    <div class="field">
+                      <span class="lbl">Fat</span>
+                      <span class="input with-unit"><span>12</span><span class="unit">g</span></span>
+                    </div>
+                    <div class="field">
+                      <span class="lbl">Fiber</span>
+                      <span class="input with-unit"><span>3</span><span class="unit">g</span></span>
+                    </div>
+                    <div class="field">
+                      <span class="lbl">Diet flags</span>
+                      <span class="multi-chips">
+                        <span class="chip active">GF</span>
+                        <span class="chip active">DF</span>
+                        <span class="chip">+</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="sec-h"><span class="name">Method</span><span class="hint">Drag to reorder</span></div>
+                  <div style="padding: 14px;">
+                    <div class="row-builder">
+                      <div class="rb-head steps">
+                        <div></div><div>#</div><div>Step text</div><div>Timer</div><div></div>
+                      </div>
+                      <div class="rb-row steps">
+                        <div class="handle">≡</div>
+                        <div class="mono">01</div>
+                        <div>Heat 1 tsp oil in non-stick pan…</div>
+                        <div style="color:var(--iron-500);">—</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row steps">
+                        <div class="handle">≡</div>
+                        <div class="mono">02</div>
+                        <div>Add minced chicken. Break up…</div>
+                        <div style="color:var(--iron-red); font-weight:700;" class="mono">6 min</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row steps">
+                        <div class="handle">≡</div>
+                        <div class="mono">03</div>
+                        <div>Kill heat. Add fish sauce, lime juice…</div>
+                        <div style="color:var(--iron-500);">—</div>
+                        <div class="del">×</div>
+                      </div>
+                      <div class="rb-row add"><div>+ Add step</div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <div class="sec-h"><span class="name">Notes</span><span class="hint">Free text</span></div>
+                  <div class="form-grid">
+                    <div class="field">
+                      <span class="input" style="min-height:80px; align-items:flex-start; padding-top:10px; line-height:1.4;">Authentic Isaan uses pork. Chicken breast is the protein-cut compromise. Don't skip the toasted rice powder.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-bar desk">
+            <div class="left">
+              <span class="btn ghost sm">Cancel</span>
+              <span class="btn ghost sm">Save Draft</span>
+            </div>
+            <div class="right">
+              <span class="btn outline sm">Save &amp; Export JSON</span>
+              <span class="btn">Save Recipe</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="commentary">
+      <h4>§04 Interaction notes</h4>
+      <ul>
+        <li><span class="key">PASTE FROM CLAUDE</span> accepts: pasted JSON object · pasted raw recipe text · dropped <code>.json</code> file. Detects format, populates fields. Diff-summary toast on success.</li>
+        <li><span class="key">VALIDATION</span> live: required fields (title, servings, ingredients ≥ 1, steps ≥ 1, macros). Errors marked iron-red on the input border, no toasts.</li>
+        <li><span class="key">ROW BUILDERS</span> are drag-reorderable (≡), unit dropdown opens picker, category auto-suggests based on item match. Empty row at bottom is the "add" affordance.</li>
+        <li><span class="key">TOTAL TIME</span> auto-sums prep + cook on every change, read-only.</li>
+        <li><span class="key">MOBILE LAYOUT</span> stacked single-column. Desktop = 2-col with left wide (basics, ing, subs), right narrow (time, macros, steps, notes).</li>
+        <li><span class="key">SAVE & EXPORT JSON</span> writes recipe and downloads a <code>.json</code> snapshot using the exact schema from the brief.</li>
+        <li><span class="key">SAVE DRAFT</span> persists incomplete record with status <code>draft</code> — appears in cookbook with DRAFT stamp.</li>
+        <li><span class="key">EDIT MODE</span> identical form, pre-filled, with a header "EDITING: [title]" replacing "NEW · RECIPE".</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ § 05 COMPONENT KIT ═══════════════════ -->
+  <section class="spec">
+    <div class="sec-num">§ 05 · Component Kit</div>
+    <div class="sec-tag">Every reusable piece, isolated</div>
+    <h2 class="sec-title">The parts<br />bin.</h2>
+    <p class="sec-lede">Each component, on its own, with usage notes. Build these once as primitives — every screen above is composed from this kit.</p>
+
+    <div class="ck-grid">
+
+      <!-- Recipe card states -->
+      <div class="ck-cell span-2">
+        <div class="ck-head"><span class="name">Recipe Card · 3 states</span><span class="id">RC-01</span></div>
+        <div class="ck-stage" style="align-items: stretch; gap: 16px;">
+          <div class="rc" style="width: 220px;">
+            <div class="rc-photo cuisine-thai"><span class="ph-label">PHOTO</span></div>
+            <div class="rc-body">
+              <div class="rc-cat">Thai · Mains</div>
+              <h4 style="font-size:18px;">Default</h4>
+              <div class="sub">15 MIN · NOT YET COOKED</div>
+            </div>
+            <div class="macro-strip">
+              <div class="protein"><span class="l">Prot</span><span class="v" style="font-size:20px;">56<span class="u">g</span></span></div>
+              <div><span class="l">Kcal</span><span class="v" style="font-size:18px;">385</span></div>
+              <div><span class="l">C</span><span class="v" style="font-size:18px;">9</span></div>
+              <div><span class="l">F</span><span class="v" style="font-size:18px;">12</span></div>
+            </div>
+          </div>
+          <div class="rc" style="width: 220px;">
+            <div class="rc-photo cuisine-thai">
+              <span class="stamp fav">FAV</span>
+              <span class="ph-label">PHOTO</span>
+            </div>
+            <div class="rc-body">
+              <div class="rc-cat">Thai · Mains</div>
+              <h4 style="font-size:18px;">Favorite</h4>
+              <div class="sub">15 MIN · ×2 COOKED</div>
+            </div>
+            <div class="macro-strip">
+              <div class="protein"><span class="l">Prot</span><span class="v" style="font-size:20px;">56<span class="u">g</span></span></div>
+              <div><span class="l">Kcal</span><span class="v" style="font-size:18px;">385</span></div>
+              <div><span class="l">C</span><span class="v" style="font-size:18px;">9</span></div>
+              <div><span class="l">F</span><span class="v" style="font-size:18px;">12</span></div>
+            </div>
+          </div>
+          <div class="rc" style="width: 220px;">
+            <div class="rc-photo cuisine-thai">
+              <span class="stamp cooked">×9 COOKED</span>
+              <span class="ph-label">PHOTO</span>
+            </div>
+            <div class="rc-body">
+              <div class="rc-cat">Thai · Mains</div>
+              <h4 style="font-size:18px;">Cooked-recently</h4>
+              <div class="sub">15 MIN · LAST 1D AGO</div>
+            </div>
+            <div class="macro-strip">
+              <div class="protein"><span class="l">Prot</span><span class="v" style="font-size:20px;">56<span class="u">g</span></span></div>
+              <div><span class="l">Kcal</span><span class="v" style="font-size:18px;">385</span></div>
+              <div><span class="l">C</span><span class="v" style="font-size:18px;">9</span></div>
+              <div><span class="l">F</span><span class="v" style="font-size:18px;">12</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ck-note">Card width <span class="key">flex</span> to grid. Photo 1:1 (or 16:9 in lists), stamp top-right (one max). Hover: border → paper-200, 100ms linear. No shadow, no scale.</div>
+      </div>
+
+      <!-- Macro badge -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Macro Badge</span><span class="id">RC-02</span></div>
+        <div class="ck-stage" style="justify-content: center; gap: 16px;">
+          <div style="text-align:left;">
+            <div style="font-family:var(--mono); font-size:9px; letter-spacing:0.22em; color:var(--iron-red); font-weight:700;">PROTEIN</div>
+            <div style="font-family:var(--display); font-weight:900; font-size:56px; line-height:0.85; color:var(--iron-red); font-variant-numeric:tabular-nums; letter-spacing:-0.02em;">56<span style="font-family:var(--mono); font-size:14px; color:var(--iron-red-deep); font-weight:400; margin-left:2px;">g</span></div>
+          </div>
+          <div style="text-align:left;">
+            <div style="font-family:var(--mono); font-size:9px; letter-spacing:0.22em; color:var(--iron-500);">KCAL</div>
+            <div style="font-family:var(--display); font-weight:800; font-size:36px; line-height:0.85; color:var(--paper-000); font-variant-numeric:tabular-nums;">385</div>
+          </div>
+        </div>
+        <div class="ck-note">Protein always larger + iron-red. Other macros: display-800 + paper. Tabular numerals always on.</div>
+      </div>
+
+      <!-- Filter chips -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Filter Chip · 4 states</span><span class="id">RC-03</span></div>
+        <div class="ck-stage">
+          <span class="chip">Default</span>
+          <span class="chip" style="border-color: var(--paper-200);">Hover</span>
+          <span class="chip active">Active <span class="x">×</span></span>
+          <span class="chip">Count <span class="count">23</span></span>
+        </div>
+        <div class="ck-note">Active = paper-fill, iron text. Hover = border paper-200. <span class="key">100ms linear</span>. Count is mono-9, color iron-500.</div>
+      </div>
+
+      <!-- Browse tile -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Browse Tile · 2 states</span><span class="id">RC-04</span></div>
+        <div class="ck-stage" style="gap:14px;">
+          <div class="browse-tile" style="width: 112px;">
+            <div class="name">Thai</div>
+            <div class="count">11 recipes</div>
+          </div>
+          <div class="browse-tile active" style="width: 112px;">
+            <div class="name">Active</div>
+            <div class="count">14 recipes</div>
+          </div>
+        </div>
+        <div class="ck-note">Active inverts to paper-fill. Mobile width 88px, desktop 112px.</div>
+      </div>
+
+      <!-- Ingredient row -->
+      <div class="ck-cell span-2">
+        <div class="ck-head"><span class="name">Ingredient Row · 4 states</span><span class="id">RC-05</span></div>
+        <div class="ck-stage col">
+          <div class="ing-row" style="padding: 8px 12px; background: var(--iron-000);">
+            <div class="box"></div>
+            <div class="qty">200<span class="u">g</span></div>
+            <div><div class="item">Default · unchecked</div></div>
+          </div>
+          <div class="ing-row checked" style="padding: 8px 12px; background: var(--iron-000);">
+            <div class="box"></div>
+            <div class="qty">200<span class="u">g</span></div>
+            <div><div class="item">Checked · struck through</div></div>
+          </div>
+          <div class="ing-row protein" style="padding: 8px 12px; background: var(--iron-000);">
+            <div class="box"></div>
+            <div class="qty">500<span class="u">g</span></div>
+            <div><div class="item">Protein · qty iron-red</div></div>
+          </div>
+          <div class="ing-row" style="padding: 8px 12px; background: var(--iron-000);">
+            <div class="box"></div>
+            <div class="qty">1<span class="u">tsp</span></div>
+            <div>
+              <div class="item">With tip</div>
+              <div class="tip" style="color:var(--safety); border-color:var(--safety);">Oil cap — do not exceed.</div>
+            </div>
+          </div>
+        </div>
+        <div class="ck-note">3-col grid: <code>22px / 70px / 1fr</code>. Tip left-rule in safety-yellow (cap warning) or paper-200 (general note).</div>
+      </div>
+
+      <!-- Substitution -->
+      <div class="ck-cell span-2">
+        <div class="ck-head"><span class="name">Substitution Card · off / on</span><span class="id">RC-06</span></div>
+        <div class="ck-stage col">
+          <div class="sub-card" style="margin:0;">
+            <div>
+              <div class="swap"><span class="out">Chicken breast</span> <span class="arrow">→</span> <span class="in">Lean ground pork</span> · 1:1</div>
+              <div class="deltas">
+                <span class="delta up">+40 KCAL</span>
+                <span class="delta up">−3G P</span>
+                <span class="delta up">+5G F</span>
+              </div>
+            </div>
+            <div class="toggle"><div class="knob"></div></div>
+          </div>
+          <div class="sub-card on" style="margin:0;">
+            <div>
+              <div class="swap"><span class="out">Chicken breast</span> <span class="arrow">→</span> <span class="in">Firm tofu + 2 eggs</span></div>
+              <div class="deltas">
+                <span class="delta down">−90 KCAL</span>
+                <span class="delta up">−10G P</span>
+                <span class="delta neutral">+4G C</span>
+              </div>
+            </div>
+            <div class="toggle on"><div class="knob"></div></div>
+          </div>
+        </div>
+        <div class="ck-note">On = border paper-000. Toggle knob = paper (off) / iron-red (on). <span class="key">No transition</span> on toggle — 1-frame snap.</div>
+      </div>
+
+      <!-- Step row -->
+      <div class="ck-cell span-2">
+        <div class="ck-head"><span class="name">Step Row · w/ + w/o timer</span><span class="id">RC-07</span></div>
+        <div class="ck-stage col">
+          <div class="step-row" style="padding: 8px 14px; background: var(--iron-000); border:none;">
+            <div class="num">01</div>
+            <div class="text">Heat 1 tsp oil in non-stick pan, medium-high.</div>
+          </div>
+          <div class="step-row" style="padding: 8px 14px; background: var(--iron-000); border:none;">
+            <div class="num">02</div>
+            <div class="text">Add minced chicken. Cook ~6 min until no pink.
+              <div class="timer-tag">Timer · 06:00</div>
+            </div>
+          </div>
+        </div>
+        <div class="ck-note">Num is iron-red, display-900, 48px mobile / 64px desktop. Timer tag triggers cook-mode timer when present.</div>
+      </div>
+
+      <!-- Stamps -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Stamps</span><span class="id">RC-08</span></div>
+        <div class="ck-stage">
+          <span class="stamp" style="position:static;">×5 COOKED</span>
+          <span class="stamp fav" style="position:static;">FAV</span>
+          <span class="stamp new" style="position:static;">NEW</span>
+          <span class="stamp draft" style="position:static;">DRAFT</span>
+        </div>
+        <div class="ck-note">One per card, top-right. Priority: NEW &gt; FAV &gt; ×N COOKED &gt; DRAFT.</div>
+      </div>
+
+      <!-- Eyebrows -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Eyebrows</span><span class="id">RC-09</span></div>
+        <div class="ck-stage">
+          <span class="eyebrow" style="margin:0;">FILLED · IRON-RED</span>
+          <span class="eyebrow outline" style="margin:0;">OUTLINE · PAPER</span>
+        </div>
+        <div class="ck-note">Filled iron-red <span class="key">only</span> for protein-related eyebrows. Outline for all others.</div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Buttons</span><span class="id">RC-10</span></div>
+        <div class="ck-stage">
+          <span class="btn sm">Primary</span>
+          <span class="btn outline sm">Outline</span>
+          <span class="btn ghost sm">Ghost</span>
+        </div>
+        <div class="ck-stage">
+          <span class="btn">Default</span>
+          <span class="btn lg">Large</span>
+        </div>
+        <div class="ck-note">Iron-red button reserved — never used as a generic CTA. Primary = paper-fill on iron.</div>
+      </div>
+
+      <!-- Search -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Search Input</span><span class="id">RC-11</span></div>
+        <div class="ck-stage col">
+          <div class="search" style="background:var(--iron-100);">
+            <span class="icon"></span>
+            <span class="placeholder">Search recipes, ingredients…</span>
+          </div>
+          <div class="search" style="background:var(--iron-100);">
+            <span class="icon" style="border-color:var(--paper-000);"></span>
+            <span style="color:var(--paper-000); font-family:var(--mono); font-size:12px; letter-spacing:0.06em;">chicken</span>
+          </div>
+        </div>
+        <div class="ck-note">Mono input. Live-filters within 60ms. Placeholder upper, value lower-case + paper.</div>
+      </div>
+
+      <!-- Dropdown -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Dropdown · Sort</span><span class="id">RC-12</span></div>
+        <div class="ck-stage col">
+          <div class="sort">Sort · Most cooked</div>
+          <div class="sort" style="border-color: var(--paper-000); color: var(--paper-000);">Sort · Highest protein</div>
+        </div>
+        <div class="ck-note">Click opens menu list. Caret <code>▾</code> is iron-500 default, paper on open.</div>
+      </div>
+
+      <!-- Loading skeleton -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Loading Skeleton</span><span class="id">RC-13</span></div>
+        <div class="ck-stage" style="padding:10px;">
+          <div class="skel-card" style="width:140px; border:1px solid var(--iron-300);">
+            <div class="skel skel-img"></div>
+            <div class="skel-bits">
+              <div class="skel skel-bar med"></div>
+              <div class="skel skel-bar short"></div>
+            </div>
+          </div>
+        </div>
+        <div class="ck-note">Subtle shimmer only — <span class="key">no rainbow gradient</span>. iron-300 base, paper-006 wash.</div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="ck-cell">
+        <div class="ck-head"><span class="name">Empty State</span><span class="id">RC-14</span></div>
+        <div class="ck-stage" style="padding: 14px; flex-direction: column;">
+          <div class="empty" style="padding: 24px 12px; background: transparent;">
+            <div class="glyph" style="width:48px; height:48px;"></div>
+            <div class="ttl" style="font-size:20px;">Nothing here</div>
+            <div class="lede" style="margin-bottom: 10px;">No match for filters</div>
+            <span class="btn outline sm">Reset</span>
+          </div>
+        </div>
+        <div class="ck-note">Hatched fill behind. Glyph is geometric X, never a smiley or sad face.</div>
+      </div>
+
+      <!-- Sticky bar -->
+      <div class="ck-cell span-2">
+        <div class="ck-head"><span class="name">Sticky Action Bar</span><span class="id">RC-15</span></div>
+        <div class="ck-stage" style="padding: 0; align-items:stretch;">
+          <div class="sticky-bar" style="width: 100%; border-top: 2px solid var(--iron-red);">
+            <span class="btn outline">Add to Plan</span>
+            <span class="btn">Cook Now →</span>
+          </div>
+        </div>
+        <div class="ck-note">Bottom of every detail screen. Top border <span class="key">iron-red 2px</span> — the only place a red border is used as structure.</div>
+      </div>
+
+    </div>
+
+    <div class="commentary">
+      <h4>§05 Reuse notes</h4>
+      <ul>
+        <li><span class="key">PRIMITIVES FIRST</span> — every screen above is assembled from these. If a screen needs something not in this kit, add it here, don't one-off it.</li>
+        <li><span class="key">NO ROUNDED CORNERS</span> on anything ever. 1px max. Boxes, chips, buttons, inputs — all square.</li>
+        <li><span class="key">NO SHADOWS</span>. Depth comes from borders and color steps only.</li>
+        <li><span class="key">NO GRADIENTS</span> except graph-paper grid. Solid fills only.</li>
+        <li><span class="key">IRON-RED LOCK</span> — appears only on protein-data, the timer-active glyph, the structural top-border of the sticky bar, and the active progress-bar segment. Nowhere else.</li>
+        <li><span class="key">ANIMATIONS</span> are all linear 100–280ms. No spring, no bounce. Mechanical.</li>
+        <li><span class="key">TYPE SCALES</span> — display ≥ 18px (chip labels at 18, h4 in cards at 22). Mono never below 9px. Body never below 12px.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ COLOPHON ═══════════════════ -->
+  <footer class="colophon">
+    <div>End of spec · Cookbook v1.0 · Mise &amp; Plan</div>
+    <div class="end">SHIP IT.</div>
+    <div style="text-align:right;">5 screens · 2 viewports · 1 iron rule</div>
+  </footer>
+
+</div>
+</body>
+</html>
