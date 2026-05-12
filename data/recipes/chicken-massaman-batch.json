@@ -1,0 +1,229 @@
+{
+  "id": "chicken-massaman-batch",
+  "schema_version": 1,
+  "title": "Chicken Massaman (Batch)",
+  "subtitle": "4-serving meal prep. 10 min prep, 50 min simmer.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["thai", "high-protein", "batch", "meal-prep", "one-pot", "freezer-friendly"],
+  "cuisine": "thai",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["gluten-free", "dairy-free", "high-protein"],
+
+  "servings": 4,
+  "yield_type": "per-serving",
+  "time": {
+    "prep_min": 10,
+    "cook_min": 50,
+    "total_min": 60,
+    "rest_min": 0
+  },
+
+  "macros_per_serving": {
+    "kcal": 580,
+    "protein_g": 58,
+    "carbs_g": 22,
+    "fat_g": 26,
+    "fiber_g": 3,
+    "sodium_mg": 1300
+  },
+
+  "ingredients": [
+    {
+      "qty": 1200,
+      "unit": "g",
+      "item": "chicken thigh, boneless skinless",
+      "prep": "cut in 4cm chunks",
+      "category": "protein",
+      "thai_market_tip": "Buy the 1kg trays at Tops or Makro. Thigh holds up to a 50-min simmer; breast turns to sawdust.",
+      "optional": false
+    },
+    {
+      "qty": 50,
+      "unit": "g",
+      "item": "Massaman curry paste",
+      "category": "pantry",
+      "thai_market_tip": "Mae Ploy (yellow tub, 50g sachet equivalent) or Maesri (can). Mae Ploy is fuller, Maesri is milder.",
+      "optional": false
+    },
+    {
+      "qty": 100,
+      "unit": "ml",
+      "item": "coconut cream",
+      "category": "pantry",
+      "thai_market_tip": "Aroy-D 100% coconut cream in the UHT pouch — better than the cans. Skim the thick top off if using a can.",
+      "optional": false,
+      "note": "Cream, not milk — for the paste to crack."
+    },
+    {
+      "qty": 400,
+      "unit": "ml",
+      "item": "chicken stock or water",
+      "category": "pantry",
+      "optional": false
+    },
+    {
+      "qty": 300,
+      "unit": "g",
+      "item": "waxy potato",
+      "prep": "peeled, 3cm chunks",
+      "category": "produce",
+      "thai_market_tip": "Hom-mali (Thai waxy) holds shape. Sweet potato also works and adds fibre.",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "piece",
+      "item": "yellow onion",
+      "prep": "wedges",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "neutral oil",
+      "category": "pantry",
+      "optional": false,
+      "note": "Oil cap per serving. Only used if coconut cream doesn't crack on its own."
+    },
+    {
+      "qty": 2,
+      "unit": "tbsp",
+      "item": "fish sauce",
+      "category": "pantry",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tbsp",
+      "item": "palm sugar",
+      "category": "pantry",
+      "thai_market_tip": "The block kind in the baking aisle. Coconut palm sugar works too. Shave with a knife.",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tbsp",
+      "item": "tamarind paste",
+      "category": "pantry",
+      "thai_market_tip": "Cock brand tamarind concentrate, dark sticky jar. Brings the sourness that defines massaman.",
+      "optional": false
+    },
+    {
+      "qty": 3,
+      "unit": "piece",
+      "item": "bay leaf",
+      "category": "spice",
+      "optional": true
+    },
+    {
+      "qty": 1,
+      "unit": "piece",
+      "item": "cinnamon stick",
+      "category": "spice",
+      "optional": true,
+      "note": "Massaman is the most aromatic Thai curry. Cinnamon + bay = the warm-spice layer."
+    },
+    {
+      "qty": 30,
+      "unit": "g",
+      "item": "roasted peanuts",
+      "category": "pantry",
+      "optional": true,
+      "note": "Stir in at the end. Adds 50 kcal / 3g protein / 4g fat per serving."
+    }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "chicken thigh, boneless skinless",
+      "swap_in": "beef chuck",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": 30,
+        "protein_g": -2,
+        "fat_g": 4
+      },
+      "note": "Traditional massaman is beef. Simmer time goes to 90 min — cut chunks larger."
+    },
+    {
+      "swap_out": "coconut cream",
+      "swap_in": "light coconut milk",
+      "ratio": "1:1.5",
+      "macro_delta": {
+        "kcal": -120,
+        "fat_g": -13
+      },
+      "note": "Use 150ml light coconut milk instead. Thinner sauce, less rich, ~150 kcal lighter."
+    },
+    {
+      "swap_out": "waxy potato",
+      "swap_in": "Japanese sweet potato",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": 20,
+        "carbs_g": 4,
+        "fiber_g": 2
+      },
+      "note": "Sweeter, more fibre. Cuts the heat differently — try it once."
+    }
+  ],
+
+  "steps": [
+    {
+      "n": 1,
+      "text": "Heavy pot, medium-high. Add coconut cream, simmer 4 min until the oil cracks out and bubbles round the edge.",
+      "timer_min": 4
+    },
+    {
+      "n": 2,
+      "text": "Add Massaman paste. Fry in the cracked oil 2 min until deep brick-red and fragrant. If pan goes dry, add 1 tsp oil.",
+      "timer_min": 2
+    },
+    {
+      "n": 3,
+      "text": "Add chicken chunks. Toss to coat fully in paste. Cook 3 min until edges are sealed.",
+      "timer_min": 3
+    },
+    {
+      "n": 4,
+      "text": "Pour in stock, fish sauce, palm sugar, tamarind, bay leaves, cinnamon. Stir. Bring to gentle simmer.",
+      "timer_min": null
+    },
+    {
+      "n": 5,
+      "text": "Add potato and onion wedges. Cover, simmer 35 min on low. Check at 25 — potato should be just yielding to a knife.",
+      "timer_min": 35
+    },
+    {
+      "n": 6,
+      "text": "Uncover, simmer 5 min to reduce. Taste: should be salt-sweet-sour, in that order. Adjust with fish sauce / palm sugar / tamarind.",
+      "timer_min": 5
+    },
+    {
+      "n": 7,
+      "text": "Off heat, stir in peanuts if using. Cool 15 min before portioning into 4 containers. Keeps 4 days fridge, 2 months freezer.",
+      "timer_min": null
+    }
+  ],
+
+  "serves_with": [
+    {
+      "ref": "microwave-jasmine-rice",
+      "note": "1 pack per serving. Reheats in 90 sec on workday lunches."
+    },
+    {
+      "ref": "cucumber-relish",
+      "note": "Quick ajad — cucumber, shallot, rice vinegar, sugar. Cuts the richness."
+    }
+  ],
+
+  "notes": "The non-negotiable step is cracking the coconut cream first (step 1) — that's where the curry's oil base comes from and why this recipe respects the 1 tsp added-oil cap. Massaman is the slowest of the everyday Thai curries; do it Sunday afternoon, eat off it Mon–Thu. Peanuts are technically authentic but optional — they push kcal up 50 and protein won't change much. If the sauce splits when reheated, whisk in a tablespoon of hot water.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

@@ -1,0 +1,245 @@
+{
+  "id": "gochujang-fried-chicken-bowl",
+  "schema_version": 1,
+  "title": "Gochujang Fried Chicken Bowl",
+  "subtitle": "Air-fried KFC, cleaned up. 8 min prep, 18 min cook.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["korean", "high-protein", "guilty-pleasure", "air-fryer", "takeout-clone"],
+  "cuisine": "korean",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["dairy-free", "high-protein"],
+
+  "servings": 2,
+  "yield_type": "per-serving",
+  "time": {
+    "prep_min": 8,
+    "cook_min": 18,
+    "total_min": 26
+  },
+
+  "macros_per_serving": {
+    "kcal": 600,
+    "protein_g": 58,
+    "carbs_g": 55,
+    "fat_g": 13,
+    "fiber_g": 3,
+    "sodium_mg": 1300
+  },
+
+  "ingredients": [
+    {
+      "qty": 520,
+      "unit": "g",
+      "item": "chicken thigh, boneless skinless",
+      "prep": "cut in 3cm chunks",
+      "category": "protein",
+      "thai_market_tip": "Buy the 500g tray at Tops or Villa. Trim visible fat hard — air-frying renders the rest.",
+      "optional": false
+    },
+    {
+      "qty": 2,
+      "unit": "tbsp",
+      "item": "cornstarch",
+      "category": "pantry",
+      "optional": false,
+      "note": "The crispy shell. Don't sub flour — cornstarch is non-negotiable for the crunch."
+    },
+    {
+      "qty": 1,
+      "unit": "tbsp",
+      "item": "soy sauce",
+      "category": "pantry",
+      "optional": false,
+      "note": "For the marinade, before coating."
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "garlic powder",
+      "category": "spice",
+      "optional": false
+    },
+    {
+      "qty": 2,
+      "unit": "tbsp",
+      "item": "gochujang (Korean chili paste)",
+      "category": "pantry",
+      "thai_market_tip": "Chung Jung One red tub, Korean aisle. Get the medium-spicy if there's a choice.",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tbsp",
+      "item": "honey",
+      "category": "pantry",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tbsp",
+      "item": "rice vinegar",
+      "category": "pantry",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tbsp",
+      "item": "soy sauce",
+      "category": "pantry",
+      "optional": false,
+      "note": "For the glaze, on top of the marinade tbsp."
+    },
+    {
+      "qty": 2,
+      "unit": "clove",
+      "item": "garlic",
+      "prep": "grated",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "sesame oil",
+      "category": "pantry",
+      "optional": false,
+      "note": "Oil cap — this is your tsp. Goes in the glaze."
+    },
+    {
+      "qty": 2,
+      "unit": "pack",
+      "item": "microwave jasmine rice",
+      "category": "pantry",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "piece",
+      "item": "cucumber, Japanese or Lebanese",
+      "prep": "sliced thin",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 2,
+      "unit": "piece",
+      "item": "spring onion",
+      "prep": "thin-sliced on the bias",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "toasted sesame seeds",
+      "category": "pantry",
+      "optional": true
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "gochugaru (Korean chili flakes)",
+      "category": "spice",
+      "optional": true,
+      "note": "Stir into glaze for extra heat without extra sugar."
+    }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "chicken thigh, boneless skinless",
+      "swap_in": "chicken breast",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": -60,
+        "protein_g": 8,
+        "fat_g": -7
+      },
+      "note": "Higher protein, leaner. Brine 15 min in 1 tsp salt + 1 cup water first or it dries out in the air fryer."
+    },
+    {
+      "swap_out": "microwave jasmine rice",
+      "swap_in": "microwave cauliflower rice",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": -180,
+        "carbs_g": -42,
+        "fiber_g": 2
+      },
+      "note": "Cuts ~180 kcal. Bowl gets lighter — feels less like takeout, but the chicken still carries it."
+    },
+    {
+      "swap_out": "honey",
+      "swap_in": "monk fruit sweetener (granulated)",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": -50,
+        "carbs_g": -14
+      },
+      "note": "Real glaze loses some shine but cuts sugar."
+    }
+  ],
+
+  "steps": [
+    {
+      "n": 1,
+      "text": "Toss chicken chunks with 1 tbsp soy and garlic powder. Sit 5 min.",
+      "timer_min": 5
+    },
+    {
+      "n": 2,
+      "text": "Add cornstarch, toss until every piece is dry-coated, no wet patches. Pat any clumps apart.",
+      "timer_min": null
+    },
+    {
+      "n": 3,
+      "text": "Preheat air fryer 200°C / 400°F, 3 min.",
+      "timer_min": 3
+    },
+    {
+      "n": 4,
+      "text": "Lay chicken in single layer, no touching. Air fry 12 min, flip at 7. Should be deep gold and crisp.",
+      "timer_min": 12
+    },
+    {
+      "n": 5,
+      "text": "While chicken cooks: whisk gochujang, honey, rice vinegar, 1 tbsp soy, garlic, sesame oil, gochugaru in a large bowl.",
+      "timer_min": null
+    },
+    {
+      "n": 6,
+      "text": "Microwave rice packs per label (~90 sec each).",
+      "timer_min": null
+    },
+    {
+      "n": 7,
+      "text": "Tip hot chicken straight into glaze bowl. Toss until every piece is lacquered — work fast, glaze sets on contact.",
+      "timer_min": null
+    },
+    {
+      "n": 8,
+      "text": "Build bowls: rice, cucumber to one side, glazed chicken in the centre. Top with spring onion and sesame seeds.",
+      "timer_min": null
+    }
+  ],
+
+  "serves_with": [
+    {
+      "ref": "kimchi",
+      "note": "Free macros — 50g kimchi adds ~10 kcal, sharpens the bowl."
+    },
+    {
+      "ref": "soft-boiled-egg",
+      "note": "If hungry: jammy 6-min egg = +6g protein, +5g fat."
+    }
+  ],
+
+  "notes": "The 'guilty pleasure within macro' play. Real KFC bowls run 900+ kcal and 25g fat from deep-frying. Air-frying with cornstarch (not flour) gets ~80% of the crunch at less than half the fat. Toss in glaze right out of the air fryer — heat = absorption. If you wait, the coating goes leather. Cornstarch dredge is the single most important step; skipping it gets you boring saucy chicken.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

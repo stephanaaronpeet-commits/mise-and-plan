@@ -1,0 +1,211 @@
+{
+  "id": "gochujang-salmon-bowl",
+  "schema_version": 1,
+  "title": "Gochujang Salmon Bowl",
+  "subtitle": "Korean glaze, kimchi, brown rice. 5 min prep, 12 min cook.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["korean", "high-protein", "quick", "one-pan", "omega-3"],
+  "cuisine": "korean",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["dairy-free", "high-protein", "pescatarian"],
+
+  "servings": 2,
+  "yield_type": "per-serving",
+  "time": {
+    "prep_min": 5,
+    "cook_min": 12,
+    "total_min": 17
+  },
+
+  "macros_per_serving": {
+    "kcal": 580,
+    "protein_g": 56,
+    "carbs_g": 48,
+    "fat_g": 18,
+    "fiber_g": 4,
+    "sodium_mg": 1100
+  },
+
+  "ingredients": [
+    {
+      "qty": 500,
+      "unit": "g",
+      "item": "salmon fillet, skin-on",
+      "prep": "patted dry",
+      "category": "protein",
+      "thai_market_tip": "Tops Market and Villa carry Norwegian salmon fillets. Ask for the centre cut — even thickness cooks evenly.",
+      "optional": false
+    },
+    {
+      "qty": 2,
+      "unit": "tbsp",
+      "item": "gochujang (Korean chili paste)",
+      "category": "pantry",
+      "thai_market_tip": "Korean aisle at Tops/Villa, red tub. Chung Jung One is the easy default.",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tbsp",
+      "item": "soy sauce",
+      "category": "pantry",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "honey",
+      "category": "pantry",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "rice vinegar",
+      "category": "pantry",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "sesame oil",
+      "category": "pantry",
+      "optional": false,
+      "note": "Oil cap — this is your tsp for the day. Don't add a second."
+    },
+    {
+      "qty": 2,
+      "unit": "clove",
+      "item": "garlic",
+      "prep": "grated",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 2,
+      "unit": "pack",
+      "item": "microwave brown rice",
+      "category": "pantry",
+      "thai_market_tip": "Tops carries microwave brown rice packs (Mama, S&P, Hosen). 90 sec, done.",
+      "optional": false
+    },
+    {
+      "qty": 200,
+      "unit": "g",
+      "item": "kimchi",
+      "prep": "roughly chopped if long",
+      "category": "produce",
+      "thai_market_tip": "Refrigerated aisle. Bibigo (Tops) or any Korean brand. Avoid the sweet ones.",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "piece",
+      "item": "cucumber, Japanese or Lebanese",
+      "prep": "sliced thin",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 2,
+      "unit": "piece",
+      "item": "spring onion",
+      "prep": "thin-sliced on the bias",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "toasted sesame seeds",
+      "category": "pantry",
+      "optional": true
+    }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "salmon fillet, skin-on",
+      "swap_in": "skinless chicken thigh",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": -100,
+        "protein_g": 4,
+        "fat_g": -10
+      },
+      "note": "Pan-grill 4 min per side instead. Lose the omega-3."
+    },
+    {
+      "swap_out": "salmon fillet, skin-on",
+      "swap_in": "extra-firm tofu + 2 large eggs",
+      "ratio": "400g tofu + 2 eggs",
+      "macro_delta": {
+        "kcal": -80,
+        "protein_g": -8,
+        "carbs_g": 4,
+        "fat_g": -5
+      },
+      "note": "Press, cube, glaze and pan-fry tofu. Soft-scramble eggs on top. Still ~48g protein."
+    },
+    {
+      "swap_out": "microwave brown rice",
+      "swap_in": "microwave cauliflower rice",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": -180,
+        "carbs_g": -40,
+        "fiber_g": 2
+      },
+      "note": "Low-carb mode. Frozen cauliflower rice packs at Tops, 90 sec microwave."
+    }
+  ],
+
+  "steps": [
+    {
+      "n": 1,
+      "text": "Whisk gochujang, soy, honey, rice vinegar, sesame oil, and grated garlic in a small bowl. Reserve half the glaze for serving.",
+      "timer_min": null
+    },
+    {
+      "n": 2,
+      "text": "Pat salmon dry. Brush flesh side with half the glaze (the other half is for serving).",
+      "timer_min": null
+    },
+    {
+      "n": 3,
+      "text": "Heat non-stick pan, medium-high, no oil. Lay salmon skin-down. Press flat 10 sec. Cook 5 min without moving.",
+      "timer_min": 5
+    },
+    {
+      "n": 4,
+      "text": "Flip. Cook flesh-side 3 min — glaze should caramelise but not burn. Pull when centre is just opaque.",
+      "timer_min": 3
+    },
+    {
+      "n": 5,
+      "text": "Microwave brown rice packs per label (~90 sec each).",
+      "timer_min": null
+    },
+    {
+      "n": 6,
+      "text": "Build bowls: rice base, salmon on top, kimchi + cucumber + spring onion to one side. Drizzle reserved glaze. Sesame seeds over.",
+      "timer_min": null
+    }
+  ],
+
+  "serves_with": [
+    {
+      "ref": "soft-boiled-egg",
+      "note": "If hitting hard macros: +1 jammy 6-min egg adds 6g protein, 5g fat."
+    }
+  ],
+
+  "notes": "The trick is split-the-glaze: half for cooking (caramelises on the fish), half raw for finishing (keeps the gochujang funk alive). If your gochujang is mild, add a 1/2 tsp gochugaru flakes to the glaze. Skin-on cooking = crispy skin = stop pressing after 10 sec. Don't crowd the pan; do one fillet at a time if your pan is small.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

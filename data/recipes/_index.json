@@ -6,5 +6,45 @@
     "tags": ["thai", "high-protein", "quick", "no-rice-option"],
     "time_total": 15,
     "protein_g": 56
+  },
+  {
+    "id": "pad-krapow-gai",
+    "title": "Pad Krapow Gai",
+    "cuisine": "thai",
+    "tags": ["thai", "high-protein", "quick", "one-pan", "weeknight"],
+    "time_total": 13,
+    "protein_g": 57
+  },
+  {
+    "id": "gochujang-salmon-bowl",
+    "title": "Gochujang Salmon Bowl",
+    "cuisine": "korean",
+    "tags": ["korean", "high-protein", "quick", "one-pan", "omega-3"],
+    "time_total": 17,
+    "protein_g": 56
+  },
+  {
+    "id": "egg-white-tuna-scramble",
+    "title": "Egg White Tuna Scramble",
+    "cuisine": "fusion",
+    "tags": ["breakfast", "high-protein", "quick", "low-carb", "pantry-only"],
+    "time_total": 6,
+    "protein_g": 58
+  },
+  {
+    "id": "chicken-massaman-batch",
+    "title": "Chicken Massaman (Batch)",
+    "cuisine": "thai",
+    "tags": ["thai", "high-protein", "batch", "meal-prep", "freezer-friendly"],
+    "time_total": 60,
+    "protein_g": 58
+  },
+  {
+    "id": "gochujang-fried-chicken-bowl",
+    "title": "Gochujang Fried Chicken Bowl",
+    "cuisine": "korean",
+    "tags": ["korean", "high-protein", "guilty-pleasure", "air-fryer"],
+    "time_total": 26,
+    "protein_g": 58
   }
 ]

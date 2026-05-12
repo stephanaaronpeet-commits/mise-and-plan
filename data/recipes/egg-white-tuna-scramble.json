@@ -1,0 +1,165 @@
+{
+  "id": "egg-white-tuna-scramble",
+  "schema_version": 1,
+  "title": "Egg White Tuna Scramble",
+  "subtitle": "Pantry breakfast. 2 min prep, 4 min cook.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["breakfast", "high-protein", "quick", "low-carb", "one-pan", "pantry-only"],
+  "cuisine": "fusion",
+  "meal_type": ["breakfast", "post-workout"],
+  "diet_flags": ["gluten-free", "dairy-free", "low-carb", "high-protein", "pescatarian"],
+
+  "servings": 1,
+  "yield_type": "per-serving",
+  "time": {
+    "prep_min": 2,
+    "cook_min": 4,
+    "total_min": 6
+  },
+
+  "macros_per_serving": {
+    "kcal": 310,
+    "protein_g": 58,
+    "carbs_g": 4,
+    "fat_g": 6,
+    "fiber_g": 1,
+    "sodium_mg": 950
+  },
+
+  "ingredients": [
+    {
+      "qty": 240,
+      "unit": "ml",
+      "item": "liquid egg whites",
+      "category": "protein",
+      "thai_market_tip": "Tops carries CP and Allbest liquid egg-white bottles in the egg fridge. 1 cup ≈ 240ml ≈ 8 large whites.",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "pack",
+      "item": "canned tuna in water",
+      "prep": "drained",
+      "category": "protein",
+      "thai_market_tip": "Sealect or Roza, 'in water' or 'in spring water' — NOT in oil. Standard 165g can drains to ~130g.",
+      "optional": false,
+      "note": "Drain hard — pressed against the lid, then a paper-towel squeeze."
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "neutral oil",
+      "category": "pantry",
+      "optional": false,
+      "note": "Oil cap. Or use 1-second cooking spray."
+    },
+    {
+      "qty": 1,
+      "unit": "tbsp",
+      "item": "sriracha",
+      "category": "pantry",
+      "thai_market_tip": "Shark brand or Sriraja Panich (the original). Skip the American Huy Fong.",
+      "optional": false
+    },
+    {
+      "qty": 2,
+      "unit": "piece",
+      "item": "spring onion",
+      "prep": "thin-sliced",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "to-taste",
+      "item": "black pepper",
+      "category": "spice",
+      "optional": false
+    },
+    {
+      "qty": 5,
+      "unit": "piece",
+      "item": "cherry tomato",
+      "prep": "halved",
+      "category": "produce",
+      "optional": true,
+      "note": "Adds 10 kcal, 2g carbs. Worth it for colour."
+    },
+    {
+      "qty": 1,
+      "unit": "to-taste",
+      "item": "fresh cilantro",
+      "category": "produce",
+      "optional": true
+    }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "canned tuna in water",
+      "swap_in": "canned chicken breast in water",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": -10,
+        "protein_g": -2,
+        "fat_g": -1
+      },
+      "note": "Sealect canned chicken — same shelf. Milder, less fishy mornings."
+    },
+    {
+      "swap_out": "liquid egg whites",
+      "swap_in": "whole eggs",
+      "ratio": "240ml whites = 4 whole eggs",
+      "macro_delta": {
+        "kcal": 150,
+        "protein_g": -4,
+        "fat_g": 20
+      },
+      "note": "Richer, more satiating, drops protein to ~54g. Still in range."
+    }
+  ],
+
+  "steps": [
+    {
+      "n": 1,
+      "text": "Drain tuna ruthlessly. Press against lid, then squeeze in paper towel. Flake into chunks.",
+      "timer_min": null
+    },
+    {
+      "n": 2,
+      "text": "Heat 1 tsp oil in non-stick pan, medium. Add tuna flakes, toast 60 sec until edges crisp.",
+      "timer_min": 1
+    },
+    {
+      "n": 3,
+      "text": "Pour in egg whites. Don't stir for 20 sec — let the base set. Then push from edges to centre with spatula.",
+      "timer_min": null
+    },
+    {
+      "n": 4,
+      "text": "When most of the whites are set but still glossy (~90 sec total), kill heat. They'll finish in the pan.",
+      "timer_min": null
+    },
+    {
+      "n": 5,
+      "text": "Slide onto plate. Sriracha streak across. Top with spring onion, tomato, cilantro, pepper.",
+      "timer_min": null
+    }
+  ],
+
+  "serves_with": [
+    {
+      "ref": "wholegrain-toast",
+      "note": "+1 slice = ~80 kcal, 15g carbs, 4g protein. If you need carbs in the morning."
+    }
+  ],
+
+  "notes": "This is the high-protein breakfast that works when you've got nothing in the fridge. Liquid egg whites + canned tuna are both 6-month pantry items. Sub goes the other way too: drained canned chicken if tuna tastes too fishy at 7am. Egg whites overcook in seconds — pull off heat when they look 80% done, residual heat takes them home.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}
