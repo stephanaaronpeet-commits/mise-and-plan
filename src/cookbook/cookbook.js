@@ -4,6 +4,7 @@
    ============================================================= */
 
 import { storage, ensureSchemaCurrent } from '../core/storage.js';
+import { mountFilterBar, fromParams, toQueryString, applyFilters, isEmpty } from './filters.js';
 
 ensureSchemaCurrent();
 
@@ -351,21 +352,8 @@ async function loadRecipe(id) {
 
 /* ---------- Renderers ---------- */
 
-function renderList(mount, recipes) {
-  if (!recipes.length) {
-    mount.innerHTML = `
-      <div class="section-head">
-        <div class="title">Cookbook</div>
-        <div class="meta">0 RECIPES</div>
-      </div>
-      <div class="empty">
-        <div class="icon-frame"></div>
-        <div class="title-row">No recipes yet</div>
-        <div class="sub">The cookbook is empty. Recipes get added one at a time and validated against the schema.</div>
-      </div>`;
-    return;
-  }
-  const cards = recipes.map(r => `
+function cardHtml(r) {
+  return `
     <a class="card" href="#/cookbook/recipe/${r.id}">
       <div class="img"><div class="img-label">IMG</div></div>
       ${r.favorite ? '<div class="stamp-pos"><div class="stamp fav">FAV</div></div>' : ''}
@@ -380,14 +368,64 @@ function renderList(mount, recipes) {
         </div>
       </div>
     </a>
-  `).join('');
+  `;
+}
+
+function renderList(mount, allRecipes, initialParams = {}) {
+  if (!allRecipes.length) {
+    mount.innerHTML = `
+      <div class="section-head">
+        <div class="title">Cookbook</div>
+        <div class="meta">0 RECIPES</div>
+      </div>
+      <div class="empty">
+        <div class="icon-frame"></div>
+        <div class="title-row">No recipes yet</div>
+        <div class="sub">The cookbook is empty. Recipes get added one at a time and validated against the schema.</div>
+      </div>`;
+    return;
+  }
+
+  let state = fromParams(initialParams);
+  const favCount = allRecipes.filter(r => r.favorite).length;
+
   mount.innerHTML = `
     <div class="section-head">
       <div class="title">Cookbook</div>
-      <div class="meta">${recipes.length} RECIPE${recipes.length !== 1 ? 'S' : ''}<br/>${recipes.filter(r => r.favorite).length} FAV</div>
+      <div class="meta" id="cookbook-meta"></div>
     </div>
-    <div class="cookbook-list">${cards}</div>
+    <div id="cookbook-filterbar"></div>
+    <div id="cookbook-cards"></div>
   `;
+
+  const metaMount  = mount.querySelector('#cookbook-meta');
+  const barMount   = mount.querySelector('#cookbook-filterbar');
+  const cardsMount = mount.querySelector('#cookbook-cards');
+
+  function paint() {
+    const filtered = applyFilters(allRecipes, state);
+    metaMount.innerHTML = isEmpty(state)
+      ? `${allRecipes.length} RECIPE${allRecipes.length !== 1 ? 'S' : ''}<br/>${favCount} FAV`
+      : `${filtered.length} / ${allRecipes.length} MATCH${filtered.length === 1 ? '' : 'ES'}`;
+    if (!filtered.length) {
+      cardsMount.innerHTML = `
+        <div class="empty">
+          <div class="icon-frame"></div>
+          <div class="title-row">No matches</div>
+          <div class="sub">Nothing fits these filters. Loosen them and try again.</div>
+        </div>`;
+      return;
+    }
+    cardsMount.innerHTML = `<div class="cookbook-list">${filtered.map(cardHtml).join('')}</div>`;
+  }
+
+  mountFilterBar(barMount, state, allRecipes, newState => {
+    state = newState;
+    history.replaceState({}, '', '#/cookbook' + toQueryString(state));
+    paint();
+  });
+
+  paint();
 }
 
 function renderDetail(mount, r) {
@@ -508,5 +546,5 @@ export async function render({ mount, rest, params }) {
     recipes = await Promise.all(index.map(meta => loadRecipe(meta.id)));
     recipes = recipes.filter(Boolean);
   }
-  renderList(mount, recipes);
+  renderList(mount, recipes, params);
 }
