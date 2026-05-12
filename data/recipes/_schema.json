@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://miseandplan.com/schemas/recipe.v1.json",
+  "title": "Mise & Plan Recipe",
+  "description": "Schema for a single recipe in the Mise & Plan cookbook module.",
+  "type": "object",
+  "required": [
+    "id",
+    "schema_version",
+    "title",
+    "created",
+    "updated",
+    "tags",
+    "meal_type",
+    "servings",
+    "time",
+    "macros_per_serving",
+    "ingredients",
+    "steps"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "URL-safe slug. Must match filename (e.g. 'chicken-larb-isaan' → 'chicken-larb-isaan.json')."
+    },
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Bumped when the schema shape changes. Migrations live in src/core/storage.js."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "One-line hook. Often time hint or cuisine origin."
+    },
+    "image": {
+      "type": "string",
+      "description": "Path under /data/images/, no leading slash."
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "YYYY-MM-DD"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date"
+    },
+    "source": {
+      "type": "string",
+      "description": "'personal' | 'adapted-from:<url>' | 'import:<url>'",
+      "default": "personal"
+    },
+
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Free-form tags for search/filter. Lowercase, hyphenated."
+    },
+    "cuisine": {
+      "type": "string",
+      "description": "Single cuisine label: 'thai', 'korean', 'japanese', 'mediterranean', 'vietnamese', 'mexican', 'indian', 'western', 'fusion'."
+    },
+    "meal_type": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": ["breakfast", "lunch", "dinner", "snack", "post-workout"]
+      }
+    },
+    "diet_flags": {
+      "type": "array",
+      "items": {
+        "enum": ["gluten-free", "dairy-free", "low-carb", "high-protein", "vegetarian", "vegan", "pescatarian"]
+      }
+    },
+
+    "servings": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of portions this recipe yields when prepared as written."
+    },
+    "yield_type": {
+      "enum": ["per-serving", "makes-amount"],
+      "default": "per-serving",
+      "description": "'per-serving' = a portion is a meal. 'makes-amount' = recipe makes a quantity (sauce, stock, dressing); macros_per_serving describes one unit of that quantity."
+    },
+    "yield_unit": {
+      "type": "string",
+      "description": "Only used if yield_type='makes-amount'. e.g. '100ml', '1 cup'."
+    },
+    "time": {
+      "type": "object",
+      "required": ["prep_min", "cook_min", "total_min"],
+      "additionalProperties": false,
+      "properties": {
+        "prep_min": { "type": "integer", "minimum": 0 },
+        "cook_min": { "type": "integer", "minimum": 0 },
+        "total_min": { "type": "integer", "minimum": 0 },
+        "rest_min": { "type": "integer", "minimum": 0, "description": "Marinating, resting, chilling. Hands-off time." }
+      }
+    },
+
+    "macros_per_serving": {
+      "type": "object",
+      "required": ["kcal", "protein_g", "carbs_g", "fat_g"],
+      "additionalProperties": false,
+      "properties": {
+        "kcal":      { "type": "number", "minimum": 0 },
+        "protein_g": { "type": "number", "minimum": 0 },
+        "carbs_g":   { "type": "number", "minimum": 0 },
+        "fat_g":     { "type": "number", "minimum": 0 },
+        "fiber_g":   { "type": "number", "minimum": 0 },
+        "sugar_g":   { "type": "number", "minimum": 0 },
+        "sodium_mg": { "type": "number", "minimum": 0 }
+      }
+    },
+
+    "ingredients": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["qty", "unit", "item", "category"],
+        "additionalProperties": false,
+        "properties": {
+          "qty":  { "type": "number", "minimum": 0 },
+          "unit": {
+            "enum": ["g", "kg", "ml", "l", "tsp", "tbsp", "cup", "piece", "clove", "slice", "pinch", "to-taste", "pack"]
+          },
+          "item": { "type": "string", "minLength": 1 },
+          "prep": { "type": "string", "description": "Preparation note: 'minced', 'sliced thin', 'crushed'." },
+          "category": {
+            "enum": ["protein", "produce", "pantry", "dairy", "frozen", "spice", "other"]
+          },
+          "thai_market_tip": { "type": "string", "description": "Where to find / what to ask for in a Thai supermarket or fresh market." },
+          "optional": { "type": "boolean", "default": false },
+          "note": { "type": "string", "description": "Inline note, e.g. 'oil cap — do not exceed'." }
+        }
+      }
+    },
+
+    "substitutions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["swap_out", "swap_in", "ratio"],
+        "additionalProperties": false,
+        "properties": {
+          "swap_out": { "type": "string", "description": "Must match an `item` from ingredients[]." },
+          "swap_in":  { "type": "string" },
+          "ratio":    { "type": "string", "description": "'1:1', '1:0.8', etc." },
+          "macro_delta": {
+            "type": "object",
+            "description": "Per-serving change when this substitution is active. Negative = decrease.",
+            "additionalProperties": false,
+            "properties": {
+              "kcal":      { "type": "number" },
+              "protein_g": { "type": "number" },
+              "carbs_g":   { "type": "number" },
+              "fat_g":     { "type": "number" },
+              "fiber_g":   { "type": "number" }
+            }
+          },
+          "note": { "type": "string" }
+        }
+      }
+    },
+
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["n", "text"],
+        "additionalProperties": false,
+        "properties": {
+          "n":         { "type": "integer", "minimum": 1 },
+          "text":      { "type": "string", "minLength": 1, "maxLength": 280 },
+          "timer_min": {
+            "type": ["integer", "null"],
+            "minimum": 0,
+            "description": "If set, the cooking-mode UI shows a countdown button."
+          }
+        }
+      }
+    },
+
+    "serves_with": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ref"],
+        "additionalProperties": false,
+        "properties": {
+          "ref":  { "type": "string", "description": "id of another recipe, or a known constant ('iceberg-lettuce-cups')." },
+          "note": { "type": "string" }
+        }
+      }
+    },
+
+    "notes": {
+      "type": "string",
+      "description": "Free-form personal notes. Variations tried, preferences, history."
+    },
+
+    "tracker_food_id": {
+      "type": "string",
+      "description": "Optional. Reserved for future integration with a tracker module. Safe to leave unset."
+    },
+    "favorite": {
+      "type": "boolean",
+      "default": false
+    },
+    "cook_count": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0
+    },
+    "last_cooked": {
+      "type": ["string", "null"],
+      "format": "date"
+    }
+  }
+}

@@ -1,0 +1,346 @@
+/* =============================================================
+   MISE & PLAN — DESIGN SYSTEM
+   Iron & Paper. v0.1
+   ============================================================= */
+
+:root {
+  /* IRON STACK */
+  --iron-000: #0B0B0C;
+  --iron-100: #131315;
+  --iron-200: #1B1B1E;
+  --iron-300: #26262A;
+  --iron-400: #3A3A3F;
+  --iron-500: #6B6B70;
+
+  /* PAPER STACK */
+  --paper-000: #F2EFE6;
+  --paper-100: #E6E2D6;
+  --paper-200: #C9C3B0;
+  --paper-300: #A8A28E;
+
+  /* THE LOAD — protein only */
+  --iron-red:       #C2331E;
+  --iron-red-deep:  #8E2415;
+
+  /* Reserved accents */
+  --safety:         #E8B53C;  /* kcal cap warning */
+  --plate-green:    #4A6B3A;  /* logged / done */
+
+  /* TYPE */
+  --display: "Barlow Condensed", "Oswald", sans-serif;
+  --body:    "Archivo", "Helvetica Neue", system-ui, sans-serif;
+  --mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  /* SPACING (8pt-ish, condensed) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* MAX-WIDTH for desktop pages */
+  --maxw: 1200px;
+}
+
+/* ====== RESET ====== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { background: var(--iron-000); }
+body {
+  background: var(--iron-000);
+  color: var(--paper-000);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+button { cursor: pointer; }
+
+/* ====== GRAPH-PAPER SUBSTRATE ====== */
+.gridpaper {
+  background-color: var(--iron-100);
+  background-image:
+    linear-gradient(to right, rgba(242,239,230,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(242,239,230,0.04) 1px, transparent 1px),
+    linear-gradient(to right, rgba(242,239,230,0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(242,239,230,0.07) 1px, transparent 1px);
+  background-size: 12px 12px, 12px 12px, 60px 60px, 60px 60px;
+}
+.gridpaper-light {
+  background-color: var(--paper-000);
+  background-image:
+    linear-gradient(to right, rgba(11,11,12,0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11,11,12,0.06) 1px, transparent 1px),
+    linear-gradient(to right, rgba(11,11,12,0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11,11,12,0.12) 1px, transparent 1px);
+  background-size: 12px 12px, 12px 12px, 60px 60px, 60px 60px;
+}
+
+/* ====== MASTHEAD ====== */
+.masthead {
+  padding: var(--sp-5) var(--sp-4) var(--sp-3);
+  border-bottom: 2px solid var(--paper-000);
+  text-align: center;
+}
+.wordmark {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 44px;
+  line-height: 0.85;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.wordmark .amp {
+  color: var(--iron-red);
+  font-weight: 700;
+  padding: 0 0.06em;
+}
+.submark {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--paper-200);
+  margin-top: var(--sp-2);
+}
+@media (min-width: 768px) {
+  .masthead { padding: var(--sp-6) var(--sp-6) var(--sp-4); }
+  .wordmark { font-size: 64px; }
+}
+
+/* ====== APP NAV ====== */
+.app-nav {
+  display: flex;
+  border-bottom: 1px solid var(--iron-300);
+  background: var(--iron-000);
+  padding: 0 var(--sp-4);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.app-nav button {
+  background: transparent;
+  border: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--iron-500);
+  padding: var(--sp-4) var(--sp-3);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+  position: relative;
+}
+.app-nav button.active {
+  color: var(--paper-000);
+  border-bottom-color: var(--paper-000);
+}
+.app-nav button:not(:disabled):hover {
+  color: var(--paper-100);
+}
+.app-nav button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.app-nav .soon {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  background: var(--iron-300);
+  color: var(--iron-500);
+  padding: 2px 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+@media (min-width: 768px) {
+  .app-nav { padding: 0 var(--sp-6); }
+  .app-nav button { font-size: 20px; padding: var(--sp-5) var(--sp-4); }
+}
+
+/* ====== MAIN ====== */
+main {
+  min-height: 60vh;
+}
+
+/* ====== BOOT STATE (first paint, before JS hydrates) ====== */
+.boot-state {
+  padding: var(--sp-8) var(--sp-4);
+  text-align: center;
+}
+.boot-stamp {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--iron-500);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px dashed var(--iron-400);
+}
+
+/* ====== FOOTER / COLOPHON ====== */
+.colophon {
+  border-top: 1px solid var(--iron-300);
+  padding: var(--sp-4) var(--sp-4);
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--iron-500);
+}
+.colophon .dot {
+  color: var(--iron-red);
+  margin: 0 var(--sp-2);
+}
+
+/* ====== SHARED COMPONENTS (used across modules) ====== */
+
+/* --- Section heading --- */
+.section-head {
+  padding: var(--sp-6) var(--sp-4) var(--sp-4);
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+.section-head .title {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 44px;
+  line-height: 0.85;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.section-head .meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--iron-500);
+  text-align: right;
+  line-height: 1.4;
+}
+@media (min-width: 768px) {
+  .section-head { padding: var(--sp-7) var(--sp-6) var(--sp-5); }
+  .section-head .title { font-size: 72px; }
+}
+
+/* --- Eyebrow tag --- */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  background: var(--iron-red);
+  color: var(--paper-000);
+}
+.eyebrow.outline {
+  background: transparent;
+  border: 1px solid var(--paper-200);
+  color: var(--paper-100);
+}
+
+/* --- Stamp (top-right of cards) --- */
+.stamp {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  background: var(--iron-000);
+  color: var(--paper-200);
+  border: 1px solid var(--paper-200);
+}
+.stamp.fav {
+  background: var(--paper-000);
+  color: var(--iron-000);
+  border-color: var(--paper-000);
+}
+
+/* --- Empty state --- */
+.empty {
+  padding: var(--sp-7) var(--sp-4);
+  text-align: center;
+  border: 1px dashed var(--iron-400);
+  margin: var(--sp-4);
+}
+.empty .icon-frame {
+  width: 56px;
+  height: 56px;
+  border: 2px solid var(--paper-200);
+  margin: 0 auto var(--sp-4);
+  position: relative;
+}
+.empty .icon-frame::before,
+.empty .icon-frame::after {
+  content: "";
+  position: absolute;
+  background: var(--paper-200);
+}
+.empty .icon-frame::before {
+  top: 50%; left: 12px; right: 12px;
+  height: 2px; margin-top: -1px;
+}
+.empty .icon-frame::after {
+  top: 12px; bottom: 12px; left: 50%;
+  width: 2px; margin-left: -1px;
+}
+.empty .title-row {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: var(--paper-000);
+  margin-bottom: var(--sp-1);
+  letter-spacing: 0.02em;
+}
+.empty .sub {
+  font-size: 14px;
+  color: var(--paper-200);
+  max-width: 280px;
+  margin: 0 auto var(--sp-4);
+}
+.empty .action {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--paper-000);
+  color: var(--paper-000);
+  background: transparent;
+}
+.empty .action:hover { background: var(--paper-000); color: var(--iron-000); }
+
+/* --- Skeleton / loading --- */
+.skeleton {
+  border: 1px solid var(--iron-300);
+  background: var(--iron-100);
+  height: 110px;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(242,239,230,0.03), transparent);
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { to { left: 100%; } }

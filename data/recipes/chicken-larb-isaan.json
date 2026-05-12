@@ -1,0 +1,203 @@
+{
+  "id": "chicken-larb-isaan",
+  "schema_version": 1,
+  "title": "Chicken Larb (Isaan-style)",
+  "subtitle": "Northeastern Thai. 5 min prep, 10 min cook.",
+  "image": "chicken-larb-isaan.jpg",
+  "created": "2026-05-12",
+  "updated": "2026-05-12",
+  "source": "personal",
+
+  "tags": ["thai", "high-protein", "quick", "no-rice-option", "one-pan"],
+  "cuisine": "thai",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["gluten-free", "dairy-free", "low-carb", "high-protein"],
+
+  "servings": 2,
+  "yield_type": "per-serving",
+  "time": {
+    "prep_min": 5,
+    "cook_min": 10,
+    "total_min": 15
+  },
+
+  "macros_per_serving": {
+    "kcal": 385,
+    "protein_g": 56,
+    "carbs_g": 9,
+    "fat_g": 12,
+    "fiber_g": 3,
+    "sodium_mg": 1200
+  },
+
+  "ingredients": [
+    {
+      "qty": 500,
+      "unit": "g",
+      "item": "chicken breast",
+      "prep": "minced",
+      "category": "protein",
+      "thai_market_tip": "Ask the butcher (Tops/Villa fresh counter) to mince it for you — saves 10 min and zero cleanup.",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "neutral oil",
+      "category": "pantry",
+      "optional": false,
+      "note": "Oil cap — do not exceed."
+    },
+    {
+      "qty": 2,
+      "unit": "tbsp",
+      "item": "fish sauce",
+      "category": "pantry",
+      "thai_market_tip": "Squid brand or Tiparos — anywhere in Thailand.",
+      "optional": false
+    },
+    {
+      "qty": 2,
+      "unit": "tbsp",
+      "item": "lime juice",
+      "prep": "fresh",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tbsp",
+      "item": "toasted rice powder (khao khua)",
+      "category": "pantry",
+      "thai_market_tip": "Pre-made packs in the Thai-cooking aisle. Or toast 2 tbsp jasmine rice in a dry pan until golden, grind.",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "tsp",
+      "item": "Thai chili flakes (prik bon)",
+      "category": "spice",
+      "optional": true,
+      "note": "Skip or halve for mild."
+    },
+    {
+      "qty": 4,
+      "unit": "piece",
+      "item": "shallot",
+      "prep": "sliced thin",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 3,
+      "unit": "piece",
+      "item": "spring onion",
+      "prep": "chopped",
+      "category": "produce",
+      "optional": false
+    },
+    {
+      "qty": 1,
+      "unit": "to-taste",
+      "item": "fresh mint leaves",
+      "category": "produce",
+      "optional": false,
+      "note": "Generous handful. Mint is the soul of larb."
+    },
+    {
+      "qty": 1,
+      "unit": "to-taste",
+      "item": "cilantro",
+      "prep": "chopped",
+      "category": "produce",
+      "optional": true
+    }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "chicken breast",
+      "swap_in": "lean ground pork",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": 40,
+        "protein_g": -3,
+        "fat_g": 5
+      },
+      "note": "More traditional. Slightly higher fat — fine if not on cut."
+    },
+    {
+      "swap_out": "chicken breast",
+      "swap_in": "firm tofu + 2 eggs",
+      "ratio": "500g tofu + 2 large eggs",
+      "macro_delta": {
+        "kcal": -90,
+        "protein_g": -10,
+        "carbs_g": 4,
+        "fat_g": 2
+      },
+      "note": "Press tofu, crumble, pan-fry till crispy. Add scrambled egg at end for protein boost. Still hits ~46g protein."
+    },
+    {
+      "swap_out": "toasted rice powder (khao khua)",
+      "swap_in": "ground roasted peanuts",
+      "ratio": "1:1",
+      "macro_delta": {
+        "kcal": 25,
+        "protein_g": 1,
+        "fat_g": 2
+      },
+      "note": "Different texture, similar nutty toast role. Not GF-strict if cross-contam matters."
+    }
+  ],
+
+  "steps": [
+    {
+      "n": 1,
+      "text": "Heat 1 tsp oil in non-stick pan, medium-high.",
+      "timer_min": null
+    },
+    {
+      "n": 2,
+      "text": "Add minced chicken. Break up with spatula. Cook until no pink, ~6 min.",
+      "timer_min": 6
+    },
+    {
+      "n": 3,
+      "text": "Kill heat. Add fish sauce, lime juice, rice powder, chili flakes. Stir to coat.",
+      "timer_min": null
+    },
+    {
+      "n": 4,
+      "text": "Add shallot, spring onion, mint, cilantro. Toss once — herbs should stay bright, not wilt.",
+      "timer_min": null
+    },
+    {
+      "n": 5,
+      "text": "Taste. Adjust: more lime for sour, more fish sauce for salt, more chili for heat. Serve immediately.",
+      "timer_min": null
+    }
+  ],
+
+  "serves_with": [
+    {
+      "ref": "microwave-jasmine-rice",
+      "note": "Standard Isaan pairing. Adds ~150 kcal / 32g carbs per pack."
+    },
+    {
+      "ref": "iceberg-lettuce-cups",
+      "note": "Low-carb option. Scoop larb into leaves, eat by hand."
+    },
+    {
+      "ref": "raw-cabbage-wedges",
+      "note": "Classic Isaan side. Cuts through the heat."
+    }
+  ],
+
+  "notes": "Authentic Isaan version uses pork. Chicken breast is the protein-cut compromise. Don't skip the toasted rice powder — it's what makes larb 'larb' instead of just spicy minced chicken. If herbs wilt by serving, you added them too early.",
+
+  "tracker_food_id": "chicken-larb-isaan",
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}
