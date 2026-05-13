@@ -8,7 +8,7 @@
    Bump CACHE_VERSION on every release to invalidate old caches.
    ============================================================= */
 
-const CACHE_VERSION = 'mp-v0.5.0';
+const CACHE_VERSION = 'mp-v0.6.0';
 const SHELL_CACHE   = `${CACHE_VERSION}-shell`;
 const DATA_CACHE    = `${CACHE_VERSION}-data`;
 const FONT_CACHE    = `${CACHE_VERSION}-fonts`;

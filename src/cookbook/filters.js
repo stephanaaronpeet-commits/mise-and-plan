@@ -92,7 +92,11 @@ export function applyFilters(recipes, state) {
 
 export function applySort(recipes, sortId) {
   const opt = SORT_OPTIONS.find(o => o.id === sortId) || SORT_OPTIONS[0];
-  return [...recipes].sort(opt.cmp);
+  // "Cook this again" — recipes cooked ≥ 3 times pin to the top, regardless
+  // of the active sort. Within each tier the chosen comparator applies.
+  const regulars = recipes.filter(r => (r.cook_count || 0) >= 3);
+  const others   = recipes.filter(r => (r.cook_count || 0) < 3);
+  return [...regulars.sort(opt.cmp), ...others.sort(opt.cmp)];
 }
 
 /* ---------- Live counts for UI ---------- */

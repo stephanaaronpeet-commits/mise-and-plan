@@ -5,7 +5,7 @@
    (reset on view close — spec design intent).
    ============================================================= */
 
-import { toggleFavorite } from '../core/storage.js';
+import { storage, toggleFavorite, getUserRecipe, saveUserRecipe, deleteUserRecipe } from '../core/storage.js';
 import { openDatePicker } from '../planner/planner.js';
 
 /* ============================================================
@@ -71,6 +71,40 @@ const css = `
 }
 .recipe-detail .util-btn:hover { background: rgba(11,11,12,0.95); }
 .recipe-detail .util-btn.star.on { background: var(--paper-000); color: var(--iron-000); }
+
+/* ⋯ menu */
+.recipe-detail .more-wrap { position: relative; }
+.recipe-detail .more-menu {
+  position: absolute; top: 100%; right: 0; margin-top: 4px;
+  background: var(--iron-100); border: 1px solid var(--paper-000);
+  min-width: 180px; z-index: 20;
+  display: none; padding: 4px 0;
+}
+.recipe-detail .more-menu.open { display: block; }
+.recipe-detail .more-menu button, .recipe-detail .more-menu a {
+  display: block; width: 100%; text-align: left;
+  background: transparent; border: 0; cursor: pointer;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--paper-100); padding: 9px 14px;
+  text-decoration: none;
+}
+.recipe-detail .more-menu button:hover, .recipe-detail .more-menu a:hover {
+  background: var(--iron-200); color: var(--paper-000);
+}
+.recipe-detail .more-menu .danger { color: var(--iron-red); }
+.recipe-detail .more-menu .danger:hover { background: var(--iron-red); color: var(--paper-000); }
+
+/* Toast */
+.recipe-detail .toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: var(--iron-000); color: var(--paper-000);
+  border: 2px solid var(--iron-red);
+  padding: 10px 16px;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  z-index: 200;
+}
 
 /* ───── Head: tag row + title + sub + (desktop) aside ───── */
 .recipe-detail .detail-head {
@@ -835,11 +869,15 @@ function stickyBarHtml(recipe) {
   const meta = recipe.cook_count > 0
     ? `<span class="meta">Cook count <strong>×${recipe.cook_count}</strong></span>`
     : '';
+  const noSteps = !(recipe.steps && recipe.steps.length);
+  const cookBtn = noSteps
+    ? '<button type="button" class="btn" disabled style="opacity:0.5; cursor:not-allowed;" title="No steps in this recipe">Cook Now →</button>'
+    : `<a class="btn" href="#/cookbook/recipe/${recipe.id}/cook" style="text-decoration:none;" data-action="cook-now">Cook Now →</a>`;
   return `
     <div class="sticky-bar">
       ${meta}
       <button type="button" class="btn outline" data-action="add-to-plan">Add to Plan</button>
-      <a class="btn" href="#/cookbook/recipe/${recipe.id}/cook" style="text-decoration:none;" data-action="cook-now">Cook Now →</a>
+      ${cookBtn}
     </div>
   `;
 }
@@ -872,16 +910,34 @@ export function renderDetail(mount, recipe) {
     checked: new Set(),
   };
 
+  // Back-link target: previous list URL stashed in sessionStorage when
+  // user clicked into this recipe. Defaults to /cookbook (no filters).
+  const backHref = sessionStorage.getItem('mp:cookbook-return') || '#/cookbook';
+  const isUserRecipe = !!getUserRecipe(recipe.id);
+
+  // Cook-mode hands off a "Cooked × N ✓" flash via sessionStorage.
+  // Detail view drains it on render.
+  const flashMsg = sessionStorage.getItem('mp:toast');
+  if (flashMsg) sessionStorage.removeItem('mp:toast');
+
   function paint() {
     const { macros, ingredients } = compute(recipe, state);
     mount.innerHTML = `
       <div class="recipe-detail">
-        <a class="back-link" href="#/cookbook">← Cookbook</a>
+        <a class="back-link" href="${backHref}">← Cookbook</a>
         <div class="hero-photo ${cuisineClass(recipe)}">
           <span class="ph-label">HERO PHOTO · 16:9</span>
           <div class="utility">
             <button type="button" class="util-btn star${state.favorite ? ' on' : ''}" data-action="fav" title="Favorite">★</button>
-            <button type="button" class="util-btn" data-action="more" title="More">⋯</button>
+            <div class="more-wrap">
+              <button type="button" class="util-btn" data-action="more" title="More">⋯</button>
+              <div class="more-menu" data-menu>
+                <a href="#/cookbook/edit/${recipe.id}">✎ Edit</a>
+                <button type="button" data-action="duplicate">⌗ Duplicate</button>
+                <button type="button" data-action="export">↓ Export JSON</button>
+                ${isUserRecipe ? '<button type="button" class="danger" data-action="delete">× Delete</button>' : ''}
+              </div>
+            </div>
           </div>
         </div>
         <div class="detail-head">
@@ -920,9 +976,48 @@ export function renderDetail(mount, recipe) {
         return;
       }
 
-      // More menu (placeholder)
+      // More menu — toggle visibility
       if (e.target.closest('[data-action="more"]')) {
-        console.info('[recipe-detail] more menu — not implemented yet');
+        e.stopPropagation();
+        root.querySelector('[data-menu]')?.classList.toggle('open');
+        return;
+      }
+
+      // Duplicate — copy + open in edit
+      if (e.target.closest('[data-action="duplicate"]')) {
+        const base = (recipe.title + '-copy').toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+        let id = base; let n = 2;
+        while (storage.get(`user-recipes:${id}`) || storage.get(`recipe:${id}`)) id = `${base}-${n++}`;
+        const today = new Date().toISOString().slice(0, 10);
+        const dup = {
+          ...recipe, id, title: recipe.title + ' (copy)',
+          created: today, updated: today,
+          favorite: false, cook_count: 0, last_cooked: null,
+        };
+        saveUserRecipe(dup);
+        location.hash = `#/cookbook/edit/${id}`;
+        return;
+      }
+
+      // Export JSON
+      if (e.target.closest('[data-action="export"]')) {
+        const blob = new Blob([JSON.stringify(recipe, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = `${recipe.id}.json`;
+        document.body.appendChild(a); a.click();
+        setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 100);
+        root.querySelector('[data-menu]')?.classList.remove('open');
+        showToast('JSON exported');
+        return;
+      }
+
+      // Delete (user-recipes only)
+      if (e.target.closest('[data-action="delete"]')) {
+        if (!confirm(`Delete "${recipe.title}"? This can't be undone.`)) return;
+        deleteUserRecipe(recipe.id);
+        location.hash = '#/cookbook';
         return;
       }
 
@@ -967,5 +1062,24 @@ export function renderDetail(mount, recipe) {
     });
   }
 
+  // Close ⋯ menu on click outside it. Attached once per renderDetail call
+  // (paint() reuses the same .recipe-detail root, so the listener stays valid).
+  const onDocClick = (e) => {
+    if (e.target.closest('[data-action="more"]') || e.target.closest('[data-menu]')) return;
+    mount.querySelector('[data-menu]')?.classList.remove('open');
+  };
+  document.addEventListener('click', onDocClick);
+
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    mount.appendChild(t);
+    setTimeout(() => t.remove(), 2200);
+  }
+
   paint();
+
+  // Flash the inherited cook-mode toast, if any
+  if (flashMsg) showToast(flashMsg);
 }

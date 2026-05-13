@@ -649,6 +649,13 @@ function renderList(mount, allRecipes, initialParams = {}) {
       return;
     }
     gridEl.innerHTML = sorted.map(cardHtml).join('');
+    // Save the current filtered URL so the detail page's back-link returns
+    // to *this* view (preserving filters/sort) instead of bare /cookbook.
+    gridEl.querySelectorAll('a.rc').forEach(card => {
+      card.addEventListener('click', () => {
+        sessionStorage.setItem('mp:cookbook-return', location.hash);
+      });
+    });
   }
 
   function refreshChipCounts() {

@@ -219,6 +219,23 @@ function vibrate() {
   try { navigator.vibrate?.([220, 120, 220, 120, 220]); } catch (_) {}
 }
 
+/* System notification when timer fires. Permission is requested lazily
+   on first timer-start (user gesture), so it doesn't pop up on cold open. */
+function maybeNotify(title, body) {
+  if (!('Notification' in window)) return;
+  if (Notification.permission !== 'granted') return;
+  try {
+    new Notification(title, { body, icon: '/icon-192.png', silent: false, tag: 'mp-timer' });
+  } catch (_) {}
+}
+
+function requestNotifyPermissionIfNeeded() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'default') {
+    try { Notification.requestPermission(); } catch (_) {}
+  }
+}
+
 /* ============================================================
    Main renderer
    ============================================================ */
@@ -399,6 +416,8 @@ export function renderCookMode(mount, recipe) {
       t.running = true;
       // Resume audio context (user gesture)
       try { _audioCtx?.resume?.(); } catch (_) {}
+      // Lazily ask for notification permission on first start
+      requestNotifyPermissionIfNeeded();
     }
     ensureTickRunning();
     paint();
@@ -426,6 +445,7 @@ export function renderCookMode(mount, recipe) {
         t.done = true;
         beep();
         vibrate();
+        maybeNotify(`Step ${idx + 1} done`, `${recipe.title} — timer up`);
       }
     }
     if (anyChanged) {
@@ -445,7 +465,7 @@ export function renderCookMode(mount, recipe) {
     // Persists cook_count + last_cooked in localStorage. The detail view
     // and cookbook list will reflect the new count on their next render.
     const next = persistCooked(recipe.id);
-    console.info('[cook-mode] marked cooked:', recipe.id, '→ ×' + next.cook_count);
+    sessionStorage.setItem('mp:toast', `Cooked × ${next.cook_count} ✓`);
     cleanup();
     exitTo(recipe.id);
   }

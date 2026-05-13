@@ -377,3 +377,91 @@ main {
   animation: shimmer 1.4s infinite;
 }
 @keyframes shimmer { to { left: 100%; } }
+
+/* ====== PRINT — recipe detail as paper backup ======
+   Strips chrome, inverts colors, keeps iron-red on protein cell.
+   Browser native print dialog (Cmd-P / Ctrl-P). */
+@media print {
+  /* Hide everything not part of the recipe */
+  .masthead, .app-nav, .colophon, .boot-state { display: none !important; }
+
+  /* Hide detail-view chrome that isn't useful on paper */
+  .recipe-detail .back-link,
+  .recipe-detail .hero-photo .utility,
+  .recipe-detail .servings-bar,
+  .recipe-detail .head-side,
+  .recipe-detail .sticky-bar,
+  .recipe-detail .more-wrap,
+  .recipe-detail .toast { display: none !important; }
+
+  /* Invert to paper */
+  html, body, main { background: white !important; }
+  body, * { color: black !important; }
+
+  .recipe-detail { max-width: 100% !important; padding: 0 !important; }
+  .recipe-detail .hero-photo {
+    background: none !important;
+    height: 60px !important;
+    border: 1px dashed #999 !important;
+    margin: 0 0 10px !important;
+  }
+  .recipe-detail .hero-photo .ph-label { color: #666 !important; border-color: #999 !important; }
+
+  .recipe-detail h1.detail-title { color: black !important; font-size: 28pt !important; margin-bottom: 4pt !important; }
+  .recipe-detail .detail-sub { color: #444 !important; font-size: 8pt !important; }
+  .recipe-detail .tag { border-color: #444 !important; color: #444 !important; }
+  .recipe-detail .tag.filled { background: black !important; color: white !important; border-color: black !important; }
+
+  /* Macro big — keep red on protein for emphasis */
+  .recipe-detail .macro-big { border-color: black !important; }
+  .recipe-detail .macro-big > div { border-color: black !important; padding: 8pt !important; }
+  .recipe-detail .macro-big .v { color: black !important; font-size: 18pt !important; }
+  .recipe-detail .macro-big .protein { background: white !important; }
+  .recipe-detail .macro-big .protein .v { color: #C2331E !important; font-size: 22pt !important; }
+  .recipe-detail .macro-big .protein .l { color: #C2331E !important; }
+  .recipe-detail .macro-big .v .u { color: #666 !important; }
+
+  /* Block heads */
+  .recipe-detail .block-head { padding: 8pt 0 4pt !important; }
+  .recipe-detail .block-head .name { color: black !important; font-size: 14pt !important; }
+  .recipe-detail .block-head .info { color: #666 !important; font-size: 7pt !important; }
+
+  /* Ingredient groups */
+  .recipe-detail .ing-group, .recipe-detail .ing-group-head, .recipe-detail .ing-row { border-color: black !important; }
+  .recipe-detail .ing-group-head { background: #f3f3f3 !important; color: black !important; padding: 4pt 0 !important; }
+  .recipe-detail .ing-group-head.protein { color: #C2331E !important; }
+  .recipe-detail .ing-row { padding: 4pt 0 !important; page-break-inside: avoid; }
+  .recipe-detail .ing-row .box { border-color: #444 !important; width: 12pt !important; height: 12pt !important; }
+  .recipe-detail .ing-row.checked .box { background: white !important; }
+  .recipe-detail .ing-row.checked .box::after { background: none !important; }
+  .recipe-detail .ing-row .qty { color: black !important; font-size: 10pt !important; }
+  .recipe-detail .ing-row.protein .qty { color: #C2331E !important; }
+  .recipe-detail .ing-row .item { color: black !important; font-size: 10pt !important; text-decoration: none !important; }
+  .recipe-detail .ing-row .prep { color: #666 !important; }
+  .recipe-detail .ing-row .tip { color: #666 !important; border-color: #999 !important; }
+  .recipe-detail .ing-row .tip.warn { color: #b07000 !important; border-color: #b07000 !important; }
+
+  /* Substitutions — keep but compact */
+  .recipe-detail .sub-card { background: white !important; border-color: #999 !important; page-break-inside: avoid; margin: 4pt 0 !important; }
+  .recipe-detail .sub-card .swap .out { color: #666 !important; }
+  .recipe-detail .sub-card .swap .in  { color: black !important; }
+  .recipe-detail .sub-card .swap .arrow { color: #C2331E !important; }
+  .recipe-detail .sub-card .delta.up { color: #C2331E !important; }
+  .recipe-detail .sub-card .delta.down { color: #2e6019 !important; }
+  .recipe-detail .toggle { display: none !important; }
+
+  /* Steps */
+  .recipe-detail .step-row { padding: 5pt 0 !important; border-color: #999 !important; page-break-inside: avoid; }
+  .recipe-detail .step-row .num { color: #C2331E !important; font-size: 24pt !important; }
+  .recipe-detail .step-row .text { color: black !important; font-size: 10pt !important; }
+  .recipe-detail .timer-tag { color: #C2331E !important; border-color: #C2331E !important; background: white !important; }
+
+  /* Notes */
+  .recipe-detail .notes-block { padding: 6pt 0 !important; border-color: black !important; }
+  .recipe-detail .notes-block .body { color: black !important; border-left-color: #C2331E !important; }
+
+  /* Serves with */
+  .recipe-detail .mini-card { background: white !important; border-color: #999 !important; }
+  .recipe-detail .mini-card .name { color: black !important; }
+  .recipe-detail .mini-card .meta { color: #C2331E !important; }
+}
