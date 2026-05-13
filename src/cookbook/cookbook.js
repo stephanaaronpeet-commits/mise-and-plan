@@ -554,11 +554,15 @@ function sectionHeadHtml(allCount, filteredCount, favCount, newCount, filtersAct
         <div class="stat"><span class="n cb-count-total">${allCount}</span>Recipes</div>
         <div class="stat fav"><span class="n">${favCount}</span>Favorites</div>
         <div class="stat"><span class="n">${newCount}</span>New</div>
+        <a class="btn outline sm" href="#/cookbook/new?ai=1" style="text-decoration:none;" title="Generate with AI">✦&nbsp;AI</a>
         <a class="btn sm" href="#/cookbook/new" style="text-decoration:none;"><span class="plus">+</span>Add Recipe</a>
       </div>
       <div class="cb-head-meta-mobile cb-meta-mobile">
         <span class="cb-count-show"></span>
-        <a class="btn sm" href="#/cookbook/new" style="text-decoration:none; display:inline-flex; margin-top:8px;"><span class="plus">+</span>Add</a>
+        <div style="display:flex; gap:6px; margin-top:8px;">
+          <a class="btn outline sm" href="#/cookbook/new?ai=1" style="text-decoration:none;">✦&nbsp;AI</a>
+          <a class="btn sm" href="#/cookbook/new" style="text-decoration:none;"><span class="plus">+</span>Add</a>
+        </div>
       </div>
     </div>
   `;

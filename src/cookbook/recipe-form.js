@@ -57,6 +57,59 @@ const css = `
   color: var(--iron-500); margin-top: 4px;
 }
 
+/* AI Generate band — prompt-helper for Claude.ai (option A: zero infra) */
+.rf-ai {
+  margin: 14px 16px 0;
+  border: 2px dashed var(--paper-200);
+  background: rgba(242,239,230,0.03);
+  padding: 14px 16px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+@media (min-width: 768px) { .rf-ai { margin: 18px 28px 0; } }
+.rf-ai .head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 12px;
+}
+.rf-ai .head .l {
+  font-family: var(--display); font-weight: 900;
+  font-size: 18px; text-transform: uppercase;
+  color: var(--paper-000); line-height: 1;
+}
+.rf-ai .head .pl {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--iron-500); margin-top: 4px;
+}
+.rf-ai textarea {
+  width: 100%; min-height: 64px;
+  background: var(--iron-000); border: 1px solid var(--iron-300);
+  color: var(--paper-000); padding: 9px 11px;
+  font-family: var(--body); font-size: 14px;
+  line-height: 1.4; outline: 0; resize: vertical;
+  box-sizing: border-box;
+}
+.rf-ai textarea:focus { border-color: var(--paper-200); }
+.rf-ai .row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.rf-ai .row select {
+  background: var(--iron-000); border: 1px solid var(--iron-300);
+  color: var(--paper-000); padding: 8px 10px;
+  font-family: var(--mono); font-size: 12px; outline: 0;
+  width: 100%; box-sizing: border-box;
+}
+.rf-ai .hint {
+  font-family: var(--mono); font-size: 9.5px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--iron-500); line-height: 1.5;
+}
+.rf-ai .hint strong { color: var(--paper-200); font-weight: 700; }
+.rf-ai .actions {
+  display: flex; gap: 8px; align-items: center;
+  justify-content: flex-end; flex-wrap: wrap;
+}
+
 .rf-body { padding: 0 16px; }
 @media (min-width: 768px) { .rf-body { padding: 0 28px; } }
 @media (min-width: 1000px) {
@@ -368,6 +421,98 @@ async function pasteFromClipboard() {
 }
 
 /* ============================================================
+   AI PROMPT BUILDER — produces the exact text to paste into Claude.ai.
+   Encodes Stephan's hard rules + a fully-filled example so Claude
+   has zero ambiguity about the output shape. Returns plain string.
+   ============================================================ */
+const AI_EXAMPLE_RECIPE = {
+  id: "chicken-larb-isaan",
+  schema_version: 1,
+  title: "Chicken Larb (Isaan-style)",
+  subtitle: "Northeastern Thai. 5 min prep, 10 min cook.",
+  created: "2026-05-13", updated: "2026-05-13", source: "personal",
+  tags: ["thai", "high-protein", "quick", "no-rice-option"],
+  cuisine: "thai", meal_type: ["lunch", "dinner"],
+  diet_flags: ["gluten-free", "dairy-free", "high-protein"],
+  servings: 2, yield_type: "per-serving",
+  time: { prep_min: 5, cook_min: 10, total_min: 15 },
+  macros_per_serving: { kcal: 385, protein_g: 56, carbs_g: 9, fat_g: 12, fiber_g: 3 },
+  ingredients: [
+    { qty: 500, unit: "g",    item: "chicken breast", prep: "minced", category: "protein",
+      thai_market_tip: "Ask the Tops butcher to mince it.", optional: false },
+    { qty: 1,   unit: "tsp",  item: "neutral oil",   category: "pantry", optional: false,
+      note: "Oil cap — do not exceed." },
+    { qty: 2,   unit: "tbsp", item: "fish sauce",    category: "pantry", optional: false },
+    { qty: 1,   unit: "tbsp", item: "toasted rice powder (khao khua)", category: "pantry",
+      thai_market_tip: "Pre-made pack at Thai aisle." }
+  ],
+  substitutions: [
+    { swap_out: "chicken breast", swap_in: "lean ground pork", ratio: "1:1",
+      macro_delta: { kcal: 40, protein_g: -3, fat_g: 5 },
+      note: "More traditional. Slightly higher fat." }
+  ],
+  steps: [
+    { n: 1, text: "Heat 1 tsp oil in non-stick pan, medium-high.", timer_min: null },
+    { n: 2, text: "Add minced chicken. Cook until no pink, ~6 min.", timer_min: 6 }
+  ],
+  notes: "Don't skip the toasted rice powder.",
+  favorite: false, cook_count: 0, last_cooked: null
+};
+
+function buildAIPrompt({ description, cuisinePref, maxTime, withImage }) {
+  const today = new Date().toISOString().slice(0, 10);
+  const example = JSON.stringify(AI_EXAMPLE_RECIPE, null, 2);
+
+  const constraints = [];
+  if (cuisinePref && cuisinePref !== 'any') constraints.push(`Cuisine preference: ${cuisinePref}.`);
+  if (maxTime && maxTime !== 'any')         constraints.push(`Max total time: ${maxTime} minutes.`);
+  if (withImage)                            constraints.push(`I'll attach a photo of the dish in this message — base the recipe on what's in the image, but make it healthier and high-protein as per the rules.`);
+  const constraintsStr = constraints.length ? '\n' + constraints.map(c => `- ${c}`).join('\n') : '';
+
+  const userIntent = description?.trim()
+    ? `THE DISH:\n${description.trim()}`
+    : `THE DISH:\nGenerate a high-protein recipe that fits the rules — your choice.`;
+
+  return `You are generating a recipe JSON object for Stephan's personal cookbook ("Mise & Plan"). Output ONLY valid JSON matching the exact shape below — no markdown fences, no preamble, no explanation. The JSON must parse on the first try.
+
+HARD RULES (non-negotiable):
+1. Every recipe is 50–60g protein per serving. No exceptions.
+2. Max ~1 tsp added oil per serving (sum of neutral/sesame/olive oil ingredients).
+3. Rice = ready-made microwave packs (e.g. "microwave jasmine rice", unit: "pack"). NEVER raw rice that needs cooking.
+4. Prefer pre-made pastes/mixes over loose spice combinations (Thai curry pastes, gochujang, garam masala, oyster/fish/soy sauce, tikka paste, etc).
+5. All ingredients must be findable in Thai supermarkets (Tops, Big C, Lotus's, Villa, 7-Eleven, fresh markets). Avoid Western-only items: feta, dill, ricotta, parsley, tahini, sour cream.
+6. Today's date for "created" + "updated" is ${today}.
+${constraintsStr}
+
+SCHEMA SHAPE (match exactly — fields, types, enums):
+- "id": URL-safe slug derived from title.
+- "schema_version": 1.
+- "title", "subtitle": strings.
+- "created", "updated": "${today}".
+- "source": "personal" or "adapted-from:<text>".
+- "tags": array of lowercase hyphenated strings.
+- "cuisine": one of "thai" | "korean" | "japanese" | "vietnamese" | "mexican" | "indian" | "mediterranean" | "western" | "fusion".
+- "meal_type": array of "breakfast" | "lunch" | "dinner" | "snack" | "post-workout".
+- "diet_flags": array from "gluten-free" | "dairy-free" | "low-carb" | "high-protein" | "vegetarian" | "vegan" | "pescatarian".
+- "servings": integer ≥ 1.
+- "yield_type": "per-serving".
+- "time": { "prep_min", "cook_min", "total_min" } — integers.
+- "macros_per_serving": { "kcal", "protein_g", "carbs_g", "fat_g", "fiber_g" } — numbers; protein_g MUST be 50–60.
+- "ingredients": array of { "qty" (number), "unit" (one of "g"|"kg"|"ml"|"l"|"tsp"|"tbsp"|"cup"|"piece"|"clove"|"slice"|"pinch"|"to-taste"|"pack"), "item", "prep" (optional), "category" (one of "protein"|"produce"|"pantry"|"dairy"|"frozen"|"spice"|"other"), "thai_market_tip" (optional), "optional" (bool, default false), "note" (optional) }.
+- "substitutions": array of { "swap_out", "swap_in", "ratio", "macro_delta" (object with same keys as macros_per_serving, signed numbers), "note" }.
+- "steps": array of { "n" (1-indexed), "text" (≤ 280 chars), "timer_min" (integer or null) }.
+- "notes": string.
+- "favorite": false, "cook_count": 0, "last_cooked": null.
+
+EXAMPLE OUTPUT (a real recipe in this exact shape):
+${example}
+
+${userIntent}
+
+Now output the recipe JSON. No preamble. No code fence. Just the JSON object.`;
+}
+
+/* ============================================================
    MAIN RENDER
    ============================================================ */
 export async function render({ mount, rest, params }) {
@@ -401,6 +546,44 @@ export async function render({ mount, rest, params }) {
           <div>
             <div class="ttl">${isEdit ? 'Edit Recipe' : 'New Recipe'}</div>
             <div class="sub">${isEdit ? escapeHtml(r.title || r.id) : 'Form auto-validates'}</div>
+          </div>
+        </div>
+
+        <div class="rf-ai">
+          <div class="head">
+            <div>
+              <div class="l">✦ Generate with AI</div>
+              <div class="pl">Describe a dish · Claude returns the JSON</div>
+            </div>
+          </div>
+          <textarea class="ai-desc" placeholder="e.g. 'a healthier high-protein version of pad thai' · or 'I have leftover salmon, suggest a 15-min bowl'"></textarea>
+          <div class="row">
+            <select class="ai-cuisine" aria-label="Cuisine preference">
+              <option value="any">Cuisine: any</option>
+              <option value="thai">Thai</option>
+              <option value="korean">Korean</option>
+              <option value="japanese">Japanese</option>
+              <option value="vietnamese">Vietnamese</option>
+              <option value="mexican">Mexican</option>
+              <option value="indian">Indian</option>
+              <option value="mediterranean">Mediterranean</option>
+              <option value="fusion">Fusion</option>
+            </select>
+            <select class="ai-time" aria-label="Max total time">
+              <option value="any">Max time: any</option>
+              <option value="15">≤ 15 min</option>
+              <option value="20">≤ 20 min</option>
+              <option value="30">≤ 30 min</option>
+              <option value="60">≤ 60 min</option>
+            </select>
+          </div>
+          <label class="hint" style="display: flex; align-items: center; gap: 6px;">
+            <input type="checkbox" class="ai-image" />
+            <span><strong>Image-based:</strong> I'll upload a photo of the dish directly in Claude.ai (the prompt instructs Claude to use it).</span>
+          </label>
+          <div class="actions">
+            <span class="hint">Tap → prompt copied + Claude.ai opens. Paste in Claude. Copy its JSON reply. Use ‘Paste’ below.</span>
+            <button type="button" class="btn sm" data-action="ai-generate">✦ Copy prompt + open Claude</button>
           </div>
         </div>
 
@@ -442,6 +625,15 @@ export async function render({ mount, rest, params }) {
   }
 
   paint();
+
+  // If routed with ?ai=1, scroll the AI band into view + focus its textarea
+  if (params.ai === '1') {
+    setTimeout(() => {
+      const ai = mount.querySelector('.rf-ai');
+      ai?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      ai?.querySelector('.ai-desc')?.focus();
+    }, 50);
+  }
 }
 
 /* ============================================================
@@ -822,6 +1014,21 @@ function wireFields(mount, state) {
       if (section && target === 'ingredients') section.outerHTML = sectionIngredients(state.recipe);
       else if (section && target === 'steps')  section.outerHTML = sectionSteps(state.recipe);
       else if (section && target === 'substitutions') section.outerHTML = sectionSubs(state.recipe);
+      return;
+    }
+
+    // AI Generate — build prompt, copy to clipboard, open Claude.ai
+    if (e.target.closest('[data-action="ai-generate"]')) {
+      const desc       = root.querySelector('.ai-desc')?.value || '';
+      const cuisinePref= root.querySelector('.ai-cuisine')?.value || 'any';
+      const maxTime    = root.querySelector('.ai-time')?.value || 'any';
+      const withImage  = !!root.querySelector('.ai-image')?.checked;
+      const prompt = buildAIPrompt({ description: desc, cuisinePref, maxTime, withImage });
+      try {
+        await navigator.clipboard.writeText(prompt);
+      } catch (_) { /* clipboard may be blocked — fall through */ }
+      window.open('https://claude.ai/new', '_blank', 'noopener');
+      showToast('Prompt copied · paste it into Claude');
       return;
     }
 
