@@ -255,22 +255,55 @@ main {
   color: var(--paper-100);
 }
 
-/* --- Stamp (top-right of cards) --- */
+/* --- Stamp (top-right of cards) ---
+   Priority on cards: NEW > FAV > ×N COOKED > DRAFT.
+   Default = iron-red (used by .new).                       */
 .stamp {
   font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 3px 6px;
-  background: var(--iron-000);
-  color: var(--paper-200);
-  border: 1px solid var(--paper-200);
+  padding: 4px 7px;
+  font-weight: 700;
+  line-height: 1;
+  background: var(--iron-red);
+  color: var(--paper-000);
+  border: 1px solid var(--iron-red);
 }
-.stamp.fav {
+.stamp.new { background: var(--iron-red); color: var(--paper-000); border-color: var(--iron-red); }
+.stamp.fav { background: var(--paper-000); color: var(--iron-000); border-color: var(--paper-000); }
+.stamp.cooked { background: var(--iron-000); color: var(--paper-000); border-color: var(--paper-000); }
+.stamp.draft { background: var(--iron-300); color: var(--paper-200); border: 1px dashed var(--iron-500); }
+
+/* --- Button family ---
+   Iron-red `.red` is structural only (e.g. sticky-bar top border) — never a generic CTA.   */
+.btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 9px 12px;
+  border: 1px solid var(--paper-000);
   background: var(--paper-000);
   color: var(--iron-000);
-  border-color: var(--paper-000);
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: background 100ms linear, color 100ms linear, border-color 100ms linear;
 }
+.btn:hover { background: var(--paper-100); }
+.btn.outline { background: transparent; color: var(--paper-000); }
+.btn.outline:hover { background: var(--paper-000); color: var(--iron-000); }
+.btn.ghost { background: transparent; color: var(--iron-500); border-color: var(--iron-400); }
+.btn.ghost:hover { color: var(--paper-000); border-color: var(--paper-200); }
+.btn.red { background: var(--iron-red); border-color: var(--iron-red); color: var(--paper-000); }
+.btn.sm { font-size: 10px; padding: 7px 10px; letter-spacing: 0.15em; }
+.btn.lg { font-size: 12px; padding: 12px 18px; letter-spacing: 0.2em; }
+.btn .plus { font-family: var(--display); font-weight: 900; font-size: 15px; line-height: 1; }
 
 /* --- Empty state --- */
 .empty {

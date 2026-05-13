@@ -1,0 +1,79 @@
+{
+  "id": "vietnamese-bun-bo-xao",
+  "schema_version": 1,
+  "title": "Bun Bo Xao",
+  "subtitle": "Vietnamese stir-fried beef vermicelli. 10 min prep, 10 min cook.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["vietnamese", "high-protein", "quick", "one-pan", "noodle"],
+  "cuisine": "vietnamese",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["dairy-free", "high-protein"],
+
+  "servings": 2,
+  "yield_type": "per-serving",
+  "time": { "prep_min": 10, "cook_min": 10, "total_min": 20 },
+
+  "macros_per_serving": {
+    "kcal": 510,
+    "protein_g": 55,
+    "carbs_g": 52,
+    "fat_g": 11,
+    "fiber_g": 4,
+    "sodium_mg": 1100
+  },
+
+  "ingredients": [
+    { "qty": 500, "unit": "g", "item": "beef sirloin, lean", "prep": "thin-sliced against the grain", "category": "protein", "thai_market_tip": "Ask Tops/Villa butcher for shabu-shabu cut — already thin. Or freeze 20 min and slice yourself." },
+    { "qty": 100, "unit": "g", "item": "rice vermicelli (bun)", "category": "pantry", "thai_market_tip": "Dry rice vermicelli (sen mee) — same as Thai sen mee, packaged labelled 'rice vermicelli'." },
+    { "qty": 1, "unit": "tsp", "item": "neutral oil", "category": "pantry", "note": "Oil cap. For searing the beef hot and fast." },
+    { "qty": 4, "unit": "clove", "item": "garlic", "prep": "minced", "category": "produce" },
+    { "qty": 2, "unit": "tbsp", "item": "fish sauce", "category": "pantry" },
+    { "qty": 1, "unit": "tbsp", "item": "soy sauce", "category": "pantry" },
+    { "qty": 2, "unit": "tsp", "item": "sugar", "category": "pantry" },
+    { "qty": 1, "unit": "tbsp", "item": "lime juice", "prep": "fresh", "category": "produce" },
+    { "qty": 1, "unit": "piece", "item": "lemongrass stalk", "prep": "tender core only, fine-minced", "category": "produce", "thai_market_tip": "Use only the bottom 4cm tender core. The rest goes in the freezer for stock." },
+    { "qty": 1, "unit": "piece", "item": "Thai bird's eye chili", "prep": "thin-sliced", "category": "produce", "optional": true },
+    { "qty": 100, "unit": "g", "item": "bean sprouts", "category": "produce" },
+    { "qty": 1, "unit": "piece", "item": "cucumber, Japanese", "prep": "julienned", "category": "produce" },
+    { "qty": 1, "unit": "to-taste", "item": "fresh mint leaves", "category": "produce", "note": "Generous handful — this is the Vietnamese soul." },
+    { "qty": 1, "unit": "to-taste", "item": "fresh cilantro", "category": "produce" },
+    { "qty": 20, "unit": "g", "item": "roasted peanuts", "prep": "crushed", "category": "pantry", "optional": true }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "beef sirloin, lean",
+      "swap_in": "chicken breast, sliced",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -50, "protein_g": 4, "fat_g": -5 },
+      "note": "Leaner, higher protein. Marinate the same way."
+    },
+    {
+      "swap_out": "rice vermicelli (bun)",
+      "swap_in": "shirataki noodles",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -200, "carbs_g": -45 },
+      "note": "Drops kcal by ~200 / carbs by ~45g. Texture goes spongier."
+    }
+  ],
+
+  "steps": [
+    { "n": 1, "text": "Soak rice vermicelli in just-boiled water 5 min, then drain and rinse cold. Divide into 2 bowls.", "timer_min": 5 },
+    { "n": 2, "text": "Marinate beef with half the fish sauce, soy, sugar, minced lemongrass, half the garlic. Sit 5 min.", "timer_min": 5 },
+    { "n": 3, "text": "Whisk remaining fish sauce, lime juice, 2 tbsp water, sugar, chili, remaining garlic — this is the nuoc cham. Set aside.", "timer_min": null },
+    { "n": 4, "text": "Heat 1 tsp oil in a wok screaming hot. Sear beef in two batches 90 sec each — don't crowd. Just-cooked-through.", "timer_min": 3 },
+    { "n": 5, "text": "Build bowls: vermicelli base, bean sprouts and cucumber on the side, beef on top.", "timer_min": null },
+    { "n": 6, "text": "Drown in nuoc cham (use it all). Shower mint, cilantro, crushed peanuts. Toss together at the table.", "timer_min": null }
+  ],
+
+  "serves_with": [],
+
+  "notes": "Bun bo xao is the Vietnamese answer to a salad-bowl meal — cold noodles, hot beef, raw herbs, sour-sweet-salty dressing pulling it together. Two key moves: sear the beef HARD and FAST (cold pan = grey meat), and don't skimp on mint. Bean sprouts must be raw.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

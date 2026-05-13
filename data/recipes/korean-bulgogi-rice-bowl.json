@@ -1,0 +1,80 @@
+{
+  "id": "korean-bulgogi-rice-bowl",
+  "schema_version": 1,
+  "title": "Bulgogi Rice Bowl",
+  "subtitle": "Korean sweet-soy beef bowl. 10 min prep + 20 min marinate, 6 min cook.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["korean", "high-protein", "guilty-pleasure", "weeknight", "one-pan"],
+  "cuisine": "korean",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["dairy-free", "high-protein"],
+
+  "servings": 2,
+  "yield_type": "per-serving",
+  "time": { "prep_min": 10, "cook_min": 6, "total_min": 16, "rest_min": 20 },
+
+  "macros_per_serving": {
+    "kcal": 580,
+    "protein_g": 58,
+    "carbs_g": 52,
+    "fat_g": 14,
+    "fiber_g": 3,
+    "sodium_mg": 1300
+  },
+
+  "ingredients": [
+    { "qty": 440, "unit": "g", "item": "beef sirloin, lean", "prep": "thin-sliced against the grain", "category": "protein", "thai_market_tip": "Ask Tops/Villa butcher for shabu-shabu cut — already thin. Or freeze 20 min and slice 3mm." },
+    { "qty": 1, "unit": "piece", "item": "Asian pear (or Fuji apple)", "prep": "grated", "category": "produce", "thai_market_tip": "Asian pear at Tops fresh aisle. Fuji apple is the easy sub — same job (enzymes that tenderise + sweetness). Korean cooks grate it on a microplane straight into the marinade." },
+    { "qty": 3, "unit": "tbsp", "item": "soy sauce", "category": "pantry" },
+    { "qty": 1, "unit": "tbsp", "item": "honey", "category": "pantry" },
+    { "qty": 1, "unit": "tsp", "item": "sesame oil", "category": "pantry", "note": "Oil cap — this is your tsp. In the marinade." },
+    { "qty": 4, "unit": "clove", "item": "garlic", "prep": "grated", "category": "produce" },
+    { "qty": 1, "unit": "piece", "item": "ginger, small thumb", "prep": "grated", "category": "produce" },
+    { "qty": 1, "unit": "tsp", "item": "gochugaru (Korean chili flakes)", "category": "spice", "optional": true, "thai_market_tip": "Tops Korean aisle. The bright-red flakes — not Thai chili flakes, which are hotter and darker." },
+    { "qty": 2, "unit": "piece", "item": "egg", "prep": "fried sunny-side, runny", "category": "protein", "note": "One per bowl, top." },
+    { "qty": 2, "unit": "pack", "item": "microwave jasmine rice", "category": "pantry" },
+    { "qty": 100, "unit": "g", "item": "kimchi", "prep": "roughly chopped if long", "category": "produce" },
+    { "qty": 100, "unit": "g", "item": "spinach", "prep": "blanched 30 sec", "category": "produce", "optional": true, "note": "Quick stovetop blanch then squeeze dry — adds fibre + colour." },
+    { "qty": 2, "unit": "piece", "item": "spring onion", "prep": "thin-sliced", "category": "produce" },
+    { "qty": 1, "unit": "tsp", "item": "toasted sesame seeds", "category": "pantry" }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "beef sirloin, lean",
+      "swap_in": "chicken thigh, sliced",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -50, "protein_g": -4, "fat_g": -2 },
+      "note": "Becomes dak bulgogi. Marinate the same, cook 4 min/side."
+    },
+    {
+      "swap_out": "microwave jasmine rice",
+      "swap_in": "microwave cauliflower rice",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -180, "carbs_g": -42, "fiber_g": 2 },
+      "note": "Low-carb mode. Tops frozen cauliflower rice packs, 90 sec microwave."
+    }
+  ],
+
+  "steps": [
+    { "n": 1, "text": "Whisk grated pear, soy, honey, sesame oil, garlic, ginger, gochugaru — this is the bulgogi marinade.", "timer_min": null },
+    { "n": 2, "text": "Add sliced beef. Massage marinade in 1 min. Cover, fridge 20 min (or up to overnight).", "timer_min": 20 },
+    { "n": 3, "text": "Heat non-stick pan SCREAMING hot, no oil. Add beef in one layer — don't crowd. Sear 60–90 sec per side.", "timer_min": 3 },
+    { "n": 4, "text": "Push beef to one side, crack eggs into the empty space. Fry hard — crispy edges, runny yolk.", "timer_min": 2 },
+    { "n": 5, "text": "Microwave rice packs per label (~90 sec each).", "timer_min": null },
+    { "n": 6, "text": "Build bowls: rice base, spinach + kimchi to one side, beef on top, fried egg crowning. Sesame seeds, spring onion.", "timer_min": null }
+  ],
+
+  "serves_with": [
+    { "ref": "fresh-cucumber", "note": "Cooling counterpoint. Free macros." }
+  ],
+
+  "notes": "The grated pear is the move — the actinidin enzyme breaks beef proteins down chemically, faster than salt. 20 min marinate gives the same tender bite as 4 hours of plain soy. Don't add oil to the pan; the beef has enough. The egg yolk is the sauce that ties everything together.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

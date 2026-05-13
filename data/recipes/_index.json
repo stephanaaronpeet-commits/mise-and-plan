@@ -1,50 +1,17 @@
 [
-  {
-    "id": "chicken-larb-isaan",
-    "title": "Chicken Larb (Isaan-style)",
-    "cuisine": "thai",
-    "tags": ["thai", "high-protein", "quick", "no-rice-option"],
-    "time_total": 15,
-    "protein_g": 56
-  },
-  {
-    "id": "pad-krapow-gai",
-    "title": "Pad Krapow Gai",
-    "cuisine": "thai",
-    "tags": ["thai", "high-protein", "quick", "one-pan", "weeknight"],
-    "time_total": 13,
-    "protein_g": 57
-  },
-  {
-    "id": "gochujang-salmon-bowl",
-    "title": "Gochujang Salmon Bowl",
-    "cuisine": "korean",
-    "tags": ["korean", "high-protein", "quick", "one-pan", "omega-3"],
-    "time_total": 17,
-    "protein_g": 56
-  },
-  {
-    "id": "egg-white-tuna-scramble",
-    "title": "Egg White Tuna Scramble",
-    "cuisine": "fusion",
-    "tags": ["breakfast", "high-protein", "quick", "low-carb", "pantry-only"],
-    "time_total": 6,
-    "protein_g": 58
-  },
-  {
-    "id": "chicken-massaman-batch",
-    "title": "Chicken Massaman (Batch)",
-    "cuisine": "thai",
-    "tags": ["thai", "high-protein", "batch", "meal-prep", "freezer-friendly"],
-    "time_total": 60,
-    "protein_g": 58
-  },
-  {
-    "id": "gochujang-fried-chicken-bowl",
-    "title": "Gochujang Fried Chicken Bowl",
-    "cuisine": "korean",
-    "tags": ["korean", "high-protein", "guilty-pleasure", "air-fryer"],
-    "time_total": 26,
-    "protein_g": 58
-  }
+  { "id": "chicken-larb-isaan",            "title": "Chicken Larb (Isaan-style)",     "cuisine": "thai",       "tags": ["thai", "high-protein", "quick", "no-rice-option"],                          "time_total": 15, "protein_g": 56 },
+  { "id": "pad-krapow-gai",                "title": "Pad Krapow Gai",                 "cuisine": "thai",       "tags": ["thai", "high-protein", "quick", "one-pan", "weeknight"],                   "time_total": 13, "protein_g": 57 },
+  { "id": "beef-pad-krapow",               "title": "Beef Pad Krapow",                "cuisine": "thai",       "tags": ["thai", "high-protein", "quick", "one-pan", "weeknight"],                   "time_total": 14, "protein_g": 55 },
+  { "id": "shrimp-tom-yum-soup",           "title": "Shrimp Tom Yum Soup",            "cuisine": "thai",       "tags": ["thai", "high-protein", "quick", "low-carb", "soup"],                        "time_total": 20, "protein_g": 56 },
+  { "id": "chicken-massaman-batch",        "title": "Chicken Massaman (Batch)",       "cuisine": "thai",       "tags": ["thai", "high-protein", "batch", "meal-prep", "freezer-friendly"],          "time_total": 60, "protein_g": 58 },
+  { "id": "vietnamese-bun-bo-xao",         "title": "Bun Bo Xao",                     "cuisine": "vietnamese", "tags": ["vietnamese", "high-protein", "quick", "one-pan", "noodle"],                "time_total": 20, "protein_g": 55 },
+  { "id": "gochujang-salmon-bowl",         "title": "Gochujang Salmon Bowl",          "cuisine": "korean",     "tags": ["korean", "high-protein", "quick", "one-pan", "omega-3"],                    "time_total": 17, "protein_g": 56 },
+  { "id": "gochujang-fried-chicken-bowl",  "title": "Gochujang Fried Chicken Bowl",   "cuisine": "korean",     "tags": ["korean", "high-protein", "guilty-pleasure", "air-fryer"],                  "time_total": 26, "protein_g": 58 },
+  { "id": "korean-bulgogi-rice-bowl",      "title": "Bulgogi Rice Bowl",              "cuisine": "korean",     "tags": ["korean", "high-protein", "guilty-pleasure", "weeknight", "one-pan"],       "time_total": 16, "protein_g": 58 },
+  { "id": "gochujang-pork-tenderloin-batch","title": "Gochujang Pork Tenderloin",     "cuisine": "korean",     "tags": ["korean", "high-protein", "batch", "meal-prep", "sheet-pan"],               "time_total": 37, "protein_g": 57 },
+  { "id": "chicken-tikka-batch",           "title": "Chicken Tikka (Batch)",          "cuisine": "indian",     "tags": ["indian", "high-protein", "batch", "meal-prep", "air-fryer"],               "time_total": 30, "protein_g": 55 },
+  { "id": "egg-white-tuna-scramble",       "title": "Egg White Tuna Scramble",        "cuisine": "fusion",     "tags": ["breakfast", "high-protein", "quick", "low-carb", "pantry-only"],           "time_total": 6,  "protein_g": 58 },
+  { "id": "cottage-cheese-egg-bowl",       "title": "Cottage Cheese Egg Bowl",        "cuisine": "fusion",     "tags": ["breakfast", "high-protein", "quick", "low-carb", "no-cook"],               "time_total": 10, "protein_g": 57 },
+  { "id": "greek-yogurt-protein-bowl",     "title": "Greek Yogurt Protein Bowl",      "cuisine": "fusion",     "tags": ["breakfast", "high-protein", "quick", "no-cook", "post-workout"],           "time_total": 3,  "protein_g": 55 },
+  { "id": "honey-garlic-chicken-bowl",     "title": "Honey Garlic Chicken Bowl",      "cuisine": "fusion",     "tags": ["fusion", "high-protein", "guilty-pleasure", "air-fryer", "weeknight"],     "time_total": 22, "protein_g": 58 }
 ]

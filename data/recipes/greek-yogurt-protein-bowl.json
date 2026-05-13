@@ -1,0 +1,76 @@
+{
+  "id": "greek-yogurt-protein-bowl",
+  "schema_version": 1,
+  "title": "Greek Yogurt Protein Bowl",
+  "subtitle": "3-min breakfast. Whey-boosted, berries on top.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["breakfast", "high-protein", "quick", "no-cook", "post-workout"],
+  "cuisine": "fusion",
+  "meal_type": ["breakfast", "post-workout", "snack"],
+  "diet_flags": ["gluten-free", "high-protein", "vegetarian"],
+
+  "servings": 1,
+  "yield_type": "per-serving",
+  "time": { "prep_min": 3, "cook_min": 0, "total_min": 3 },
+
+  "macros_per_serving": {
+    "kcal": 380,
+    "protein_g": 55,
+    "carbs_g": 28,
+    "fat_g": 7,
+    "fiber_g": 7,
+    "sugar_g": 18
+  },
+
+  "ingredients": [
+    { "qty": 250, "unit": "g", "item": "0% Greek yogurt", "category": "dairy", "thai_market_tip": "FAGE or Gaia at Tops. The proper strained kind — not the 'Greek-style' Thai brands which are runnier." },
+    { "qty": 25, "unit": "g", "item": "whey protein isolate, vanilla", "category": "pantry", "thai_market_tip": "Mr Hyde, Optimum Nutrition, or Bulk at the supplement aisle / iHerb. 1 scoop = ~25g." },
+    { "qty": 80, "unit": "g", "item": "frozen mixed berries", "category": "frozen", "thai_market_tip": "Tops frozen aisle — Wyman's or any 'mixed berries' bag. Frozen wins on price + macros." },
+    { "qty": 15, "unit": "g", "item": "raw almonds", "prep": "rough-chopped", "category": "pantry" },
+    { "qty": 1, "unit": "tbsp", "item": "chia seeds", "category": "pantry", "thai_market_tip": "Tops health aisle or Lemon Farm. Standard." },
+    { "qty": 1, "unit": "tsp", "item": "honey", "category": "pantry", "optional": true, "note": "Skip if cutting sugar — whey isolate is already sweet." },
+    { "qty": 1, "unit": "to-taste", "item": "cinnamon", "category": "spice", "optional": true }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "whey protein isolate, vanilla",
+      "swap_in": "casein protein powder",
+      "ratio": "1:1",
+      "macro_delta": {},
+      "note": "Thicker, more pudding-like. Same macros. Good for slow-digest before-bed snack."
+    },
+    {
+      "swap_out": "frozen mixed berries",
+      "swap_in": "1 banana, sliced",
+      "ratio": "80g berries = 1 medium banana",
+      "macro_delta": { "kcal": 30, "carbs_g": 10, "fiber_g": -3 },
+      "note": "More carbs / less fibre / more sugar. Better post-workout for refuelling."
+    },
+    {
+      "swap_out": "raw almonds",
+      "swap_in": "2 tbsp PB2 (powdered peanut butter)",
+      "ratio": "15g almonds = 2 tbsp PB2",
+      "macro_delta": { "kcal": -40, "protein_g": 3, "fat_g": -7 },
+      "note": "Cuts fat hard. Tops carries PB2 in the health section."
+    }
+  ],
+
+  "steps": [
+    { "n": 1, "text": "Tip yogurt into a bowl. Sprinkle whey on top.", "timer_min": null },
+    { "n": 2, "text": "Stir whey in slowly. Goes from runny to thick-mousse in 20 sec — don't overmix or it'll seize.", "timer_min": null },
+    { "n": 3, "text": "Top with frozen berries (still frozen — they'll thaw into the yogurt as you eat).", "timer_min": null },
+    { "n": 4, "text": "Shower chopped almonds, chia seeds, optional honey, cinnamon.", "timer_min": null }
+  ],
+
+  "serves_with": [],
+
+  "notes": "The 3-minute, no-cook, 55g protein breakfast. Whey + Greek yogurt is the highest-density protein move that doesn't taste like a protein shake. Add berries FROZEN — they release moisture into the yogurt as they thaw and you get cold + creamy + tart, all from one move.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

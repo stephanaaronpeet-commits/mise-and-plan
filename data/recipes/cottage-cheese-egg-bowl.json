@@ -1,0 +1,75 @@
+{
+  "id": "cottage-cheese-egg-bowl",
+  "schema_version": 1,
+  "title": "Cottage Cheese Egg Bowl",
+  "subtitle": "10 min breakfast bowl. No cooking.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["breakfast", "high-protein", "quick", "low-carb", "no-cook"],
+  "cuisine": "fusion",
+  "meal_type": ["breakfast", "post-workout"],
+  "diet_flags": ["gluten-free", "low-carb", "high-protein"],
+
+  "servings": 1,
+  "yield_type": "per-serving",
+  "time": { "prep_min": 5, "cook_min": 5, "total_min": 10 },
+
+  "macros_per_serving": {
+    "kcal": 430,
+    "protein_g": 57,
+    "carbs_g": 12,
+    "fat_g": 17,
+    "fiber_g": 2,
+    "sodium_mg": 850
+  },
+
+  "ingredients": [
+    { "qty": 300, "unit": "g", "item": "cottage cheese, 2% or low-fat", "category": "dairy", "thai_market_tip": "Anchor or Meadow Fresh tub at Tops/Villa dairy aisle. Mainland is the cleanest macros." },
+    { "qty": 4, "unit": "piece", "item": "egg", "prep": "soft-boiled 7 min", "category": "protein", "note": "Cook all 4 the night before — keeps 3 days fridge in shells." },
+    { "qty": 1, "unit": "tsp", "item": "olive oil", "category": "pantry", "note": "Oil cap. For drizzling — not for cooking." },
+    { "qty": 100, "unit": "g", "item": "cherry tomato", "prep": "halved", "category": "produce" },
+    { "qty": 1, "unit": "piece", "item": "cucumber, Japanese", "prep": "sliced thick", "category": "produce" },
+    { "qty": 1, "unit": "to-taste", "item": "fresh dill or chives", "category": "produce", "optional": true, "thai_market_tip": "Dill is rare in Thai supermarkets — Villa carries it. Chives (the Thai 'kuichai') are easier." },
+    { "qty": 1, "unit": "tsp", "item": "everything-bagel seasoning", "category": "spice", "optional": true, "thai_market_tip": "Tops sells the McCormick jar. Or DIY: sesame seeds + poppy + dried onion + garlic + salt." },
+    { "qty": 1, "unit": "to-taste", "item": "black pepper", "category": "spice" },
+    { "qty": 1, "unit": "to-taste", "item": "flaky sea salt", "category": "spice" }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "cottage cheese, 2% or low-fat",
+      "swap_in": "0% Greek yogurt",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -50, "protein_g": -3, "fat_g": -5 },
+      "note": "Tangier, smoother. Drop ~50 kcal. Loses the curd texture."
+    },
+    {
+      "swap_out": "egg",
+      "swap_in": "smoked salmon",
+      "ratio": "4 eggs = 150g salmon",
+      "macro_delta": { "kcal": 80, "protein_g": 12, "fat_g": 5 },
+      "note": "Brunch upgrade. Norwegian smoked salmon at Tops. Higher protein, higher sodium."
+    }
+  ],
+
+  "steps": [
+    { "n": 1, "text": "If eggs aren't already cooked: 7-min soft boil from boiling water. Ice bath 1 min. Peel.", "timer_min": 7 },
+    { "n": 2, "text": "Tip cottage cheese into a wide bowl. Smooth it out — don't pile.", "timer_min": null },
+    { "n": 3, "text": "Halve the eggs lengthwise. Lay yolk-up around the cottage cheese.", "timer_min": null },
+    { "n": 4, "text": "Tuck tomato and cucumber slices in the gaps.", "timer_min": null },
+    { "n": 5, "text": "Drizzle 1 tsp olive oil over the cottage cheese only (not the eggs).", "timer_min": null },
+    { "n": 6, "text": "Shower everything-bagel, pepper, flaky salt. Herbs over the top.", "timer_min": null }
+  ],
+
+  "serves_with": [
+    { "ref": "wholegrain-toast", "note": "+1 slice = ~80 kcal, 15g carbs, 4g protein." }
+  ],
+
+  "notes": "The breakfast that out-protein-densities everything else by sheer ingredient choice. 57g protein, no cooking required (if eggs were batched). Cottage cheese is the cheat code — Thai supermarkets carry it now (didn't 5 years ago). Buy 2% not full-fat unless the macros need padding.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

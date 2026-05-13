@@ -1,0 +1,78 @@
+{
+  "id": "shrimp-tom-yum-soup",
+  "schema_version": 1,
+  "title": "Shrimp Tom Yum Soup",
+  "subtitle": "Thai sour-spicy soup. 8 min prep, 12 min cook.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["thai", "high-protein", "quick", "low-carb", "low-fat", "soup"],
+  "cuisine": "thai",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["gluten-free", "dairy-free", "low-carb", "high-protein", "pescatarian"],
+
+  "servings": 2,
+  "yield_type": "per-serving",
+  "time": { "prep_min": 8, "cook_min": 12, "total_min": 20 },
+
+  "macros_per_serving": {
+    "kcal": 290,
+    "protein_g": 56,
+    "carbs_g": 12,
+    "fat_g": 4,
+    "fiber_g": 2,
+    "sodium_mg": 1500
+  },
+
+  "ingredients": [
+    { "qty": 460, "unit": "g", "item": "shrimp, peeled and deveined", "prep": "tails left on", "category": "protein", "thai_market_tip": "Big white prawns at Tops/Villa frozen aisle. Defrost in cold water 10 min. Reserve shells for the stock if you have time." },
+    { "qty": 800, "unit": "ml", "item": "chicken or seafood stock", "category": "pantry", "note": "Knorr cubes are fine. Or boil shrimp shells in water 10 min." },
+    { "qty": 2, "unit": "tbsp", "item": "tom yum paste", "category": "pantry", "thai_market_tip": "Mae Pranom or Mae Ploy tub. The local default — saves chasing fresh galangal." },
+    { "qty": 3, "unit": "piece", "item": "kaffir lime leaves", "prep": "torn", "category": "produce", "optional": true, "thai_market_tip": "Fresh aisle at Tops. Skip if not available — paste covers most of the work." },
+    { "qty": 2, "unit": "piece", "item": "lemongrass stalk", "prep": "bruised, 4cm pieces", "category": "produce", "optional": true },
+    { "qty": 150, "unit": "g", "item": "straw mushrooms", "prep": "halved", "category": "produce", "thai_market_tip": "Canned straw mushrooms in the Thai aisle. Or oyster mushrooms fresh." },
+    { "qty": 8, "unit": "piece", "item": "cherry tomato", "prep": "halved", "category": "produce" },
+    { "qty": 2, "unit": "tbsp", "item": "fish sauce", "category": "pantry" },
+    { "qty": 3, "unit": "tbsp", "item": "lime juice", "prep": "fresh", "category": "produce" },
+    { "qty": 2, "unit": "tsp", "item": "Thai chili paste (nam prik pao)", "category": "pantry", "optional": true, "thai_market_tip": "Mae Pranom roasted-chili-in-oil jar. The thing that turns the broth orange and dangerous." },
+    { "qty": 2, "unit": "piece", "item": "Thai bird's eye chili", "prep": "smashed", "category": "produce", "optional": true },
+    { "qty": 1, "unit": "to-taste", "item": "fresh cilantro", "category": "produce" }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "shrimp, peeled and deveined",
+      "swap_in": "chicken breast",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": 30, "protein_g": -2, "fat_g": 1 },
+      "note": "Sliced thin, poaches in 3 min. Becomes tom yum gai."
+    },
+    {
+      "swap_out": "shrimp, peeled and deveined",
+      "swap_in": "firm white fish (snapper or seabass)",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": 30, "protein_g": -8, "fat_g": 2 },
+      "note": "Cut in 3cm chunks, add last 4 min."
+    }
+  ],
+
+  "steps": [
+    { "n": 1, "text": "Bring stock to a simmer in a pot. Drop in kaffir leaves and lemongrass. Simmer 4 min.", "timer_min": 4 },
+    { "n": 2, "text": "Stir in tom yum paste and chili paste until dissolved. Add mushrooms, simmer 3 min.", "timer_min": 3 },
+    { "n": 3, "text": "Add tomatoes and shrimp. Simmer 2–3 min until shrimp curl and turn pink.", "timer_min": 3 },
+    { "n": 4, "text": "Kill heat. Stir in fish sauce, lime juice, smashed chilies.", "timer_min": null },
+    { "n": 5, "text": "Taste. Should hit sour first, then heat, then salt. Adjust lime / chili / fish sauce in that order.", "timer_min": null },
+    { "n": 6, "text": "Bowl up. Cilantro on top.", "timer_min": null }
+  ],
+
+  "serves_with": [
+    { "ref": "microwave-jasmine-rice", "note": "Optional. Most Thais eat it as soup-with-rice." }
+  ],
+
+  "notes": "The Thai protein bargain. Shrimp is essentially fat-free pure protein, and tom yum is broth-based. 290 kcal for 56g protein is impossible to beat. Add lime juice OFF the heat — boiling lime turns it bitter.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

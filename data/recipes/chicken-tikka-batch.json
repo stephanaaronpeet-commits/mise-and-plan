@@ -1,0 +1,78 @@
+{
+  "id": "chicken-tikka-batch",
+  "schema_version": 1,
+  "title": "Chicken Tikka (Batch)",
+  "subtitle": "Indian batch. 4 servings. 10 min prep + 30 min marinate, 20 min cook.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["indian", "high-protein", "batch", "meal-prep", "air-fryer", "freezer-friendly"],
+  "cuisine": "indian",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["gluten-free", "high-protein"],
+
+  "servings": 4,
+  "yield_type": "per-serving",
+  "time": { "prep_min": 10, "cook_min": 20, "total_min": 30, "rest_min": 30 },
+
+  "macros_per_serving": {
+    "kcal": 360,
+    "protein_g": 55,
+    "carbs_g": 8,
+    "fat_g": 12,
+    "fiber_g": 2,
+    "sodium_mg": 950
+  },
+
+  "ingredients": [
+    { "qty": 1000, "unit": "g", "item": "chicken thigh, boneless skinless", "prep": "3cm chunks", "category": "protein", "thai_market_tip": "Tops 1kg tray. Thigh stays juicy through the marinade-and-air-fry. Breast dries out." },
+    { "qty": 200, "unit": "g", "item": "0% Greek yogurt", "category": "dairy", "thai_market_tip": "FAGE or Gaia tub at Tops. Strained, not the runny 'Greek-style' local brand." },
+    { "qty": 3, "unit": "tbsp", "item": "tikka masala paste", "category": "pantry", "thai_market_tip": "Patak's tikka masala paste at Tops Indian/world food aisle. Save loose-spice mixing for the weekend." },
+    { "qty": 1, "unit": "tbsp", "item": "lemon juice", "prep": "fresh", "category": "produce" },
+    { "qty": 4, "unit": "clove", "item": "garlic", "prep": "grated", "category": "produce" },
+    { "qty": 1, "unit": "piece", "item": "ginger, thumb-sized", "prep": "grated", "category": "produce" },
+    { "qty": 1, "unit": "tsp", "item": "garam masala", "category": "spice", "thai_market_tip": "Eastern brand sachet. Extra layer on top of the paste." },
+    { "qty": 1, "unit": "tsp", "item": "Kashmiri chili powder", "category": "spice", "optional": true, "note": "For colour without heat — skip if not available." },
+    { "qty": 1, "unit": "tsp", "item": "neutral oil", "category": "pantry", "note": "For greasing the air fryer basket." },
+    { "qty": 1, "unit": "to-taste", "item": "fresh cilantro", "category": "produce" },
+    { "qty": 1, "unit": "piece", "item": "lemon", "prep": "wedges, for serving", "category": "produce" }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "chicken thigh, boneless skinless",
+      "swap_in": "chicken breast",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -50, "protein_g": 6, "fat_g": -6 },
+      "note": "Higher protein, leaner. Marinate full 60 min minimum or it'll go chalky."
+    },
+    {
+      "swap_out": "chicken thigh, boneless skinless",
+      "swap_in": "extra-firm tofu",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -50, "protein_g": -22, "fat_g": -2 },
+      "note": "Press 30 min, cube, marinate. Drops protein to ~33g/svg — pair with dal to hit target."
+    }
+  ],
+
+  "steps": [
+    { "n": 1, "text": "Whisk yogurt, tikka paste, lemon juice, garlic, ginger, garam masala, Kashmiri chili in a large bowl.", "timer_min": null },
+    { "n": 2, "text": "Add chicken chunks. Toss until every piece is fully coated. Cover, fridge 30 min minimum, 4 hours ideal.", "timer_min": 30 },
+    { "n": 3, "text": "Preheat air fryer 200°C / 400°F, 3 min. Brush basket lightly with 1 tsp oil.", "timer_min": 3 },
+    { "n": 4, "text": "Shake excess marinade off chicken. Lay in single layer in air fryer — work in 2 batches if needed.", "timer_min": null },
+    { "n": 5, "text": "Air fry 9 min, shake basket, another 6–8 min until edges are charred and internal 75°C / 165°F.", "timer_min": 16 },
+    { "n": 6, "text": "Rest 3 min. Portion into 4 containers. Cilantro and lemon wedge per portion. Keeps 4 days fridge, 2 months freezer.", "timer_min": 3 }
+  ],
+
+  "serves_with": [
+    { "ref": "microwave-brown-rice", "note": "Standard. +200 kcal." },
+    { "ref": "cucumber-raita", "note": "Greek yogurt + cucumber + cumin. Free macros." }
+  ],
+
+  "notes": "Patak's tikka paste is genuinely good — there's no shame in skipping the home-blended spice mix. Greek yogurt does two jobs: it tenderises through proteolysis (the lactic acid breaks down chicken proteins) AND adds 8g protein per serving. Don't skip the marinate time; 30 min is the floor.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

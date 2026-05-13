@@ -1,0 +1,81 @@
+{
+  "id": "beef-pad-krapow",
+  "schema_version": 1,
+  "title": "Beef Pad Krapow",
+  "subtitle": "Thai holy basil beef. 6 min prep, 8 min cook.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["thai", "high-protein", "quick", "one-pan", "weeknight"],
+  "cuisine": "thai",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["dairy-free", "high-protein"],
+
+  "servings": 2,
+  "yield_type": "per-serving",
+  "time": {
+    "prep_min": 6,
+    "cook_min": 8,
+    "total_min": 14
+  },
+
+  "macros_per_serving": {
+    "kcal": 430,
+    "protein_g": 55,
+    "carbs_g": 9,
+    "fat_g": 18,
+    "fiber_g": 2,
+    "sodium_mg": 1400
+  },
+
+  "ingredients": [
+    { "qty": 440, "unit": "g", "item": "beef sirloin, lean", "prep": "minced or hand-chopped", "category": "protein", "thai_market_tip": "Ask the Tops/Villa butcher to mince a lean sirloin steak. Hand-chopped beats supermarket mince for texture." },
+    { "qty": 2, "unit": "piece", "item": "egg", "prep": "whole, fried sunny-side", "category": "protein", "note": "One per serving, fried hard with crispy edges." },
+    { "qty": 1, "unit": "tsp", "item": "neutral oil", "category": "pantry", "note": "Oil cap — split: half for the beef, half for the eggs." },
+    { "qty": 6, "unit": "clove", "item": "garlic", "prep": "pounded", "category": "produce", "note": "Pound with the chilies — don't fine-mince." },
+    { "qty": 4, "unit": "piece", "item": "Thai bird's eye chili (prik kee noo)", "prep": "pounded", "category": "produce", "optional": true, "note": "Halve or skip for mild." },
+    { "qty": 2, "unit": "tbsp", "item": "oyster sauce", "category": "pantry", "thai_market_tip": "Maekrua or Lee Kum Kee. Maekrua is the local default." },
+    { "qty": 1, "unit": "tbsp", "item": "fish sauce", "category": "pantry" },
+    { "qty": 1, "unit": "tsp", "item": "dark sweet soy sauce (si-ew dam)", "category": "pantry", "thai_market_tip": "Healthy Boy brand. The brown-lacquer maker." },
+    { "qty": 1, "unit": "tsp", "item": "sugar", "category": "pantry" },
+    { "qty": 2, "unit": "cup", "item": "holy basil (krapow)", "prep": "leaves picked", "category": "produce", "thai_market_tip": "MUST be holy basil (bai krapow), not horapha. Fresh-market only." },
+    { "qty": 2, "unit": "tbsp", "item": "beef stock or water", "category": "pantry" }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "beef sirloin, lean",
+      "swap_in": "chicken thigh",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -40, "protein_g": -3, "fat_g": -4 },
+      "note": "More forgiving at high heat. Lower fat. Cook 1 min less."
+    },
+    {
+      "swap_out": "egg",
+      "swap_in": "egg whites",
+      "ratio": "1 egg = 3 whites",
+      "macro_delta": { "kcal": -50, "protein_g": 2, "fat_g": -5 },
+      "note": "Cleaner macros, lose the yolk."
+    }
+  ],
+
+  "steps": [
+    { "n": 1, "text": "Pound garlic + chilies in mortar to rough paste.", "timer_min": null },
+    { "n": 2, "text": "Heat 1/2 tsp oil in non-stick wok, high. Add paste, 15 sec until fragrant.", "timer_min": null },
+    { "n": 3, "text": "Add minced beef. Press flat 30 sec to brown, then stir-fry until no pink, ~4 min.", "timer_min": 4 },
+    { "n": 4, "text": "Add oyster sauce, fish sauce, dark soy, sugar, stock. Toss 1 min until glossy.", "timer_min": 1 },
+    { "n": 5, "text": "Kill heat. Throw in holy basil, toss twice — leaves wilt from residual heat.", "timer_min": null },
+    { "n": 6, "text": "Plate. Wipe pan, add remaining 1/2 tsp oil, fry eggs hard. Slide one onto each plate.", "timer_min": 2 }
+  ],
+
+  "serves_with": [
+    { "ref": "microwave-jasmine-rice", "note": "Standard. +200 kcal / +43g carbs per pack." }
+  ],
+
+  "notes": "Same skeleton as pad krapow gai — different beast. Lean sirloin browns better than thigh and gives more umami. Holy basil non-negotiable; horapha is the wrong dish. Fried egg with runny yolk is the sauce.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}

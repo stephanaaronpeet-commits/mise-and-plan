@@ -1,0 +1,92 @@
+{
+  "id": "honey-garlic-chicken-bowl",
+  "schema_version": 1,
+  "title": "Honey Garlic Chicken Bowl",
+  "subtitle": "Air-fried, sticky-sweet. 6 min prep, 16 min cook.",
+  "created": "2026-05-13",
+  "updated": "2026-05-13",
+  "source": "personal",
+
+  "tags": ["fusion", "high-protein", "guilty-pleasure", "air-fryer", "takeout-clone", "weeknight"],
+  "cuisine": "fusion",
+  "meal_type": ["lunch", "dinner"],
+  "diet_flags": ["dairy-free", "high-protein"],
+
+  "servings": 2,
+  "yield_type": "per-serving",
+  "time": { "prep_min": 6, "cook_min": 16, "total_min": 22 },
+
+  "macros_per_serving": {
+    "kcal": 590,
+    "protein_g": 58,
+    "carbs_g": 56,
+    "fat_g": 12,
+    "fiber_g": 3,
+    "sodium_mg": 1200
+  },
+
+  "ingredients": [
+    { "qty": 540, "unit": "g", "item": "chicken thigh, boneless skinless", "prep": "3cm chunks", "category": "protein", "thai_market_tip": "Tops 500g tray — trim visible fat hard, air frying will render the rest." },
+    { "qty": 2, "unit": "tbsp", "item": "cornstarch", "category": "pantry", "note": "The crisp shell. Don't sub flour." },
+    { "qty": 1, "unit": "tbsp", "item": "soy sauce", "category": "pantry", "note": "For the dredge marinade." },
+    { "qty": 1, "unit": "tsp", "item": "garlic powder", "category": "spice" },
+    { "qty": 1, "unit": "tbsp", "item": "honey", "category": "pantry" },
+    { "qty": 1, "unit": "tbsp", "item": "soy sauce", "category": "pantry", "note": "For the glaze, on top of the dredge tbsp." },
+    { "qty": 1, "unit": "tbsp", "item": "rice vinegar", "category": "pantry" },
+    { "qty": 1, "unit": "tsp", "item": "sriracha", "category": "pantry", "optional": true, "note": "For heat without changing the sweetness profile." },
+    { "qty": 5, "unit": "clove", "item": "garlic", "prep": "minced", "category": "produce", "note": "Yes, five. This is a garlic dish." },
+    { "qty": 1, "unit": "tsp", "item": "sesame oil", "category": "pantry", "note": "Oil cap. For the glaze only." },
+    { "qty": 1, "unit": "tsp", "item": "cornstarch", "category": "pantry", "note": "For thickening the glaze." },
+    { "qty": 2, "unit": "tbsp", "item": "water", "category": "pantry", "note": "To dissolve the thickening cornstarch." },
+    { "qty": 2, "unit": "pack", "item": "microwave jasmine rice", "category": "pantry" },
+    { "qty": 200, "unit": "g", "item": "broccoli florets", "prep": "small florets", "category": "produce" },
+    { "qty": 1, "unit": "tsp", "item": "toasted sesame seeds", "category": "pantry", "optional": true },
+    { "qty": 2, "unit": "piece", "item": "spring onion", "prep": "thin-sliced", "category": "produce" }
+  ],
+
+  "substitutions": [
+    {
+      "swap_out": "chicken thigh, boneless skinless",
+      "swap_in": "chicken breast",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -60, "protein_g": 6, "fat_g": -6 },
+      "note": "Leaner, higher protein. Brine 15 min in salt water or it'll dry in the air fryer."
+    },
+    {
+      "swap_out": "microwave jasmine rice",
+      "swap_in": "microwave cauliflower rice",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -180, "carbs_g": -42, "fiber_g": 2 },
+      "note": "Cuts ~180 kcal. Bowl gets lighter, still satisfying."
+    },
+    {
+      "swap_out": "honey",
+      "swap_in": "monk fruit sweetener syrup",
+      "ratio": "1:1",
+      "macro_delta": { "kcal": -50, "carbs_g": -14 },
+      "note": "Glaze loses some lacquer. Cuts ~50 kcal."
+    }
+  ],
+
+  "steps": [
+    { "n": 1, "text": "Toss chicken chunks with 1 tbsp soy + garlic powder. Sit 5 min.", "timer_min": 5 },
+    { "n": 2, "text": "Add cornstarch, toss until every piece is dry-coated. Pat clumps apart.", "timer_min": null },
+    { "n": 3, "text": "Preheat air fryer 200°C / 400°F, 3 min. Steam broccoli in microwave 3 min with 1 tbsp water.", "timer_min": 3 },
+    { "n": 4, "text": "Air fry chicken in single layer, no touching, 12 min, flipping at 7.", "timer_min": 12 },
+    { "n": 5, "text": "While chicken cooks: heat a small pan low. Add sesame oil + minced garlic, 60 sec until pale gold — DON'T let it brown.", "timer_min": 1 },
+    { "n": 6, "text": "Add honey, soy, rice vinegar, sriracha. Simmer 1 min. Whisk in cornstarch slurry (1 tsp cornstarch + 2 tbsp water). Cook 30 sec until glossy.", "timer_min": 1 },
+    { "n": 7, "text": "Microwave rice packs (~90 sec each).", "timer_min": null },
+    { "n": 8, "text": "Tip hot chicken into glaze pan. Toss until every piece is lacquered.", "timer_min": null },
+    { "n": 9, "text": "Build bowls: rice base, broccoli to one side, glazed chicken centre. Sesame seeds and spring onion.", "timer_min": null }
+  ],
+
+  "serves_with": [
+    { "ref": "soft-boiled-egg", "note": "If still hungry: jammy 6-min egg = +6g protein, +5g fat." }
+  ],
+
+  "notes": "Classic Chinese-takeout honey-garlic, cleaned up. Cornstarch dredge + air fryer = ~80% of the deep-fry crunch at half the fat. The garlic is fried FIRST in the sesame oil — that infuses the glaze with the deep roasty notes that ordinary chopped garlic won't give. Toss chicken in the hot glaze immediately or the shell turns to leather.",
+
+  "favorite": false,
+  "cook_count": 0,
+  "last_cooked": null
+}
