@@ -41,6 +41,35 @@ const css = `
   color: var(--iron-500); margin-top: 8px;
 }
 .pl-head-right { display: flex; gap: 8px; align-items: center; }
+
+/* Weekly totals strip */
+.pl-week-totals {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--iron-300);
+  background: var(--iron-000);
+}
+.pl-week-totals > div {
+  padding: 12px 14px;
+  border-right: 1px solid var(--iron-300);
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--iron-500); line-height: 1;
+}
+.pl-week-totals > div:last-child { border-right: 0; }
+.pl-week-totals .v {
+  display: block; font-family: var(--display); font-weight: 800;
+  font-size: 22px; color: var(--paper-000);
+  margin-top: 6px; font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em; line-height: 1;
+}
+.pl-week-totals .protein { background: var(--iron-100); }
+.pl-week-totals .protein .v { color: var(--iron-red); font-size: 28px; font-weight: 900; }
+.pl-week-totals .protein .l { color: var(--iron-red); font-weight: 700; }
+@media (min-width: 768px) {
+  .pl-week-totals > div { padding: 14px 22px; }
+  .pl-week-totals .v { font-size: 26px; }
+  .pl-week-totals .protein .v { font-size: 36px; }
+}
 .pl-nav-btn {
   font-family: var(--mono); font-size: 10px;
   letter-spacing: 0.18em; text-transform: uppercase;
@@ -572,6 +601,22 @@ export async function render({ mount, rest, params }) {
 
   const totalEntries = Object.values(planByDay).reduce((s, p) => s + p.length, 0);
 
+  // Weekly macro totals — sum across all 7 days × servings
+  const weekTotals = { kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 };
+  for (const d of days) {
+    const plan = planByDay[ymd(d)] || [];
+    for (const e of plan) {
+      const r = recipesById[e.recipeId];
+      if (!r) continue;
+      const useServ = e.servings || r.servings || 1;
+      const m = r.macros_per_serving || {};
+      weekTotals.kcal      += (m.kcal      || 0) * useServ;
+      weekTotals.protein_g += (m.protein_g || 0) * useServ;
+      weekTotals.carbs_g   += (m.carbs_g   || 0) * useServ;
+      weekTotals.fat_g     += (m.fat_g     || 0) * useServ;
+    }
+  }
+
   mount.innerHTML = `
     <div class="pl-root">
       <div class="pl-head">
@@ -592,6 +637,16 @@ export async function render({ mount, rest, params }) {
           <a href="#/cookbook" class="btn outline sm" style="text-decoration:none;">→ Cookbook</a>
         </div>
       ` : `
+        <div class="pl-week-totals">
+          <div class="protein">
+            <span class="l">Week protein</span>
+            <span class="v">${Math.round(weekTotals.protein_g)}g</span>
+          </div>
+          <div><span class="l">Week kCal</span><span class="v">${Math.round(weekTotals.kcal)}</span></div>
+          <div><span class="l">Week carbs</span><span class="v">${Math.round(weekTotals.carbs_g)}g</span></div>
+          <div><span class="l">Week fat</span><span class="v">${Math.round(weekTotals.fat_g)}g</span></div>
+          <div><span class="l">Avg P/day</span><span class="v">${Math.round(weekTotals.protein_g / 7)}g</span></div>
+        </div>
         <div class="pl-week">
           ${days.map(d => dayHtml(d, planByDay[ymd(d)] || [], recipesById)).join('')}
         </div>

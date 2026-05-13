@@ -16,6 +16,7 @@ const routes = {
   cookbook: () => import('../cookbook/cookbook.js').then(m => m.render),
   plan:     () => import('../planner/planner.js').then(m => m.render),
   shop:     () => import('../shopping/shopping.js').then(m => m.render),
+  stats:    () => import('../insights/insights.js').then(m => m.render),
 };
 
 function parseHash() {
