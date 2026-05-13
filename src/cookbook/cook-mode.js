@@ -3,7 +3,10 @@
    Paper-on-iron inversion: cream bg, iron type, gridpaper.
    One step at a time. Timer per step (if timer_min set).
    Swipe / arrow keys / space to navigate. Wake Lock API on enter.
+   On "Mark as cooked": persists cook_count + last_cooked.
    ============================================================= */
+
+import { markCooked as persistCooked } from '../core/storage.js';
 
 const css = `
 .cook-mode-root {
@@ -439,8 +442,10 @@ export function renderCookMode(mount, recipe) {
     exitTo(recipe.id);
   }
   function markCooked() {
-    // Placeholder — Phase 2.1 will persist cook_count + last_cooked.
-    console.info('[cook-mode] marked cooked:', recipe.id);
+    // Persists cook_count + last_cooked in localStorage. The detail view
+    // and cookbook list will reflect the new count on their next render.
+    const next = persistCooked(recipe.id);
+    console.info('[cook-mode] marked cooked:', recipe.id, '→ ×' + next.cook_count);
     cleanup();
     exitTo(recipe.id);
   }

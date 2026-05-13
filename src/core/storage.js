@@ -50,3 +50,45 @@ function runMigrations(from, to) {
   // No migrations yet. Each future bump adds a case:
   // if (from < 2) { /* mutate stored recipes... */ }
 }
+
+/* =============================================================
+   Recipe state — per-user mutations layered on top of seed JSON.
+   The recipe files in /data/recipes are pristine seed data; the
+   user's favorites and cook history live here under a separate key.
+   Phase 2.1 planner will mutate cook_count/last_cooked via markCooked().
+   ============================================================= */
+
+function recipeStateKey(id) { return `recipe-state:${id}`; }
+
+export function getRecipeState(id) {
+  return storage.get(recipeStateKey(id), null);
+}
+
+export function setRecipeState(id, partial) {
+  const cur = storage.get(recipeStateKey(id), {}) || {};
+  const next = { ...cur, ...partial };
+  storage.set(recipeStateKey(id), next);
+  return next;
+}
+
+export function toggleFavorite(id, currentValue = false) {
+  return setRecipeState(id, { favorite: !currentValue });
+}
+
+export function markCooked(id) {
+  const cur = storage.get(recipeStateKey(id), {}) || {};
+  const today = new Date().toISOString().slice(0, 10);
+  return setRecipeState(id, {
+    cook_count: (cur.cook_count || 0) + 1,
+    last_cooked: today,
+  });
+}
+
+/* Merge user state (favorite, cook_count, last_cooked) onto a recipe
+   object loaded from the seed JSON. User state always wins. */
+export function applyRecipeState(recipe) {
+  if (!recipe || !recipe.id) return recipe;
+  const state = getRecipeState(recipe.id);
+  if (!state) return recipe;
+  return { ...recipe, ...state };
+}

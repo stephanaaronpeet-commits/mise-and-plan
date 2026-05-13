@@ -1,8 +1,11 @@
 /* =============================================================
    recipe-detail.js — single-recipe detail view (§02 of spec).
-   Local-only state: favorite toggle, servings scaler, active subs,
-   ingredient checkboxes. None persist (cooking session only).
+   Persisted: favorite toggle (via storage.toggleFavorite).
+   Session-only: servings scaler, active subs, ingredient checkboxes
+   (reset on view close — spec design intent).
    ============================================================= */
+
+import { toggleFavorite } from '../core/storage.js';
 
 /* ============================================================
    STYLES (scoped to .recipe-detail, injected once)
@@ -907,9 +910,14 @@ export function renderDetail(mount, recipe) {
     if (!root) return;
 
     root.addEventListener('click', e => {
-      // Favorite toggle (no persistence yet — Phase 2.1 wires this to storage)
+      // Favorite toggle — persists to localStorage under mp:recipe-state:<id>
       const fav = e.target.closest('[data-action="fav"]');
-      if (fav) { state.favorite = !state.favorite; fav.classList.toggle('on'); return; }
+      if (fav) {
+        state.favorite = !state.favorite;
+        toggleFavorite(recipe.id, !state.favorite);  // pass current value pre-toggle
+        fav.classList.toggle('on');
+        return;
+      }
 
       // More menu (placeholder)
       if (e.target.closest('[data-action="more"]')) {

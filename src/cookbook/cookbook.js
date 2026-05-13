@@ -5,7 +5,7 @@
    - Detail view: unchanged from v0.1 (will be reworked in Session 1.3).
    ============================================================= */
 
-import { storage, ensureSchemaCurrent } from '../core/storage.js';
+import { storage, ensureSchemaCurrent, applyRecipeState } from '../core/storage.js';
 import * as F from './filters.js';
 import { renderDetail } from './recipe-detail.js';
 import { renderCookMode } from './cook-mode.js';
@@ -380,14 +380,17 @@ async function fetchIndex() {
 }
 
 async function loadRecipe(id) {
+  // Seed JSON is cached as-is; user state (favorite/cook_count/last_cooked)
+  // is layered on at read time so updates from detail or cook-mode are
+  // reflected immediately the next time any view loads this recipe.
   const cached = storage.get(`recipe:${id}`, null);
-  if (cached) return cached;
+  if (cached) return applyRecipeState(cached);
   try {
     const res = await fetch(`/data/recipes/${id}.json`);
     if (!res.ok) throw new Error(`recipe ${id} not found`);
     const data = await res.json();
     storage.set(`recipe:${id}`, data);
-    return data;
+    return applyRecipeState(data);
   } catch (e) {
     console.warn('[cookbook] failed to load recipe:', id, e);
     return null;
