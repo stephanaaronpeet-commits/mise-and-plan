@@ -8,7 +8,7 @@
    Bump CACHE_VERSION on every release to invalidate old caches.
    ============================================================= */
 
-const CACHE_VERSION = 'mp-v0.4.0';
+const CACHE_VERSION = 'mp-v0.5.0';
 const SHELL_CACHE   = `${CACHE_VERSION}-shell`;
 const DATA_CACHE    = `${CACHE_VERSION}-data`;
 const FONT_CACHE    = `${CACHE_VERSION}-fonts`;
@@ -26,6 +26,9 @@ const SHELL_ASSETS = [
   '/src/cookbook/filters.js',
   '/src/cookbook/recipe-detail.js',
   '/src/cookbook/cook-mode.js',
+  '/src/cookbook/recipe-form.js',
+  '/src/planner/planner.js',
+  '/src/shopping/shopping.js',
   '/icon-192.png',
   '/icon-512.png',
   '/icon-maskable-512.png',

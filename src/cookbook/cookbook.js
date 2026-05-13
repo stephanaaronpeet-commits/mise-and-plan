@@ -5,10 +5,11 @@
    - Detail view: unchanged from v0.1 (will be reworked in Session 1.3).
    ============================================================= */
 
-import { storage, ensureSchemaCurrent, applyRecipeState } from '../core/storage.js';
+import { storage, ensureSchemaCurrent, applyRecipeState, getUserRecipe, getUserRecipesIndex } from '../core/storage.js';
 import * as F from './filters.js';
 import { renderDetail } from './recipe-detail.js';
 import { renderCookMode } from './cook-mode.js';
+import { render as renderForm } from './recipe-form.js';
 
 ensureSchemaCurrent();
 
@@ -358,14 +359,25 @@ function ensureStyles() {
    ============================================================ */
 
 async function loadIndex() {
+  // Seed index (from /data/recipes/_index.json) — cached + revalidated.
   const cached = storage.get('recipes:index', null);
   if (cached) {
     fetchIndex().then(fresh => { if (fresh) storage.set('recipes:index', fresh); });
-    return cached;
+    return mergeUserIndex(cached);
   }
   const fresh = await fetchIndex();
   if (fresh) storage.set('recipes:index', fresh);
-  return fresh || [];
+  return mergeUserIndex(fresh || []);
+}
+
+/* User-created recipes win on id collision (so an in-app edit of a seed
+   recipe shadows the seed). User-only ids get appended. */
+function mergeUserIndex(seedIdx) {
+  const user = getUserRecipesIndex();
+  if (!user.length) return seedIdx;
+  const userIds = new Set(user.map(r => r.id));
+  const filteredSeed = seedIdx.filter(r => !userIds.has(r.id));
+  return [...user, ...filteredSeed];
 }
 
 async function fetchIndex() {
@@ -380,9 +392,11 @@ async function fetchIndex() {
 }
 
 async function loadRecipe(id) {
-  // Seed JSON is cached as-is; user state (favorite/cook_count/last_cooked)
-  // is layered on at read time so updates from detail or cook-mode are
-  // reflected immediately the next time any view loads this recipe.
+  // User-created/edited recipe wins. Otherwise fall back to seed cache,
+  // then network. User state (fav/cook_count/last_cooked) is layered last.
+  const user = getUserRecipe(id);
+  if (user) return applyRecipeState(user);
+
   const cached = storage.get(`recipe:${id}`, null);
   if (cached) return applyRecipeState(cached);
   try {
@@ -540,9 +554,11 @@ function sectionHeadHtml(allCount, filteredCount, favCount, newCount, filtersAct
         <div class="stat"><span class="n cb-count-total">${allCount}</span>Recipes</div>
         <div class="stat fav"><span class="n">${favCount}</span>Favorites</div>
         <div class="stat"><span class="n">${newCount}</span>New</div>
+        <a class="btn sm" href="#/cookbook/new" style="text-decoration:none;"><span class="plus">+</span>Add Recipe</a>
       </div>
       <div class="cb-head-meta-mobile cb-meta-mobile">
         <span class="cb-count-show"></span>
+        <a class="btn sm" href="#/cookbook/new" style="text-decoration:none; display:inline-flex; margin-top:8px;"><span class="plus">+</span>Add</a>
       </div>
     </div>
   `;
@@ -746,6 +762,11 @@ function escapeHtml(s) {
 
 export async function render({ mount, rest, params }) {
   ensureStyles();
+
+  // New / edit form
+  if (rest[0] === 'new' || rest[0] === 'edit') {
+    return renderForm({ mount, rest, params });
+  }
 
   if (rest[0] === 'recipe' && rest[1]) {
     const recipe = await loadRecipe(rest[1]);

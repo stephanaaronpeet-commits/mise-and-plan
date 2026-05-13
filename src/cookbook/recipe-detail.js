@@ -6,6 +6,7 @@
    ============================================================= */
 
 import { toggleFavorite } from '../core/storage.js';
+import { openDatePicker } from '../planner/planner.js';
 
 /* ============================================================
    STYLES (scoped to .recipe-detail, injected once)
@@ -957,10 +958,10 @@ export function renderDetail(mount, recipe) {
         return;
       }
 
-      // Sticky bar actions (placeholders)
-      const stickyAction = e.target.closest('.sticky-bar [data-action]');
-      if (stickyAction) {
-        console.info(`[recipe-detail] action: ${stickyAction.dataset.action} — not implemented yet`);
+      // Sticky bar: Add to Plan (Cook Now is now an <a> anchor handled by router)
+      const addToPlan = e.target.closest('[data-action="add-to-plan"]');
+      if (addToPlan) {
+        openDatePicker(recipe.id);
         return;
       }
     });
