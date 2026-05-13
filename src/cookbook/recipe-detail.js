@@ -835,7 +835,7 @@ function stickyBarHtml(recipe) {
     <div class="sticky-bar">
       ${meta}
       <button type="button" class="btn outline" data-action="add-to-plan">Add to Plan</button>
-      <button type="button" class="btn" data-action="cook-now">Cook Now →</button>
+      <a class="btn" href="#/cookbook/recipe/${recipe.id}/cook" style="text-decoration:none;" data-action="cook-now">Cook Now →</a>
     </div>
   `;
 }

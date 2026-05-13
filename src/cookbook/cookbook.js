@@ -8,6 +8,7 @@
 import { storage, ensureSchemaCurrent } from '../core/storage.js';
 import * as F from './filters.js';
 import { renderDetail } from './recipe-detail.js';
+import { renderCookMode } from './cook-mode.js';
 
 ensureSchemaCurrent();
 
@@ -745,7 +746,11 @@ export async function render({ mount, rest, params }) {
 
   if (rest[0] === 'recipe' && rest[1]) {
     const recipe = await loadRecipe(rest[1]);
-    renderDetail(mount, recipe);
+    if (rest[2] === 'cook') {
+      renderCookMode(mount, recipe);
+    } else {
+      renderDetail(mount, recipe);
+    }
     return;
   }
 
